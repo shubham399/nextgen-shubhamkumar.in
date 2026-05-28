@@ -16,7 +16,12 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   if (!post) return null;
 
   const { title, publishedAt, createdAt, content, tags } = post;
-
+  function removeSynscribeAttribution(html: string) {
+    return html.replace(
+      /<p[^>]*>\s*<small>\s*<a[^>]*>Powered by Synscribe<\/a>\s*<\/small>\s*<\/p>/gi,
+      ""
+    );
+  }
   return (
     <>
       <Navigation me={me} nav={nav} socials={socials} />
@@ -57,7 +62,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
           <div
             className="blog-content mx-auto max-w-none"
-            dangerouslySetInnerHTML={{ __html: content }}
+            dangerouslySetInnerHTML={{ __html: removeSynscribeAttribution(content) }}
           />
         </article>
       </main>
