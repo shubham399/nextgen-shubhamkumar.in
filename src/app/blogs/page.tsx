@@ -10,6 +10,8 @@ import SectionHeader from "@/components/SectionHeader";
 import AnimateOnScroll from "@/components/AnimateOnScroll";
 import { StaggerContainer, StaggerItem } from "@/components/AnimateOnScroll";
 
+export const revalidate = 3600;
+
 export default async function BlogListing() {
   const [me, socials, nav, result] = await Promise.all([
     getMe(), getSocials(), getNav(), wisp.getPosts({ limit: 12 }),
