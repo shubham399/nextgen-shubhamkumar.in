@@ -8,12 +8,13 @@ import CTA from "./CTA";
 import { UTMLink } from "./UTMLink";
 
 const NAV_LINKS = [
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Skills", href: "#skills" },
-  { label: "Services", href: "#services" },
-  { label: "Testimonials", href: "#testimonials" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Experience", href: "/#experience" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Services", href: "/#services" },
+  { label: "Testimonials", href: "/#testimonials" },
+  { label: "Blog", href: "/blogs" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 interface NavigationProps {
@@ -48,7 +49,7 @@ export default function Navigation({ me, nav, socials }: NavigationProps) {
         >
           {/* Brand */}
           <Link
-            href="#hero"
+            href="/"
             className="text-base font-bold tracking-tighter text-on-surface hover:text-primary transition-colors"
           >
             {me.name}

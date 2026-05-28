@@ -9,12 +9,13 @@ interface FooterProps {
 }
 
 const FOOTER_LINKS = [
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Skills", href: "#skills" },
-  { label: "Services", href: "#services" },
-  { label: "Testimonials", href: "#testimonials" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Experience", href: "/#experience" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Services", href: "/#services" },
+  { label: "Testimonials", href: "/#testimonials" },
+  { label: "Blog", href: "/blogs" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Footer({ me, socials, nav }: FooterProps) {

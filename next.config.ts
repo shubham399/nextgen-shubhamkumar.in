@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "upload.wikimedia.org" },
       { protocol: "https", hostname: "companieslogo.com" },
       { protocol: "https", hostname: "www.shubhkumar.in" },
+      { "protocol": "https", hostname: "imagedelivery.net" }
     ],
   },
 };
