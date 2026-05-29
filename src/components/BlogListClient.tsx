@@ -54,21 +54,21 @@ export default function BlogListClient({ initialPosts, initialPagination }: Blog
 
   return (
     <>
-      <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+      <StaggerContainer className="flex flex-col gap-5 lg:gap-6">
         {posts.map((post) => (
           <StaggerItem key={post.id}>
             <Link
               href={`/blogs/${post.slug}`}
-              className="group block bg-surface-container-low rounded-2xl overflow-hidden inner-glow hover:bg-surface-container hover:shadow-glow transition-all duration-300"
+              className="group flex flex-col sm:flex-row bg-surface-container-low rounded-2xl overflow-hidden inner-glow hover:bg-surface-container hover:shadow-glow transition-all duration-300"
             >
-              <div className="aspect-[16/9] relative overflow-hidden bg-surface-container">
+              <div className="relative w-full sm:w-56 lg:w-72 aspect-video sm:min-h-full overflow-hidden bg-surface-container flex-shrink-0">
                 {post.image ? (
                   <Image
                     alt={post.title}
                     src={post.image}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, 50vw"
+                    sizes="(max-width: 640px) 100vw, 224px"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-primary-gradient-subtle">
@@ -76,7 +76,7 @@ export default function BlogListClient({ initialPosts, initialPagination }: Blog
                   </div>
                 )}
               </div>
-              <div className="p-5 flex flex-col gap-3">
+              <div className="flex-1 p-5 flex flex-col gap-3 min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="font-label text-[11px] text-on-surface-variant/60">
                     {Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(
