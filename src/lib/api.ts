@@ -14,7 +14,7 @@ const BASE_URL = process.env.API_URL || "http://localhost:3001";
 
 async function fetchAPI<T>(path: string): Promise<T> {
   const res = await fetch(`${BASE_URL}${path}`, {
-    next: { revalidate: 3600 }, // cache for 1 hour
+    next: { revalidate: 600 }, // cache for 10 minutes
     headers: {
       Accept: "application/json",
     },
