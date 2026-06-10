@@ -72,30 +72,72 @@ export async function POST(req: NextRequest) {
 
 function getWelcomeHtml() {
   return `<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Welcome to the list</title>
 </head>
-<body style="margin:0;padding:0;background-color:#131313;font-family:Inter,sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+<body style="margin:0;padding:0;background-color:#131313;font-family:Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#131313;">
     <tr>
-      <td align="center" style="padding:40px 20px;">
-        <table role="presentation" width="480" cellpadding="0" cellspacing="0" style="max-width:480px;width:100%;">
+      <td align="center" style="padding:48px 20px;">
+
+        <!-- Card -->
+        <table role="presentation" width="480" cellpadding="0" cellspacing="0" style="max-width:480px;width:100%;background:#1c1b1b;border-radius:16px;overflow:hidden;">
+
+          <!-- Top accent bar -->
           <tr>
-            <td style="background:#1c1b1b;border-radius:16px;padding:40px;text-align:center;">
-              <h1 style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.04em;color:#e5e2e1;margin:0 0 12px;">
+            <td style="height:3px;background:linear-gradient(90deg,#7dcfff 0%,#7aa2f7 50%,#bb9af7 100%);"></td>
+          </tr>
+
+          <tr>
+            <td style="padding:36px 36px 0;">
+
+              <!-- Label -->
+              <p style="margin:0 0 20px;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#565f89;font-family:'Space Grotesk',sans-serif;">
+                New Subscriber
+              </p>
+
+              <!-- Title -->
+              <h1 style="margin:0 0 14px;font-size:22px;font-weight:700;line-height:1.3;letter-spacing:-0.03em;color:#e5e2e1;font-family:'Space Grotesk',Arial,sans-serif;">
                 Welcome to the list
               </h1>
-              <p style="font-size:14px;line-height:1.7;color:#bbc9cf;margin:0 0 24px;">
-                Thanks for subscribing. You'll now get updates on what I'm building, writing, and thinking about.
+
+              <!-- Description -->
+              <p style="margin:0 0 28px;font-size:14px;line-height:1.75;color:#bbc9cf;">
+                Thanks for subscribing. You'll get updates on what I'm building, writing, and thinking about — shipped straight to your inbox.
               </p>
-              <div style="height:1px;background:linear-gradient(to right,transparent,rgba(165,231,255,0.2),transparent);margin:0 0 24px;"></div>
-              <p style="font-size:12px;color:#565f89;margin:0;">
-                shubhkumar.in
+
+              <!-- Divider -->
+              <div style="height:1px;background:linear-gradient(to right,transparent,rgba(165,231,255,0.15),transparent);margin:0 0 28px;"></div>
+
+              <!-- CTA button -->
+              <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
+                <tr>
+                  <td style="border-radius:8px;background:linear-gradient(135deg,#7dcfff 0%,#7aa2f7 100%);">
+                    <a href="https://shubhkumar.in" style="display:inline-block;padding:11px 26px;font-family:'Space Grotesk',Arial,sans-serif;font-size:14px;font-weight:600;color:#131313;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
+                      Visit the site →
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:20px 36px 28px;">
+              <div style="height:1px;background:rgba(86,95,137,0.2);margin:0 0 20px;"></div>
+              <p style="margin:0;font-size:11px;color:#565f89;line-height:1.6;">
+                Shubham · <a href="https://shubhkumar.in" style="color:#565f89;text-decoration:none;">shubhkumar.in</a>
+                <br />
+                You're receiving this because you subscribed to my newsletter.
               </p>
             </td>
           </tr>
+
         </table>
       </td>
     </tr>
