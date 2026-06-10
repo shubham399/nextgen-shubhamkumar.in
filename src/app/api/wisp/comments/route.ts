@@ -11,8 +11,9 @@ export async function POST(request: NextRequest) {
     const result = await wisp.createComment(body);
     console.log("[comments] wisp response", JSON.stringify(result));
 
-    if (result && "error" in result) {
-      const message = result.error?.message || "Request failed";
+    const data = JSON.parse(JSON.stringify(result));
+    if (data.error) {
+      const message = data.error?.message || "Request failed";
       console.error("[comments] wisp returned error", message);
       return NextResponse.json({ success: false, error: message }, { status: 400 });
     }

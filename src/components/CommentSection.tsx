@@ -21,7 +21,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
   const [email, setEmail] = useState("");
   const [url, setUrl] = useState("");
   const [content, setContent] = useState("");
-  const [allowEmailUsage, setAllowEmailUsage] = useState(false);
+  const [allowEmailUsage, setAllowEmailUsage] = useState(true);
 
   if (!config.enabled) return null;
 
@@ -64,7 +64,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
       setEmail("");
       setUrl("");
       setContent("");
-      setAllowEmailUsage(false);
+      setAllowEmailUsage(true);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to post comment.");
     } finally {
@@ -80,7 +80,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
         </h2>
       </AnimateOnScroll>
 
-      {comments.length > 0 && (
+      {comments.length > 0 ? (
         <AnimateOnScroll className="mb-10 space-y-4" delay={0.1}>
           {comments.map((comment) => (
             <div key={comment.id}>
@@ -124,7 +124,21 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
             </div>
           ))}
         </AnimateOnScroll>
-      )}
+          ) : (
+            <AnimateOnScroll delay={0.1} className="mb-10">
+              <div className="bg-surface-container-low rounded-2xl p-8 sm:p-10 inner-glow text-center">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                  <Icon icon="ion:chatbubble-ellipses-outline" width={24} className="text-primary/60" />
+                </div>
+                <p className="font-headline font-semibold text-base text-on-surface mb-1">
+                  Be the first to comment
+                </p>
+                <p className="font-body text-sm text-on-surface-variant">
+                  Share your thoughts on this post
+                </p>
+              </div>
+            </AnimateOnScroll>
+          )}
 
       <AnimateOnScroll delay={0.2}>
         <div className="bg-surface-container-low rounded-2xl p-6 sm:p-8 inner-glow">
