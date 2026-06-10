@@ -109,10 +109,10 @@ export default function MailingListPopup() {
                   <Icon icon="ion:checkmark-circle" width={24} className="text-primary" />
                 </div>
                 <h3 className="font-headline font-bold text-lg tracking-tighter text-on-surface text-center">
-                  You&apos;re in
+                  Signal received.
                 </h3>
                 <p className="font-body text-sm text-on-surface-variant text-center mt-2">
-                  Welcome aboard. Check your inbox for a welcome email.
+                  Check your inbox — I sent a welcome note.
                 </p>
               </>
             ) : stage === "error" ? (
@@ -140,10 +140,10 @@ export default function MailingListPopup() {
                 </div>
 
                 <h3 className="font-headline font-bold text-lg tracking-tighter text-on-surface text-center">
-                  Stay in the loop
+                  Zero noise. Pure signal.
                 </h3>
                 <p className="font-body text-sm text-on-surface-variant text-center mt-2 mb-6">
-                  Get notified when I publish new content and projects.
+                  New posts and projects land in your inbox. No spam, no filler — just the good stuff.
                 </p>
 
                 <div className="flex gap-2">
@@ -174,7 +174,7 @@ export default function MailingListPopup() {
                   onClick={dismiss}
                   className="w-full text-center text-xs font-label text-on-surface-variant/60 hover:text-on-surface-variant transition-colors mt-4"
                 >
-                  No thanks
+                  Not for me
                 </button>
               </>
             )}

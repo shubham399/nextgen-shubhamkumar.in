@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
     const { error: sendErr } = await resend.emails.send({
       from: from || "Shubham Kumar <hello@shubhkumar.in>",
       to: email,
-      subject: "Welcome to the list",
+      subject: "You're in.",
       html: getWelcomeHtml(),
     });
     if (sendErr) {
@@ -76,7 +76,7 @@ function getWelcomeHtml() {
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Welcome to the list</title>
+<title>You're in.</title>
 </head>
 <body style="margin:0;padding:0;background-color:#131313;font-family:Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#131313;">
@@ -96,17 +96,17 @@ function getWelcomeHtml() {
 
               <!-- Label -->
               <p style="margin:0 0 20px;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#565f89;font-family:'Space Grotesk',sans-serif;">
-                New Subscriber
+                Signal acquired
               </p>
 
               <!-- Title -->
               <h1 style="margin:0 0 14px;font-size:22px;font-weight:700;line-height:1.3;letter-spacing:-0.03em;color:#e5e2e1;font-family:'Space Grotesk',Arial,sans-serif;">
-                Welcome to the list
+                You're wired in.
               </h1>
 
               <!-- Description -->
               <p style="margin:0 0 28px;font-size:14px;line-height:1.75;color:#bbc9cf;">
-                Thanks for subscribing. You'll get updates on what I'm building, writing, and thinking about — shipped straight to your inbox.
+                I write when I have something worth saying — new posts, projects, and thoughts on building things. You'll get it before anyone else. No spam. No noise.
               </p>
 
               <!-- Divider -->
@@ -117,7 +117,7 @@ function getWelcomeHtml() {
                 <tr>
                   <td style="border-radius:8px;background:linear-gradient(135deg,#7dcfff 0%,#7aa2f7 100%);">
                     <a href="https://shubhkumar.in" style="display:inline-block;padding:11px 26px;font-family:'Space Grotesk',Arial,sans-serif;font-size:14px;font-weight:600;color:#131313;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
-                      Visit the site →
+                      See what I'm building →
                     </a>
                   </td>
                 </tr>
