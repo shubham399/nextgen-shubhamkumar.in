@@ -37,7 +37,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { error: createErr } = await resend.contacts.create({ email });
+    const segmentId = process.env.RESEND_SEGMENT_ID;
+
+    const { error: createErr } = await resend.contacts.create({
+      email,
+      ...(segmentId ? { segments: [{ id: segmentId }] } : {}),
+    });
     if (createErr) {
       console.error("[subscribe] create error:", createErr);
       return NextResponse.json({ error: "Failed to subscribe" }, { status: 500 });
@@ -48,25 +53,14 @@ export async function POST(req: NextRequest) {
       console.error("[subscribe] RESEND_FROM not configured");
     }
 
-    const segmentId = process.env.RESEND_SEGMENT_ID;
-
-    const [{ error: sendErr }, { error: segmentErr }] = await Promise.all([
-      resend.emails.send({
-        from: from || "Shubham Kumar <hello@shubhkumar.in>",
-        to: email,
-        subject: "Welcome to the list",
-        html: getWelcomeHtml(),
-      }),
-      segmentId
-        ? resend.contacts.segments.add({ email, segmentId })
-        : Promise.resolve({ error: null, data: null }),
-    ]);
-
+    const { error: sendErr } = await resend.emails.send({
+      from: from || "Shubham Kumar <hello@shubhkumar.in>",
+      to: email,
+      subject: "Welcome to the list",
+      html: getWelcomeHtml(),
+    });
     if (sendErr) {
       console.error("[subscribe] welcome email error:", sendErr);
-    }
-    if (segmentErr) {
-      console.error("[subscribe] segment add error:", segmentErr);
     }
 
     return NextResponse.json({ success: true });
