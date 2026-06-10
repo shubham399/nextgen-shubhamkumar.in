@@ -76,7 +76,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
     <section className="section-base" id="comments">
       <AnimateOnScroll>
         <h2 className="font-headline text-2xl sm:text-3xl font-bold tracking-tighter text-on-surface mb-8">
-          Comments
+          Share Your Thoughts
         </h2>
       </AnimateOnScroll>
 

@@ -36,7 +36,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             className="inline-flex items-center gap-1.5 font-body text-sm text-on-surface-variant hover:text-primary transition-colors mb-8"
           >
             <Icon icon="ion:arrow-back" width={14} />
-            Back to  blog
+            Back to Thoughts & Insights
           </Link>
 
           <header className="mb-10">
@@ -72,7 +72,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         <section className="section-base">
           <AnimateOnScroll>
             <h2 className="font-headline text-2xl sm:text-3xl font-bold tracking-tighter text-on-surface mb-8">
-              Related Posts
+              Related Thoughts
             </h2>
           </AnimateOnScroll>
           {relatedPosts.length === 0 ? (
