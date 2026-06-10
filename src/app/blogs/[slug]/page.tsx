@@ -1,18 +1,21 @@
 import { wisp } from "@/lib/wisp";
 import { getMe, getSocials, getNav } from "@/lib/api";
+import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import AnimateOnScroll, { StaggerContainer, StaggerItem } from "@/components/AnimateOnScroll";
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [me, socials, nav, result] = await Promise.all([
-    getMe(), getSocials(), getNav(), wisp.getPost(slug),
+  const [me, socials, nav, result, related] = await Promise.all([
+    getMe(), getSocials(), getNav(), wisp.getPost(slug), wisp.getRelatedPosts({ slug, number: 5 })
   ]);
 
   const post = result.post;
+  const relatedPosts = related.posts;
   if (!post) return null;
 
   const { title, publishedAt, createdAt, content, tags } = post;
@@ -32,7 +35,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             className="inline-flex items-center gap-1.5 font-body text-sm text-on-surface-variant hover:text-primary transition-colors mb-8"
           >
             <Icon icon="ion:arrow-back" width={14} />
-            Back to blog
+            Back to  blog
           </Link>
 
           <header className="mb-10">
@@ -65,6 +68,68 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             dangerouslySetInnerHTML={{ __html: removeSynscribeAttribution(content) }}
           />
         </article>
+        <section className="section-base">
+          <AnimateOnScroll>
+            <h2 className="font-headline text-2xl sm:text-3xl font-bold tracking-tighter text-on-surface mb-8">
+              Related Posts
+            </h2>
+          </AnimateOnScroll>
+          {relatedPosts.length === 0 ? (
+            <AnimateOnScroll>
+              <div className="text-center py-20">
+                <Icon icon="ion:document-text-outline" width={48} className="mx-auto text-on-surface-variant/40 mb-4" />
+                <p className="font-body text-on-surface-variant">No related posts found.</p>
+              </div>
+            </AnimateOnScroll>
+          ) : (
+            <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {relatedPosts.map((post) => (
+                <StaggerItem key={post.id}>
+                  <Link
+                    href={`/blogs/${post.slug}`}
+                    className="group flex flex-col bg-surface-container-low rounded-2xl overflow-hidden inner-glow hover:bg-surface-container hover:shadow-glow transition-all duration-300 h-full"
+                  >
+                    <div className="relative w-full aspect-video overflow-hidden bg-surface-container">
+                      {post.image ? (
+                        <Image
+                          alt={post.title}
+                          src={post.image}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <Icon icon="ion:document-text-outline" width={40} className="text-primary/40" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1 p-5 flex flex-col gap-3">
+                      <span className="font-label text-[11px] text-on-surface-variant/60">
+                        {Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(
+                          new Date(post.publishedAt || post.createdAt)
+                        )}
+                      </span>
+                      <h3 className="font-headline font-bold text-base tracking-tighter text-on-surface group-hover:text-primary transition-colors leading-snug">
+                        {post.title}
+                      </h3>
+                      {post.description && (
+                        <p className="font-body text-sm text-on-surface-variant leading-relaxed line-clamp-2">
+                          {post.description}
+                        </p>
+                      )}
+                      <div className="flex items-center gap-1 text-primary text-xs font-headline font-semibold mt-auto pt-1">
+                        Read more
+                        <Icon icon="ion:arrow-forward" width={12} />
+                      </div>
+                    </div>
+                  </Link>
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
+          )}
+        </section>
+
       </main>
       <Footer socials={socials} nav={nav} me={me} />
     </>
