@@ -7,11 +7,12 @@ import { Icon } from "@iconify/react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AnimateOnScroll, { StaggerContainer, StaggerItem } from "@/components/AnimateOnScroll";
+import CommentSection from "@/components/CommentSection";
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [me, socials, nav, result, related] = await Promise.all([
-    getMe(), getSocials(), getNav(), wisp.getPost(slug), wisp.getRelatedPosts({ slug, number: 5 })
+  const [me, socials, nav, result, related, commentsResult] = await Promise.all([
+    getMe(), getSocials(), getNav(), wisp.getPost(slug), wisp.getRelatedPosts({ slug, limit: 5 }), wisp.getComments({ slug, page: 1, limit: "all" })
   ]);
 
   const post = result.post;
@@ -129,6 +130,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             </StaggerContainer>
           )}
         </section>
+
+        <CommentSection slug={slug} initialData={commentsResult} />
 
       </main>
       <Footer socials={socials} nav={nav} me={me} />
