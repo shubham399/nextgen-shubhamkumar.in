@@ -157,7 +157,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
               <h3 className="font-headline font-bold text-lg tracking-tighter text-on-surface">
-                Leave a comment
+                Join the conversation
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -253,7 +253,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                 ) : (
                   <>
                     <Icon icon="ion:chatbubble-ellipses-outline" width={15} />
-                    Post Comment
+                    Publish
                   </>
                 )}
               </button>
