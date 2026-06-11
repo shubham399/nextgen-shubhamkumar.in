@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import SectionHeader from "@/components/SectionHeader";
 import AnimateOnScroll from "@/components/AnimateOnScroll";
 import BlogListClient from "@/components/BlogListClient";
+import BlogCtaSection from "@/components/BlogCtaSection";
 
 export const revalidate = 3600;
 
@@ -46,6 +47,8 @@ export default async function BlogListing() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
         </div>
+
+        <BlogCtaSection />
       </main>
       <Footer socials={socials} nav={nav} me={me} />
     </>

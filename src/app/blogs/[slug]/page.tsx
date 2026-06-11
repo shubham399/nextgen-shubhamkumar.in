@@ -8,6 +8,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AnimateOnScroll, { StaggerContainer, StaggerItem } from "@/components/AnimateOnScroll";
 import CommentSection from "@/components/CommentSection";
+import BlogCtaSection from "@/components/BlogCtaSection";
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -133,6 +134,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
         <CommentSection slug={slug} initialData={commentsResult} />
 
+        <BlogCtaSection />
       </main>
       <Footer socials={socials} nav={nav} me={me} />
     </>
