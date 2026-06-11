@@ -79,7 +79,7 @@ export default function BlogCtaSection() {
               </div>
 
               <div className="w-full sm:w-auto flex-shrink-0 sm:min-w-[340px]">
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="email"
                     value={email}
