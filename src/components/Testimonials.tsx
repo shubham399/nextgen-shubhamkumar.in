@@ -35,7 +35,7 @@ function TestimonialCard({
 
       {/* Quote text */}
       <p className="font-body text-sm text-on-surface-variant leading-relaxed flex-1">
-        {testimonial.text}
+        {testimonial.text.replace(/—/g, ' ')}
       </p>
 
       {/* Author */}
