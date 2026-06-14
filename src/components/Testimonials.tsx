@@ -152,7 +152,8 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                     {t.name.trim()}
                   </p>
                   <p className="font-label text-[10px] text-on-surface-variant">
-                    {t.destination}
+                    {t.destination.replace(/—/g, ' ')}
+
                   </p>
                 </div>
               </div>
