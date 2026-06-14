@@ -89,7 +89,7 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
 
                   <div className="flex flex-wrap gap-1.5 sm:text-right">
                     <span className="badge">
-                      {exp.start} — {exp.end ?? "Present"}
+                      {exp.start} -  {exp.end ?? "Present"}
                     </span>
                     {exp.badges.map((badge) => (
                       <span key={badge} className="badge text-primary/80 bg-surface-container">

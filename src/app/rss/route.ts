@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
   const baseUrl = new URL(request.url).origin;
 
   const feed = new RSS({
-    title: `${me.name} — Blog`,
+    title: `${me.name} -  Blog`,
     description: "Tales from the trenches of backend engineering, system design, and building at scale.",
     site_url: baseUrl,
     feed_url: `${baseUrl}/rss`,

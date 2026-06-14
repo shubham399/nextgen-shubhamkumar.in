@@ -112,7 +112,7 @@ export default function MailingListPopup() {
                   Signal received.
                 </h3>
                 <p className="font-body text-sm text-on-surface-variant text-center mt-2">
-                  Check your inbox — I sent a welcome note.
+                  Check your inbox -  I sent a welcome note.
                 </p>
               </>
             ) : stage === "error" ? (
@@ -143,7 +143,7 @@ export default function MailingListPopup() {
                   Zero noise. Pure signal.
                 </h3>
                 <p className="font-body text-sm text-on-surface-variant text-center mt-2 mb-6">
-                  New posts and projects land in your inbox. No spam, no filler — just the good stuff.
+                  New posts and projects land in your inbox. No spam, no filler -  just the good stuff.
                 </p>
 
                 <div className="flex gap-2">

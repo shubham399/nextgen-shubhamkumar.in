@@ -17,11 +17,11 @@ export default function Contact({ contacts, me, socials }: ContactProps) {
       <SectionHeader
         label="Get In Touch"
         title="Let's build something"
-        description="Whether it's a new project, a technical challenge, or just a chat — I'm always open to connecting."
+        description="Whether it's a new project, a technical challenge, or just a chat -  I'm always open to connecting."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-        {/* Contact info — 2 cols */}
+        {/* Contact info -  2 cols */}
         <AnimateOnScroll className="lg:col-span-2 flex flex-col gap-4" direction="left">
           {contacts.map((contact) => (
             <div
@@ -73,7 +73,7 @@ export default function Contact({ contacts, me, socials }: ContactProps) {
           </div>
         </AnimateOnScroll>
 
-        {/* CTA card — 3 cols */}
+        {/* CTA card -  3 cols */}
         <AnimateOnScroll className="lg:col-span-3" delay={0.1}>
           <div
             className="h-full rounded-2xl p-8 flex flex-col justify-between gap-8 relative overflow-hidden"

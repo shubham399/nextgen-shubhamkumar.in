@@ -25,7 +25,7 @@ export default function Services({ services }: ServicesProps) {
       <SectionHeader
         label="What I Do"
         title="Services I offer"
-        description="From architecture to optimization — here's where I deliver the most value."
+        description="From architecture to optimization -  here's where I deliver the most value."
       />
 
       <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

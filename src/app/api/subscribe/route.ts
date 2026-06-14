@@ -106,7 +106,7 @@ function getWelcomeHtml() {
 
               <!-- Description -->
               <p style="margin:0 0 28px;font-size:14px;line-height:1.75;color:#bbc9cf;">
-                I write when I have something worth saying — new posts, projects, and thoughts on building things. You'll get it before anyone else. No spam. No noise.
+                I write when I have something worth saying -  new posts, projects, and thoughts on building things. You'll get it before anyone else. No spam. No noise.
               </p>
 
               <!-- Divider -->

@@ -55,7 +55,7 @@ export default function BlogCtaSection() {
                 You&apos;re on the list.
               </h3>
               <p className="font-body text-sm text-on-surface-variant mt-2 max-w-md">
-                Check your inbox — I sent a welcome note.
+                Check your inbox -  I sent a welcome note.
               </p>
               <button
                 onClick={() => { setStage("idle"); setEmail(""); }}
@@ -74,7 +74,7 @@ export default function BlogCtaSection() {
                   Stay in the loop
                 </h3>
                 <p className="font-body text-sm text-on-surface-variant mt-1.5 max-w-md">
-                  New posts and projects land in your inbox. No spam, no filler — just the good stuff.
+                  New posts and projects land in your inbox. No spam, no filler -  just the good stuff.
                 </p>
               </div>
 
