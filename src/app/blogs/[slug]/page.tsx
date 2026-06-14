@@ -13,7 +13,7 @@ import BlogCtaSection from "@/components/BlogCtaSection";
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const [me, socials, nav, result, related, commentsResult] = await Promise.all([
-    getMe(), getSocials(), getNav(), wisp.getPost(slug), wisp.getRelatedPosts({ slug, limit: 5 }), wisp.getComments({ slug, page: 1, limit: "all" })
+    getMe(), getSocials(), getNav(), wisp.getPost(slug), wisp.getRelatedPosts({ slug, limit: 3 }), wisp.getComments({ slug, page: 1, limit: "all" })
   ]);
 
   const post = result.post;
@@ -25,7 +25,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     return html.replace(
       /<p[^>]*>\s*<small>\s*<a[^>]*>Powered by Synscribe<\/a>\s*<\/small>\s*<\/p>/gi,
       ""
-    );
+    ).replace(/—/g, ' ');
   }
   return (
     <>
@@ -59,7 +59,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
               )}
             </div>
             <h1 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter text-on-surface leading-[1.1]">
-              {title}
+              {title.replace(/—/g, ' ')}
             </h1>
           </header>
 
