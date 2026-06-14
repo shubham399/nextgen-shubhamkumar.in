@@ -158,7 +158,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                 </div>
               </div>
               <p className="font-body text-xs text-on-surface-variant leading-relaxed line-clamp-3">
-                {t.text}
+                {t.text.replace(/—/g, ' ')}
               </p>
             </div>
           </motion.div>
