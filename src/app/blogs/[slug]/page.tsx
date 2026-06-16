@@ -52,19 +52,17 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                   new Date(publishedAt || createdAt)
                 )}
               </span>
-              <span>•</span>
+              <span className="font-label text-xs text-on-surface-variant/60">•</span>
               <span className="font-label text-xs text-on-surface-variant/60">
-                about {getReadTime(content)} min read
+                About {getReadTime(content)} min read
               </span>
               {tags.length > 0 && (
                 <>
                   <span className="w-0.5 h-0.5 rounded-full bg-outline-variant/40" />
                   {tags.map((tag) => (
-                    <>
-                      <span>•</span>
-                      <span key={tag.id} className="badge text-[10px] px-2 py-0.5">
-                        #{tag.name}
-                      </span></>
+                    <span key={tag.id} className="badge text-[10px] px-2 py-0.5">
+                      #{tag.name}
+                    </span>
                   ))}
                 </>
               )}
