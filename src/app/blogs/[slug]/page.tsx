@@ -15,7 +15,12 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const [me, socials, nav, result, related, commentsResult] = await Promise.all([
     getMe(), getSocials(), getNav(), wisp.getPost(slug), wisp.getRelatedPosts({ slug, limit: 3 }), wisp.getComments({ slug, page: 1, limit: "all" })
   ]);
+  function getReadTime(html: string) {
+    const text = html.replace(/<[^>]*>/g, ' ');
+    const words = text.trim().split(/\s+/).length;
 
+    return Math.max(1, Math.round(words / 200));
+  }
   const post = result.post;
   const relatedPosts = related.posts;
   if (!post) return null;
@@ -57,6 +62,10 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                   ))}
                 </>
               )}
+              <>
+                <span className="font-label text-xs text-on-surface-variant/60">
+                  about {getReadTime(content)} min read
+                </span></>
             </div>
             <h1 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter text-on-surface leading-[1.1]">
               {title.replace(/—/g, ' ')}
