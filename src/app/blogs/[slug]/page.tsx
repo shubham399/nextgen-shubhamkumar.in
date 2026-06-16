@@ -52,6 +52,9 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                   new Date(publishedAt || createdAt)
                 )}
               </span>
+              <span className="font-label text-xs text-on-surface-variant/60">
+                about {getReadTime(content)} min read
+              </span>
               {tags.length > 0 && (
                 <>
                   <span className="w-0.5 h-0.5 rounded-full bg-outline-variant/40" />
@@ -62,10 +65,6 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                   ))}
                 </>
               )}
-              <>
-                <span className="font-label text-xs text-on-surface-variant/60">
-                  about {getReadTime(content)} min read
-                </span></>
             </div>
             <h1 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter text-on-surface leading-[1.1]">
               {title.replace(/—/g, ' ')}
