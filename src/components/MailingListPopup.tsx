@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@iconify/react";
+import { usePathname } from "next/navigation";
 import type { GetCtasResult } from "@/lib/wisp";
 
 const LS_SUBSCRIBED = "ml-subscribed";
-const LS_DISMISSED_UNTIL = "ml-dismissed-until";
-const DISMISS_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+const SS_DISMISSED = "ml-session-dismissed";
 
 type Stage = "idle" | "visible" | "loading" | "success" | "error" | "dismissed";
 
@@ -16,11 +16,12 @@ type Props = {
 };
 
 export default function MailingListPopup({ cta }: Props) {
+  const pathname = usePathname();
   const [stage, setStage] = useState<Stage>("idle");
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
-  const title = (cta?.title || "Zero noise. Pure signal.").replace(/—/g, "-");
+  const title = (cta?.title || "Weekly lessons from fintech, distributed systems, and production engineering.").replace(/—/g, "-");
   const description = (cta?.description || "New posts and projects land in your inbox. No spam, no filler - just the good stuff.").replace(/—/g, "-");
 
   useEffect(() => {
@@ -28,18 +29,17 @@ export default function MailingListPopup({ cta }: Props) {
       setStage("dismissed");
       return;
     }
-    const until = localStorage.getItem(LS_DISMISSED_UNTIL);
-    if (until && Date.now() < Number(until)) {
+    if (sessionStorage.getItem(SS_DISMISSED)) {
       setStage("dismissed");
       return;
     }
-    localStorage.removeItem(LS_DISMISSED_UNTIL);
+    setStage("idle");
     const timer = setTimeout(() => setStage("visible"), 5000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [pathname]);
 
   const dismiss = () => {
-    localStorage.setItem(LS_DISMISSED_UNTIL, String(Date.now() + DISMISS_TTL_MS));
+    sessionStorage.setItem(SS_DISMISSED, "1");
     setStage("dismissed");
   };
 
@@ -92,7 +92,7 @@ export default function MailingListPopup({ cta }: Props) {
           transition={{ duration: 0.35, ease: "easeOut" }}
         >
           <motion.div
-            className="pointer-events-auto w-full max-w-lg"
+            className="pointer-events-auto w-full max-w-none"
             layout
           >
             <div className="relative overflow-hidden rounded-2xl bg-surface-container-low p-4 sm:p-5 inner-glow border border-outline-variant/10 shadow-glow">
