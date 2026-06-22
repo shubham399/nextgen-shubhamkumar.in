@@ -13,11 +13,18 @@ import type {
 const BASE_URL = process.env.API_URL || "http://localhost:3001";
 
 async function fetchAPI<T>(path: string): Promise<T> {
+  const headers: Record<string, string> = {
+    Accept: "application/json",
+  };
+
+  const secret = process.env.INTERNAL_SECRET;
+  if (secret) {
+    headers["x-internal-secret"] = secret;
+  }
+
   const res = await fetch(`${BASE_URL}${path}`, {
-    next: { revalidate: 600 }, // cache for 10 minutes
-    headers: {
-      Accept: "application/json",
-    },
+    next: { revalidate: 600 },
+    headers,
   });
 
   if (!res.ok) {
