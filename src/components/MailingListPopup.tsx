@@ -158,12 +158,12 @@ export default function MailingListPopup({ cta }: Props) {
                         onKeyDown={handleKeyDown}
                         placeholder="your@email.com"
                         disabled={stage === "loading"}
-                        className="flex-1 min-w-0 px-3 py-2 rounded-lg bg-surface-container text-on-surface text-xs font-body placeholder:text-on-surface-variant/50 border border-outline-variant/20 focus:outline-none focus:border-primary/50 transition-colors disabled:opacity-50"
+                        className="flex-1 min-w-0 px-4 py-3 rounded-lg bg-surface-container text-on-surface text-sm font-body placeholder:text-on-surface-variant/50 border border-outline-variant/20 focus:outline-none focus:border-primary/50 transition-colors disabled:opacity-50"
                       />
                       <button
                         onClick={subscribe}
                         disabled={stage === "loading"}
-                        className="btn-primary text-xs px-3 py-2 flex-shrink-0 disabled:opacity-50"
+                        className="btn-primary text-sm px-5 py-3 flex-shrink-0 disabled:opacity-50"
                       >
                         {stage === "loading" ? (
                           <Icon icon="ion:loader" width={14} className="animate-spin" />
