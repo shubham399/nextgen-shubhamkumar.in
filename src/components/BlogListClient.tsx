@@ -86,9 +86,11 @@ export default function BlogListClient({ initialPosts, initialPagination }: Blog
                   {post.tags.length > 0 && (
                     <>
                       <span className="w-0.5 h-0.5 rounded-full bg-outline-variant/40" />
-                      <span className="font-label text-[11px] text-primary/70">
-                        #{post.tags[0].name}
-                      </span>
+                      {post.tags.map((tag, i) => (
+                        <span key={tag.id} className="font-label text-[11px] text-primary/70">
+                          #{tag.name}
+                        </span>
+                      ))}
                     </>
                   )}
                 </div>
