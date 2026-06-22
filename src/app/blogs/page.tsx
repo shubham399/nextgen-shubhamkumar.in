@@ -12,9 +12,17 @@ import BlogCtaSection from "@/components/BlogCtaSection";
 export const revalidate = 3600;
 
 export default async function BlogListing() {
-  const [me, socials, nav, result] = await Promise.all([
-    getMe(), getSocials(), getNav(), wisp.getPosts({ page: 1, limit: 6 }),
+  const [me, socials, nav, result, allPublished] = await Promise.all([
+    getMe(), getSocials(), getNav(), wisp.getPosts({ page: 1, limit: 6 }), wisp.getPosts({ limit: "all" }),
   ]);
+
+  const tagMap = new Map<string, { id: string; name: string; description: string | null }>();
+  for (const post of allPublished.posts) {
+    for (const tag of post.tags) {
+      if (!tagMap.has(tag.id)) tagMap.set(tag.id, { id: tag.id, name: tag.name, description: null });
+    }
+  }
+  const publishedTags = Array.from(tagMap.values());
 
   return (
     <>
@@ -40,6 +48,7 @@ export default async function BlogListing() {
             <BlogListClient
               initialPosts={result.posts}
               initialPagination={result.pagination}
+              allTags={publishedTags}
             />
           )}
         </section>

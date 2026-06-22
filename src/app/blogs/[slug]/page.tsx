@@ -1,5 +1,6 @@
 import { wisp } from "@/lib/wisp";
 import { getMe, getSocials, getNav } from "@/lib/api";
+import { generateTableOfContents } from "@wisp-cms/table-of-content";
 import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
@@ -9,6 +10,7 @@ import Footer from "@/components/Footer";
 import AnimateOnScroll, { StaggerContainer, StaggerItem } from "@/components/AnimateOnScroll";
 import CommentSection from "@/components/CommentSection";
 import BlogCtaSection from "@/components/BlogCtaSection";
+import BlogToc from "@/components/BlogToc";
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -32,6 +34,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
       ""
     ).replace(/—/g, ' ');
   }
+  const cleanedContent = removeSynscribeAttribution(content);
+  const { modifiedHtml, tableOfContents } = generateTableOfContents(cleanedContent);
   return (
     <>
       <Navigation me={me} nav={nav} socials={socials} />
@@ -74,10 +78,15 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
           <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent mb-10" />
 
-          <div
-            className="blog-content mx-auto max-w-none"
-            dangerouslySetInnerHTML={{ __html: removeSynscribeAttribution(content) }}
-          />
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
+            <div
+              className="blog-content max-w-none lg:col-span-3"
+              dangerouslySetInnerHTML={{ __html: modifiedHtml }}
+            />
+            <aside className="hidden lg:block">
+              <BlogToc items={tableOfContents} />
+            </aside>
+          </div>
         </article>
         <section className="section-base">
           <AnimateOnScroll>
