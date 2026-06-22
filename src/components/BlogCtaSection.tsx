@@ -45,8 +45,8 @@ export default function BlogCtaSection({ cta }: Props) {
     if (e.key === "Enter") subscribe();
   };
 
-  const title = cta?.title || "Stay in the loop";
-  const description = cta?.description || "New posts and projects land in your inbox. No spam, no filler - just the good stuff.";
+  const title = (cta?.title || "Stay in the loop").replace(/—/g, "-");
+  const description = (cta?.description || "New posts and projects land in your inbox. No spam, no filler - just the good stuff.").replace(/—/g, "-");
 
   return (
     <section className="section-base">
