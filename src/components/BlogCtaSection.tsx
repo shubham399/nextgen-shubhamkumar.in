@@ -2,10 +2,15 @@
 
 import { useState } from "react";
 import { Icon } from "@iconify/react";
+import { GetCtasResult } from "@/lib/wisp";
 
 type Stage = "idle" | "loading" | "success" | "error";
 
-export default function BlogCtaSection() {
+type Props = {
+  cta?: GetCtasResult["ctas"][0] | null;
+};
+
+export default function BlogCtaSection({ cta }: Props) {
   const [stage, setStage] = useState<Stage>("idle");
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -40,6 +45,9 @@ export default function BlogCtaSection() {
     if (e.key === "Enter") subscribe();
   };
 
+  const title = cta?.title || "Stay in the loop";
+  const description = cta?.description || "New posts and projects land in your inbox. No spam, no filler - just the good stuff.";
+
   return (
     <section className="section-base">
       <div className="relative overflow-hidden rounded-2xl bg-surface-container-low p-8 sm:p-12 inner-glow border border-outline-variant/10">
@@ -55,7 +63,7 @@ export default function BlogCtaSection() {
                 You&apos;re on the list.
               </h3>
               <p className="font-body text-sm text-on-surface-variant mt-2 max-w-md">
-                Check your inbox -  I sent a welcome note.
+                Check your inbox - I sent a welcome note.
               </p>
               <button
                 onClick={() => { setStage("idle"); setEmail(""); }}
@@ -71,10 +79,10 @@ export default function BlogCtaSection() {
                   <Icon icon="ion:mail-unread" width={22} className="text-primary" />
                 </div>
                 <h3 className="font-headline font-bold text-xl tracking-tighter text-on-surface">
-                  Stay in the loop
+                  {title}
                 </h3>
                 <p className="font-body text-sm text-on-surface-variant mt-1.5 max-w-md">
-                  New posts and projects land in your inbox. No spam, no filler -  just the good stuff.
+                  {description}
                 </p>
               </div>
 

@@ -1,4 +1,4 @@
-import { wisp } from "@/lib/wisp";
+import { wisp, GetCtasResult } from "@/lib/wisp";
 import { getMe, getSocials, getNav } from "@/lib/api";
 import { generateTableOfContents } from "@wisp-cms/table-of-content";
 import Image from "next/image";
@@ -14,8 +14,8 @@ import BlogToc from "@/components/BlogToc";
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [me, socials, nav, result, related, commentsResult] = await Promise.all([
-    getMe(), getSocials(), getNav(), wisp.getPost(slug), wisp.getRelatedPosts({ slug, limit: 3 }), wisp.getComments({ slug, page: 1, limit: "all" })
+  const [me, socials, nav, result, related, commentsResult, ctasResult] = await Promise.all([
+    getMe(), getSocials(), getNav(), wisp.getPost(slug), wisp.getRelatedPosts({ slug, limit: 3 }), wisp.getComments({ slug, page: 1, limit: "all" }), wisp.getCtas({ slug, limit: 1 })
   ]);
   function getReadTime(html: string) {
     const text = html.replace(/<[^>]*>/g, ' ');
@@ -88,6 +88,9 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             </aside>
           </div>
         </article>
+
+        <BlogCtaSection cta={ctasResult.ctas[0] || null} />
+
         <section className="section-base">
           <AnimateOnScroll>
             <h2 className="font-headline text-2xl sm:text-3xl font-bold tracking-tighter text-on-surface mb-8">
@@ -151,8 +154,6 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         </section>
 
         <CommentSection slug={slug} initialData={commentsResult} />
-
-        <BlogCtaSection />
       </main>
       <Footer socials={socials} nav={nav} me={me} />
     </>
