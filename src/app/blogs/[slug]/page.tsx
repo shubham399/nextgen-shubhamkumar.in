@@ -32,7 +32,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     return html.replace(
       /<p[^>]*>\s*<small>\s*<a[^>]*>Powered by Synscribe<\/a>\s*<\/small>\s*<\/p>/gi,
       ""
-    ).replace(/—/g, ' ');
+    ).replace(/—/g, '-');
   }
   const cleanedContent = removeSynscribeAttribution(content);
   const { modifiedHtml, tableOfContents } = generateTableOfContents(cleanedContent);
@@ -72,7 +72,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
               )}
             </div>
             <h1 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter text-on-surface leading-[1.1]">
-              {title.replace(/—/g, ' ')}
+              {title.replace(/—/g, '-')}
             </h1>
           </header>
 

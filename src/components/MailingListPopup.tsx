@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@iconify/react";
+import type { GetCtasResult } from "@/lib/wisp";
 
 const LS_SUBSCRIBED = "ml-subscribed";
 const LS_DISMISSED_UNTIL = "ml-dismissed-until";
@@ -10,10 +11,17 @@ const DISMISS_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 
 type Stage = "idle" | "visible" | "loading" | "success" | "error" | "dismissed";
 
-export default function MailingListPopup() {
+type Props = {
+  cta?: GetCtasResult["ctas"][0] | null;
+};
+
+export default function MailingListPopup({ cta }: Props) {
   const [stage, setStage] = useState<Stage>("idle");
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
+
+  const title = (cta?.title || "Zero noise. Pure signal.").replace(/—/g, "-");
+  const description = (cta?.description || "New posts and projects land in your inbox. No spam, no filler - just the good stuff.").replace(/—/g, "-");
 
   useEffect(() => {
     if (localStorage.getItem(LS_SUBSCRIBED)) {
@@ -77,107 +85,98 @@ export default function MailingListPopup() {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          className="fixed bottom-0 left-0 right-0 z-50 flex justify-center p-3 sm:p-4 pointer-events-none"
+          initial={{ opacity: 0, y: 32 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 32 }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
         >
-          <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            onClick={dismiss}
-          />
-
           <motion.div
-            className="relative w-full max-w-md rounded-2xl bg-surface-container-low p-8 inner-glow border border-outline-variant/10"
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="pointer-events-auto w-full max-w-lg"
+            layout
           >
-            <button
-              onClick={dismiss}
-              className="absolute top-4 right-4 text-on-surface-variant hover:text-on-surface transition-colors"
-              aria-label="Close"
-            >
-              <Icon icon="ion:close" width={20} />
-            </button>
+            <div className="relative overflow-hidden rounded-2xl bg-surface-container-low p-4 sm:p-5 inner-glow border border-outline-variant/10 shadow-glow">
+              <div className="absolute top-0 right-0 w-48 h-48 bg-primary-gradient-subtle rounded-full blur-3xl translate-x-1/3 -translate-y-1/3 pointer-events-none" />
 
-            {stage === "success" ? (
-              <>
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <Icon icon="ion:checkmark-circle" width={24} className="text-primary" />
-                </div>
-                <h3 className="font-headline font-bold text-lg tracking-tighter text-on-surface text-center">
-                  Signal received.
-                </h3>
-                <p className="font-body text-sm text-on-surface-variant text-center mt-2">
-                  Check your inbox -  I sent a welcome note.
-                </p>
-              </>
-            ) : stage === "error" ? (
-              <>
-                <div className="w-12 h-12 rounded-xl bg-red/10 flex items-center justify-center mx-auto mb-4">
-                  <Icon icon="ion:alert-circle" width={24} className="text-red" />
-                </div>
-                <h3 className="font-headline font-bold text-lg tracking-tighter text-on-surface text-center">
-                  Oops
-                </h3>
-                <p className="font-body text-sm text-on-surface-variant text-center mt-2">
-                  {errMsg}
-                </p>
-                <button
-                  onClick={() => setStage("visible")}
-                  className="btn-ghost w-full justify-center mt-4"
-                >
-                  Try again
-                </button>
-              </>
-            ) : (
-              <>
-                <div className="w-12 h-12 rounded-xl bg-primary-gradient-subtle flex items-center justify-center mx-auto mb-4">
-                  <Icon icon="ion:mail-unread" width={22} className="text-primary" />
-                </div>
+              <button
+                onClick={dismiss}
+                className="absolute top-2 right-2 text-on-surface-variant/50 hover:text-on-surface transition-colors z-10"
+                aria-label="Close"
+              >
+                <Icon icon="ion:close" width={18} />
+              </button>
 
-                <h3 className="font-headline font-bold text-lg tracking-tighter text-on-surface text-center">
-                  Zero noise. Pure signal.
-                </h3>
-                <p className="font-body text-sm text-on-surface-variant text-center mt-2 mb-6">
-                  New posts and projects land in your inbox. No spam, no filler -  just the good stuff.
-                </p>
+              <div className="relative z-10">
+                {stage === "success" ? (
+                  <div className="flex items-center gap-3 py-1">
+                    <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Icon icon="ion:checkmark-circle" width={20} className="text-primary" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-headline font-bold text-sm tracking-tighter text-on-surface">
+                        Signal received.
+                      </p>
+                      <p className="font-body text-xs text-on-surface-variant truncate">
+                        Check your inbox - I sent a welcome note.
+                      </p>
+                    </div>
+                  </div>
+                ) : stage === "error" && errMsg ? (
+                  <div className="flex items-center gap-3 py-1">
+                    <div className="w-9 h-9 rounded-lg bg-red/10 flex items-center justify-center flex-shrink-0">
+                      <Icon icon="ion:alert-circle" width={20} className="text-red" />
+                    </div>
+                    <p className="font-body text-sm text-red flex-1 min-w-0 truncate">{errMsg}</p>
+                    <button
+                      onClick={() => setStage("visible")}
+                      className="btn-ghost text-xs flex-shrink-0"
+                    >
+                      Try again
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
+                    <div className="flex items-center gap-2.5 min-w-0 flex-1 w-full sm:w-auto">
+                      <div className="w-9 h-9 rounded-lg bg-primary-gradient-subtle flex items-center justify-center flex-shrink-0">
+                        <Icon icon="ion:mail-unread" width={16} className="text-primary" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="font-headline font-bold text-sm tracking-tighter text-on-surface truncate">
+                          {title}
+                        </p>
+                        <p className="font-body text-xs text-on-surface-variant leading-snug line-clamp-1">
+                          {description}
+                        </p>
+                      </div>
+                    </div>
 
-                <div className="flex gap-2">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="your@email.com"
-                    disabled={stage === "loading"}
-                    className="flex-1 px-4 py-2.5 rounded-lg bg-surface-container text-on-surface text-sm font-body placeholder:text-on-surface-variant/50 border border-outline-variant/20 focus:outline-none focus:border-primary/50 transition-colors disabled:opacity-50"
-                  />
-                  <button
-                    onClick={subscribe}
-                    disabled={stage === "loading"}
-                    className="btn-primary flex-shrink-0 disabled:opacity-50"
-                  >
-                    {stage === "loading" ? (
-                      <Icon icon="ion:loader" width={16} className="animate-spin" />
-                    ) : (
-                      <Icon icon="ion:arrow-forward" width={16} />
-                    )}
-                    Join
-                  </button>
-                </div>
-
-                <button
-                  onClick={dismiss}
-                  className="w-full text-center text-xs font-label text-on-surface-variant/60 hover:text-on-surface-variant transition-colors mt-4"
-                >
-                  Not for me
-                </button>
-              </>
-            )}
+                    <div className="flex gap-1.5 w-full sm:w-auto flex-shrink-0">
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder="your@email.com"
+                        disabled={stage === "loading"}
+                        className="flex-1 min-w-0 px-3 py-2 rounded-lg bg-surface-container text-on-surface text-xs font-body placeholder:text-on-surface-variant/50 border border-outline-variant/20 focus:outline-none focus:border-primary/50 transition-colors disabled:opacity-50"
+                      />
+                      <button
+                        onClick={subscribe}
+                        disabled={stage === "loading"}
+                        className="btn-primary text-xs px-3 py-2 flex-shrink-0 disabled:opacity-50"
+                      >
+                        {stage === "loading" ? (
+                          <Icon icon="ion:loader" width={14} className="animate-spin" />
+                        ) : (
+                          <Icon icon="ion:arrow-forward" width={14} />
+                        )}
+                        Join
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </motion.div>
         </motion.div>
       )}

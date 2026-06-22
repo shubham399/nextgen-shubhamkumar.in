@@ -35,7 +35,7 @@ function TestimonialCard({
 
       {/* Quote text */}
       <p className="font-body text-sm text-on-surface-variant leading-relaxed flex-1">
-        {testimonial.text.replace(/—/g, ' ')}
+        {testimonial.text.replace(/—/g, '-')}
       </p>
 
       {/* Author */}
@@ -152,13 +152,13 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                     {t.name.trim()}
                   </p>
                   <p className="font-label text-[10px] text-on-surface-variant">
-                    {t.destination.replace(/—/g, ' ')}
+                    {t.destination.replace(/—/g, '-')}
 
                   </p>
                 </div>
               </div>
               <p className="font-body text-xs text-on-surface-variant leading-relaxed line-clamp-3">
-                {t.text.replace(/—/g, ' ')}
+                {t.text.replace(/—/g, '-')}
               </p>
             </div>
           </motion.div>
