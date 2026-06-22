@@ -23,6 +23,7 @@ export default function BlogListClient({ initialPosts, initialPagination, allTag
   const sentinelRef = useRef<HTMLDivElement>(null);
   const loadingRef = useRef(false);
   const searchTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const isFirstRender = useRef(true);
 
   const buildFilterParams = useCallback((page: number) => {
     const params = new URLSearchParams();
@@ -41,6 +42,10 @@ export default function BlogListClient({ initialPosts, initialPagination, allTag
   }, [buildFilterParams]);
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
     searchTimerRef.current = setTimeout(() => {
       setInitialLoading(true);
