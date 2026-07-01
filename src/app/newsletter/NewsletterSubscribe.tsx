@@ -60,7 +60,7 @@ export default function NewsletterSubscribe() {
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+      <div className="flex flex-col sm:flex-row gap-2 max-w-lg mx-auto">
         <input
           type="email"
           value={email}

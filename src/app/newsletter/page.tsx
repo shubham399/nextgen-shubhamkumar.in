@@ -65,7 +65,10 @@ export default async function NewsletterPage() {
               Join {me.name.split(" ")[0]}&rsquo;s newsletter for weekly dispatches on distributed systems,
               fintech engineering, and building things that work at scale.
             </p>
-            <NewsletterSubscribe />
+            <div className="flex justify-start">
+
+              <NewsletterSubscribe />
+            </div>
           </AnimateOnScroll>
 
           {/* Stats */}
