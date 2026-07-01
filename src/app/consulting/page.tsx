@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import SectionHeader from "@/components/SectionHeader";
 import AnimateOnScroll, { StaggerContainer, StaggerItem } from "@/components/AnimateOnScroll";
 import CTA from "@/components/CTA";
+import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { UTMLink } from "@/components/UTMLink";
 import Testimonials from "@/components/Testimonials";
@@ -417,12 +418,15 @@ export default async function ConsultingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <AnimateOnScroll className="lg:col-span-1" direction="left">
               <div className="bg-surface-container-low rounded-2xl p-6 inner-glow text-center h-full">
-                <div className="w-24 h-24 rounded-full bg-surface-container mx-auto mb-4 overflow-hidden">
+                <div className="relative w-24 h-24 rounded-full bg-surface-container mx-auto mb-4 overflow-hidden">
                   {me.avatarUrl ? (
-                    <img
+                    <Image
                       src={me.avatarUrl}
                       alt={me.name}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="96px"
+                      unoptimized
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center font-headline text-2xl font-bold text-primary">
@@ -462,9 +466,9 @@ export default async function ConsultingPage() {
                 <div className="space-y-4">
                   {experience.filter((e) => !e.skip).slice(0, 4).map((exp) => (
                     <div key={exp.company + exp.title + exp.start} className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center flex-shrink-0 mt-0.5 overflow-hidden">
+                      <div className="relative w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center flex-shrink-0 mt-0.5 overflow-hidden">
                         {exp.logo ? (
-                          <img src={exp.logo} alt={exp.company} className="w-full h-full object-contain p-1" />
+                          <Image src={exp.logo} alt={exp.company} fill className="object-contain p-1" sizes="32px" unoptimized />
                         ) : (
                           <Icon icon="ion:briefcase-outline" width={14} className="text-primary" />
                         )}
