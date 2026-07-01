@@ -1,7 +1,8 @@
-import { getWorkouts, getWorkoutSummary, getMe, getSocials, getNav, BASE_URL } from "@/lib/api";
+import { fetchAPI, getWorkouts, getWorkoutSummary, getMe, getSocials, getNav } from "@/lib/api";
 import { wisp } from "@/lib/wisp";
 import WorkoutDashboard from "@/components/WorkoutDashboard";
 import SocialMetrics from "@/components/SocialMetrics";
+import BlogViews from "@/components/BlogViews";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
@@ -35,13 +36,10 @@ async function getTotalBlogViews(slugs: string[]): Promise<number> {
   try {
     const results = await Promise.all(
       slugs.map((slug) =>
-        fetch(`${BASE_URL}/api/blog/views/${slug}?readonly=true`, {
-          headers: { Accept: "application/json" },
-          next: { revalidate: 600 },
-        }).then((r) => (r.ok ? r.json() : { total: 0 }))
+        fetchAPI<{ total: number }>(`/api/blog/views/${slug}?readonly=true`).catch(() => ({ total: 0 }))
       )
     );
-    return results.reduce((sum: number, r: { total: number }) => sum + (r.total || 0), 0);
+    return results.reduce((sum, r) => sum + (r.total || 0), 0);
   } catch {
     return 0;
   }
@@ -62,11 +60,20 @@ export default async function Dashboard() {
   const slugs = allPosts.posts.filter((p) => p.slug).map((p) => p.slug);
   const totalViews = slugs.length > 0 ? await getTotalBlogViews(slugs) : 0;
 
+  const blogTitles: Record<string, string> = {};
+  for (const p of allPosts.posts) {
+    if (p.slug) blogTitles[p.slug] = p.title;
+  }
+
   return (
     <>
       <Navigation me={me} nav={nav} socials={socials} />
       <main>
         <WorkoutDashboard workouts={workouts} summary={summary} />
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
+        </div>
+        <BlogViews slugs={slugs} blogTitles={blogTitles} />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
         </div>
