@@ -8,15 +8,17 @@ interface SocialMetricsProps {
   totalViews: number;
   twitterFollowers: number;
   github: { followers: number; publicRepos: number } | null;
+  subscribers: number;
 }
 
-export default function SocialMetrics({ socials, blogCount, totalViews, twitterFollowers, github }: SocialMetricsProps) {
+export default function SocialMetrics({ socials, blogCount, totalViews, twitterFollowers, github, subscribers }: SocialMetricsProps) {
   const socialLinks = socials.filter((s) => s.name !== "Email" && s.name !== "GitHub" && s.name !== "Twitter" && s.name !== "LinkedIn" && s.name !== "Instagram");
 
   const stats = [
     { icon: "ion:document-text-outline", label: "Total Blogs", value: blogCount.toString(), sub: "till now" },
     { icon: "ion:eye-outline", label: "Total Blog Views", value: totalViews.toLocaleString(), sub: "all-time" },
     { icon: "ion:logo-twitter", label: "Twitter Followers", value: twitterFollowers.toString(), sub: "friends" },
+    { icon: "ion:mail-outline", label: "Newsletter Subs", value: subscribers.toString(), sub: "readers" },
     ...(github ? [
       { icon: "ion:logo-github", label: "GitHub Repos", value: github.publicRepos.toString(), sub: "public repos" },
       { icon: "ion:people-outline", label: "GitHub Followers", value: github.followers.toString(), sub: "friends" },

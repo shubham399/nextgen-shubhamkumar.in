@@ -1,5 +1,6 @@
 import { fetchAPI, getWorkouts, getWorkoutSummary, getMe, getSocials, getNav } from "@/lib/api";
 import { wisp } from "@/lib/wisp";
+import { Resend } from "resend";
 import WorkoutDashboard from "@/components/WorkoutDashboard";
 import SocialMetrics from "@/components/SocialMetrics";
 import BlogViews from "@/components/BlogViews";
@@ -32,6 +33,23 @@ async function getTwitterFollowers(): Promise<number> {
   }
 }
 
+async function getSubscriberCount(): Promise<number> {
+  try {
+    const key = process.env.RESEND_KEY;
+    if (!key) return 0;
+    const resend = new Resend(key);
+    const segmentId = process.env.RESEND_SEGMENT_ID;
+    const { data, error } = await resend.contacts.list({
+      ...(segmentId ? { segmentId } : {}),
+      limit: 100,
+    });
+    if (error || !data) return 0;
+    return data.data.length;
+  } catch {
+    return 0;
+  }
+}
+
 async function getTotalBlogViews(slugs: string[]): Promise<number> {
   try {
     const results = await Promise.all(
@@ -46,7 +64,7 @@ async function getTotalBlogViews(slugs: string[]): Promise<number> {
 }
 
 export default async function Dashboard() {
-  const [allPosts, workouts, summary, me, socials, nav, github, twitterFollowers] = await Promise.all([
+  const [allPosts, workouts, summary, me, socials, nav, github, twitterFollowers, subscribers] = await Promise.all([
     wisp.getPosts({ limit: 100 }),
     getWorkouts(),
     getWorkoutSummary(),
@@ -55,6 +73,7 @@ export default async function Dashboard() {
     getNav(),
     getGitHubStats(),
     getTwitterFollowers(),
+    getSubscriberCount(),
   ]);
 
   const slugs = allPosts.posts.filter((p) => p.slug).map((p) => p.slug);
@@ -83,6 +102,7 @@ export default async function Dashboard() {
           totalViews={totalViews}
           github={github}
           twitterFollowers={twitterFollowers}
+          subscribers={subscribers}
         />
       </main>
       <Footer socials={socials} nav={nav} me={me} />
