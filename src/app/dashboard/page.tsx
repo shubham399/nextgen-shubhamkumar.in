@@ -70,11 +70,11 @@ export default async function Dashboard() {
       <Navigation me={me} nav={nav} socials={socials} />
       <main>
         <WorkoutDashboard workouts={workouts} summary={summary} />
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
         </div>
         <BlogViews slugs={slugs} blogTitles={blogTitles} />
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
         </div>
         <SocialMetrics
