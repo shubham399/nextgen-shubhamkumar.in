@@ -1,4 +1,5 @@
 import { getMe, getTestimonials, getSocials, getNav, getExperience, getContacts } from "@/lib/api";
+import type { Experience } from "@/types";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import SectionHeader from "@/components/SectionHeader";
@@ -9,6 +10,18 @@ import { Icon } from "@iconify/react";
 import { UTMLink } from "@/components/UTMLink";
 import Testimonials from "@/components/Testimonials";
 import Contact from "@/components/Contact";
+
+function getYearsOfExperience(experience: Experience[]): string {
+  const starts = experience.filter((e) => !e.skip).map((e) => new Date(e.start).getFullYear());
+  const earliest = Math.min(...starts);
+  const years = new Date().getFullYear() - earliest;
+  return `${years}+`;
+}
+
+function getCompanyCount(experience: Experience[]): string {
+  const companies = new Set(experience.filter((e) => !e.skip).map((e) => e.company));
+  return `${companies.size}`;
+}
 
 const CONSULTING_SERVICES = [
   {
@@ -169,10 +182,10 @@ export default async function ConsultingPage() {
           <AnimateOnScroll delay={0.15}>
             <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { value: "8+", label: "Years of experience" },
-                { value: "5", label: "Companies served" },
-                { value: "3", label: "Continents worked" },
-                { value: "₹100Cr+", label: "Revenue enabled" },
+                { value: getYearsOfExperience(experience), label: "Years Experience" },
+                { value: getCompanyCount(experience), label: "Companies Served" },
+                { value: "99.99%", label: "Uptime SLA" },
+                { value: "M+", label: "Users Served" },
               ].map((stat) => (
                 <div key={stat.label} className="bg-surface-container-low rounded-2xl p-5 inner-glow text-center">
                   <p className="font-headline text-2xl font-bold gradient-text mb-1">{stat.value}</p>
