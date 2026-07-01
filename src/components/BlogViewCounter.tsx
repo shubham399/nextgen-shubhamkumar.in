@@ -59,7 +59,8 @@ export default function BlogViewCounter({ slug }: BlogViewCounterProps) {
           }
         }
 
-        if (!alreadyViewed) markViewed(slug);
+        const success = typeof total === "number" && total > 0;
+        if (!alreadyViewed && success) markViewed(slug);
       } catch {
         if (totalRef.current) {
           totalRef.current.textContent = "N/A";
