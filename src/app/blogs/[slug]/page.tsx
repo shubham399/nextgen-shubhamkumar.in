@@ -11,6 +11,7 @@ import AnimateOnScroll, { StaggerContainer, StaggerItem } from "@/components/Ani
 import CommentSection from "@/components/CommentSection";
 import BlogCtaSection from "@/components/BlogCtaSection";
 import BlogToc from "@/components/BlogToc";
+import BlogViewCounter from "@/components/BlogViewCounter";
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -60,6 +61,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
               <span className="font-label text-xs text-on-surface-variant/60">
                 About {getReadTime(content)} min read
               </span>
+              <span className="font-label text-xs text-on-surface-variant/60">•</span>
+              <BlogViewCounter slug={slug} />
               {tags.length > 0 && (
                 <>
                   <span className="w-0.5 h-0.5 rounded-full bg-outline-variant/40" />
