@@ -8,6 +8,8 @@ import type {
   Service,
   Testimonial,
   Certificate,
+  Workout,
+  WorkoutSummary,
 } from "@/types";
 
 const BASE_URL = process.env.API_URL || "http://localhost:3001";
@@ -51,3 +53,5 @@ export const getSkills = () => fetchAPI<Skill[]>("/api/skills");
 export const getServices = () => fetchAPI<Service[]>("/api/services");
 export const getTestimonials = () => fetchAPI<Testimonial[]>("/api/testimonials");
 export const getCertificates = () => fetchAPI<Certificate[]>("/api/certificates");
+export const getWorkouts = () => fetchAPI<Workout[]>("/api/workouts");
+export const getWorkoutSummary = () => fetchAPI<WorkoutSummary>("/api/workouts/summary");

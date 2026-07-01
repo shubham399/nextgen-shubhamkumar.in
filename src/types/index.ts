@@ -81,3 +81,25 @@ export interface Certificate {
   issuedAt: string;
   link: string;
 }
+
+export interface Workout {
+  workout: string;
+  type: string;
+  durationMinutes: number;
+  createdAt: string;
+}
+
+export interface WorkoutSummary {
+  lastWorkout: {
+    daysAgo: number;
+    type: string;
+  };
+  percentDays: number;
+  totalWorkouts: number;
+  streakWeeks: number;
+  totalDurationMinutes: number;
+  totalVolumeKg: number;
+  totalSets: number;
+  preferredTimeOfDay: string;
+  calendar: Record<string, boolean>;
+}
