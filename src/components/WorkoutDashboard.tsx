@@ -61,17 +61,20 @@ function getTypeColor(type: string): string {
 
 export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboardProps) {
   const { year, month, cells } = getMonthGrid(summary.calendar, workouts);
-  const totalHrs = Math.floor(summary.totalDurationMinutes / 60);
+  const monthPrefix = `${year}-${String(month).padStart(2, "0")}`;
+  const monthWorkouts = workouts.filter(w => w.createdAt.startsWith(monthPrefix));
+  const monthDuration = monthWorkouts.reduce((s, w) => s + w.durationMinutes, 0);
+  const monthHrs = Math.floor(monthDuration / 60);
 
   const allStats = [
-    { label: "Workouts", value: summary.totalWorkouts.toString(), sub: "this month" },
+    { label: "Workouts", value: monthWorkouts.length.toString(), sub: "this month" },
     { label: "Gym visit", value: `${summary.percentDays}%`, sub: "of days" },
     { label: "Streak", value: `${summary.streakWeeks}w`, sub: "consistent" },
-    { label: "Trained", value: `${totalHrs}h ${summary.totalDurationMinutes % 60}m`, sub: "this month" },
+    { label: "Trained", value: `${monthHrs}h ${monthDuration % 60}m`, sub: "this month" },
     { label: "Last workout", value: summary.lastWorkout.daysAgo === 0 ? "Today" : `${summary.lastWorkout.daysAgo} days ago`, sub: `at ${summary.lastWorkout.type}` },
     { label: "Preferred time", value: summary.preferredTimeOfDay, sub: "workout" },
-    ...(summary.totalSets > 0 ? [{ label: "Sets", value: summary.totalSets.toString(), sub: "this month" }] : []),
-    ...(summary.totalVolumeKg > 0 ? [{ label: "Volume", value: `${summary.totalVolumeKg}kg`, sub: "this month" }] : []),
+    ...(summary.totalSets > 0 ? [{ label: "Sets", value: summary.totalSets.toString(), sub: "total" }] : []),
+    ...(summary.totalVolumeKg > 0 ? [{ label: "Volume", value: `${summary.totalVolumeKg}kg`, sub: "total" }] : []),
   ];
 
   const today = new Date();
