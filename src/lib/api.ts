@@ -12,7 +12,11 @@ import type {
 
 const BASE_URL = process.env.API_URL || "http://localhost:3001";
 
-async function fetchAPI<T>(path: string): Promise<T> {
+interface FetchAPIOptions {
+  method?: "GET" | "POST";
+}
+
+async function fetchAPI<T>(path: string, options?: FetchAPIOptions): Promise<T> {
   const headers: Record<string, string> = {
     Accept: "application/json",
   };
@@ -23,6 +27,7 @@ async function fetchAPI<T>(path: string): Promise<T> {
   }
 
   const res = await fetch(`${BASE_URL}${path}`, {
+    method: options?.method ?? "GET",
     next: { revalidate: 600 },
     headers,
   });
@@ -33,6 +38,9 @@ async function fetchAPI<T>(path: string): Promise<T> {
 
   return res.json() as Promise<T>;
 }
+
+export type { FetchAPIOptions };
+export { BASE_URL, fetchAPI };
 
 export const getMe = () => fetchAPI<Me>("/api/me");
 export const getSocials = () => fetchAPI<Social[]>("/api/socials");
