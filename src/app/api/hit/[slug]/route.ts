@@ -16,8 +16,8 @@ export async function GET(
   console.log(`[hit route] searchParams=`, Object.fromEntries(req.nextUrl.searchParams.entries()));
   console.log(`[hit route] readonly=${readonly}`);
 
-  const secret = process.env.INTERNAL_SECRET;
-  console.log(`[hit route] INTERNAL_SECRET present=${!!secret} length=${secret?.length ?? 0}`);
+  const secret = process.env.INTERNAL_SECRET_VALUE;
+  console.log(`[hit route] INTERNAL_SECRET_VALUE present=${!!secret} length=${secret?.length ?? 0}`);
 
   const method = readonly ? "GET" : secret ? "POST" : "GET";
   console.log(`[hit route] resolved method=${method} (readonly=${readonly} hasSecret=${!!secret})`);

@@ -17,7 +17,7 @@ async function fetchAPI<T>(path: string): Promise<T> {
     Accept: "application/json",
   };
 
-  const secret = process.env.INTERNAL_SECRET;
+  const secret = process.env.INTERNAL_SECRET_VALUE;
   if (secret) {
     headers["x-internal-secret"] = secret;
   }
