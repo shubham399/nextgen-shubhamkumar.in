@@ -7,15 +7,31 @@ interface WorkoutDashboardProps {
 }
 
 function getMonthGrid(calendar: Record<string, boolean>, workouts: Workout[]) {
-  const dates = Object.keys(calendar).sort();
-  if (!dates.length) return { year: 2026, month: 6, cells: [] as { day: number; type: string | null }[] };
+  const now = new Date();
+  let year = now.getFullYear();
+  let month = now.getMonth() + 1;
+
+  const calKeys = Object.keys(calendar);
+  if (!calKeys.length) return { year, month, cells: [] as { day: number; type: string | null }[] };
+
+  const currentPrefix = `${year}-${String(month).padStart(2, "0")}`;
+  const hasCurrentMonthData = calKeys.some(k => k.startsWith(currentPrefix));
+
+  if (!hasCurrentMonthData && workouts.length > 0) {
+    const lastDate = workouts.reduce((a, b) => a.createdAt > b.createdAt ? a : b).createdAt;
+    const daysSince = Math.floor((now.getTime() - new Date(lastDate).getTime()) / 86400000);
+    if (daysSince <= 7) {
+      const d = new Date(lastDate);
+      year = d.getFullYear();
+      month = d.getMonth() + 1;
+    }
+  }
 
   const dateTypeMap = new Map<string, string>();
   for (const w of workouts) {
     if (!dateTypeMap.has(w.createdAt)) dateTypeMap.set(w.createdAt, w.type);
   }
 
-  const [year, month] = dates[0].split("-").map(Number);
   const daysInMonth = new Date(year, month, 0).getDate();
   const firstDayOfWeek = new Date(year, month - 1, 1).getDay();
 
