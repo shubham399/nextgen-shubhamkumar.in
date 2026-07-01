@@ -47,6 +47,7 @@ export default function BlogViewCounter({ slug }: BlogViewCounterProps) {
       try {
         const res = await fetch(url);
         const data = await res.json();
+        console.log(`[BlogViewCounter] slug=${slug} url=${url} status=${res.status} response=`, data);
         const total = data.total;
 
         if (totalRef.current) {
