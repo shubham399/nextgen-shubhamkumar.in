@@ -94,29 +94,7 @@ export default async function NewsletterPage() {
           <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
         </div>
 
-        {/* What you get */}
-        <section className="section-base">
-          <SectionHeader
-            label="What You Get"
-            title="Worth your inbox space"
-            description="Every edition is built around real experience — not theory."
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {BENEFITS.map((item) => (
-              <div key={item.title} className="bg-surface-container-low rounded-2xl p-6 inner-glow">
-                <div className="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center mb-4 text-primary">
-                  <Icon icon={item.icon} width={20} />
-                </div>
-                <h3 className="font-headline font-semibold text-base tracking-tight text-on-surface mb-2">
-                  {item.title}
-                </h3>
-                <p className="font-body text-sm text-on-surface-variant leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
+
 
         {/* Divider */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
