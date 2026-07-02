@@ -61,8 +61,11 @@ function getTypeColor(type: string): string {
 
 export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboardProps) {
   const { year, month, cells } = getMonthGrid(summary.calendar, workouts);
-  const monthPrefix = `${year}-${String(month).padStart(2, "0")}`;
-  const monthWorkouts = workouts.filter(w => w.createdAt?.startsWith(monthPrefix));
+  const monthWorkouts = workouts.filter(w => {
+    if (!w.createdAt) return false;
+    const d = new Date(w.createdAt);
+    return d.getFullYear() === year && d.getMonth() + 1 === month;
+  });
   const monthDuration = monthWorkouts.reduce((s, w) => s + (w.durationMinutes ?? 0), 0);
   const monthHrs = Math.floor(monthDuration / 60);
 
