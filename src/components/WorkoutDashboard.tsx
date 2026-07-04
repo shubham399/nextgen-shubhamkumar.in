@@ -34,7 +34,7 @@ function getMonthGrid(calendar: Record<string, boolean>, workouts: Workout[]) {
   }
 
   const daysInMonth = new Date(year, month, 0).getDate();
-  const firstDayOfWeek = new Date(year, month - 1, 1).getDay();
+  const firstDayOfWeek = (new Date(year, month - 1, 1).getDay() + 6) % 7;
 
   const cells: { day: number; type: string | null }[] = [];
   for (let i = 0; i < firstDayOfWeek; i++) cells.push({ day: 0, type: null });
