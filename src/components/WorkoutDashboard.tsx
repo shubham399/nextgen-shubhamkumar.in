@@ -13,7 +13,7 @@ function getMonthGrid(calendar: Record<string, boolean>, workouts: Workout[]) {
   let month = now.getMonth() + 1;
 
   const calKeys = Object.keys(calendar);
-  if (!calKeys.length) return { year, month, cells: [] as { day: number; type: string | null }[] };
+  if (!calKeys.length) return { year, month, cells: [] as { day: number; type: string | null; skipped: boolean }[] };
 
   const currentPrefix = `${year}-${String(month).padStart(2, "0")}`;
   const hasCurrentMonthData = calKeys.some(k => k.startsWith(currentPrefix));
@@ -36,11 +36,18 @@ function getMonthGrid(calendar: Record<string, boolean>, workouts: Workout[]) {
   const daysInMonth = new Date(year, month, 0).getDate();
   const firstDayOfWeek = (new Date(year, month - 1, 1).getDay() + 6) % 7;
 
-  const cells: { day: number; type: string | null }[] = [];
-  for (let i = 0; i < firstDayOfWeek; i++) cells.push({ day: 0, type: null });
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
+  const cells: { day: number; type: string | null; skipped: boolean }[] = [];
+  for (let i = 0; i < firstDayOfWeek; i++) cells.push({ day: 0, type: null, skipped: false });
   for (let d = 1; d <= daysInMonth; d++) {
     const dateStr = `${year}-${String(month).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-    cells.push({ day: d, type: calendar[dateStr] ? (dateTypeMap.get(dateStr) ?? "gym") : null });
+    const hasWorkout = !!calendar[dateStr];
+    cells.push({
+      day: d,
+      type: hasWorkout ? (dateTypeMap.get(dateStr) ?? "gym") : null,
+      skipped: !hasWorkout && dateStr < todayStr,
+    });
   }
   return { year, month, cells };
 }
@@ -124,9 +131,9 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
                     <span
                       className="flex items-center justify-center w-7 h-7 text-xs font-label transition-all duration-200 rounded-full"
                       style={{
-                        backgroundColor: cell.type ? `${getTypeColor(cell.type)}20` : "transparent",
-                        color: cell.type ? getTypeColor(cell.type) : "#bbc9cf",
-                        opacity: cell.type ? 1 : 0.2,
+                        backgroundColor: cell.skipped ? "#f8717120" : cell.type ? `${getTypeColor(cell.type)}20` : "transparent",
+                        color: cell.skipped ? "#f87171" : cell.type ? getTypeColor(cell.type) : "#bbc9cf",
+                        opacity: cell.skipped || cell.type ? 1 : 0.2,
                       }}
                     >
                       {cell.day}
@@ -144,6 +151,10 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
                   <span className="font-label text-[10px] text-on-surface-variant/50 capitalize">{type}</span>
                 </div>
               ))}
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: "#f87171" }} />
+                <span className="font-label text-[10px] text-on-surface-variant/50 capitalize">skipped</span>
+              </div>
             </div>
           </div>
         </AnimateOnScroll>
