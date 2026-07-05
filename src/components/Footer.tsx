@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react";
 import type { Social, Nav, Me } from "@/types";
+import { NAV_LINKS } from "@/lib/navigation";
 import { UTMLink } from "./UTMLink";
 
 interface FooterProps {
@@ -7,20 +8,6 @@ interface FooterProps {
   nav: Nav;
   me: Me;
 }
-
-const FOOTER_LINKS = [
-  { label: "About", href: "/#about" },
-  { label: "Experience", href: "/#experience" },
-  { label: "Skills", href: "/#skills" },
-  { label: "Services", href: "/#services" },
-  { label: "Testimonials", href: "/#testimonials" },
-  { label: "Blog", href: "/blogs" },
-  { label: "Consulting", href: "/consulting" },
-  { label: "Newsletter", href: "/newsletter" },
-  { label: "Dashboard", href: "/dashboard" },
-  { label: "RSS", href: "/rss" },
-  { label: "Contact", href: "/#contact" },
-];
 
 export default function Footer({ me, socials, nav }: FooterProps) {
   return (
@@ -43,7 +30,7 @@ export default function Footer({ me, socials, nav }: FooterProps) {
               Navigation
             </p>
             <div className="flex flex-col gap-2">
-              {FOOTER_LINKS.map((link) => (
+              {NAV_LINKS.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}

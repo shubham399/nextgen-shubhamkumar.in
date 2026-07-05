@@ -4,22 +4,9 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import type { Me, Nav, Social } from "@/types";
+import { NAV_LINKS } from "@/lib/navigation";
 import CTA from "./CTA";
 import { UTMLink } from "./UTMLink";
-
-const NAV_LINKS = [
-  { label: "About", href: "/#about" },
-  { label: "Experience", href: "/#experience" },
-  { label: "Skills", href: "/#skills" },
-  { label: "Services", href: "/#services" },
-  { label: "Testimonials", href: "/#testimonials" },
-  { label: "Blog", href: "/blogs" },
-  { label: "Consulting", href: "/consulting" },
-  { label: "Newsletter", href: "/newsletter" },
-  { label: "Dashboard", href: "/dashboard" },
-  { label: "Contact", href: "/#contact" },
-  { label: "RSS", href: "/rss" },
-];
 
 interface NavigationProps {
   nav: Nav;
