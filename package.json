@@ -11,6 +11,7 @@
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
     "@iconify/react": "^5.2.0",
+    "@next/third-parties": "^16.2.10",
     "@vercel/analytics": "^2.0.1",
     "@wisp-cms/client": "^0.0.23",
     "@wisp-cms/table-of-content": "^0.0.1",

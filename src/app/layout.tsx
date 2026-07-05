@@ -3,6 +3,7 @@ import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next"
 import MailingListPopup from "@/components/MailingListPopup";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 
 const spaceGrotesk = Space_Grotesk({
@@ -86,6 +87,7 @@ export default function RootLayout({
         {children}
         <MailingListPopup />
         <Analytics />
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
         <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "81cd3bc5c97945c4b8b57909f87a3926"}'></script>
       </body>
     </html>
