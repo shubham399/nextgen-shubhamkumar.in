@@ -15,7 +15,10 @@ const FOOTER_LINKS = [
   { label: "Services", href: "/#services" },
   { label: "Testimonials", href: "/#testimonials" },
   { label: "Blog", href: "/blogs" },
+  { label: "Consulting", href: "/consulting" },
+  { label: "Newsletter", href: "/newsletter" },
   { label: "Dashboard", href: "/dashboard" },
+  { label: "RSS", href: "/rss" },
   { label: "Contact", href: "/#contact" },
 ];
 

@@ -18,6 +18,7 @@ const NAV_LINKS = [
   { label: "Newsletter", href: "/newsletter" },
   { label: "Dashboard", href: "/dashboard" },
   { label: "Contact", href: "/#contact" },
+  { label: "RSS", href: "/rss" },
 ];
 
 interface NavigationProps {
