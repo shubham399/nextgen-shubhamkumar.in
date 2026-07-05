@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { wisp, GetCtasResult } from "@/lib/wisp";
 import { getMe, getSocials, getNav } from "@/lib/api";
+import { removeSynscribeAttribution } from "@/lib/utils";
 import { generateTableOfContents } from "@wisp-cms/table-of-content";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,12 +37,6 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   if (!post) notFound();
 
   const { title, publishedAt, createdAt, content, tags } = post;
-  function removeSynscribeAttribution(html: string) {
-    return html.replace(
-      /<p[^>]*>\s*<small>\s*<a[^>]*>Powered by Synscribe<\/a>\s*<\/small>\s*<\/p>/gi,
-      ""
-    ).replace(/—/g, '-');
-  }
   const cleanedContent = removeSynscribeAttribution(content);
   const { modifiedHtml, tableOfContents } = generateTableOfContents(cleanedContent);
   return (

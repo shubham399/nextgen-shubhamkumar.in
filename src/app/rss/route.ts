@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import RSS from "rss";
 import { wisp } from "@/lib/wisp";
 import { getMe } from "@/lib/api";
+import { removeSynscribeAttribution } from "@/lib/utils";
 
 export async function GET(request: NextRequest) {
   const [me, result] = await Promise.all([
@@ -26,9 +27,11 @@ export async function GET(request: NextRequest) {
 
   postsWithContent.forEach(({ post }) => {
     if (!post) return;
+    const cleaned = removeSynscribeAttribution(post.content);
+    const fullHtml = `${cleaned}<hr /><p><a href="${baseUrl}/blogs/${post.slug}">You can also read it on shubhkumar.in</a></p>`;
     feed.item({
       title: post.title,
-      description: post.content,
+      description: fullHtml,
       url: `${baseUrl}/blogs/${post.slug}`,
       date: post.publishedAt || post.updatedAt,
       categories: post.tags.map((t) => t.name),
