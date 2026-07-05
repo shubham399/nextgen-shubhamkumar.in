@@ -83,13 +83,11 @@ export default function RootLayout({
       lang="en"
       className={`dark ${spaceGrotesk.variable} ${inter.variable}`}
     >
-      <head>
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
-      </head>
       <body className="antialiased bg-surface text-on-surface font-body">
         {children}
         <MailingListPopup />
         <Analytics />
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
         <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "81cd3bc5c97945c4b8b57909f87a3926"}'></script>
       </body>
     </html>
