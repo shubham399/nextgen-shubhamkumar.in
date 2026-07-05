@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "git config core.hooksPath .githooks"
+    "postinstall": "node -e \"if(require('fs').existsSync('.git'))require('child_process').execSync('git config core.hooksPath .githooks',{stdio:'inherit'})\""
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
