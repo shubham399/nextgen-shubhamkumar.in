@@ -24,7 +24,10 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     notFound();
   }
   const [me, socials, nav, related, commentsResult, ctasResult] = await Promise.all([
-    getMe(), getSocials(), getNav(), wisp.getRelatedPosts({ slug, limit: 3 }), wisp.getComments({ slug, page: 1, limit: "all" }), wisp.getCtas({ slug, limit: 1 })
+    getMe(), getSocials(), getNav(),
+    wisp.getRelatedPosts({ slug, limit: 3 }).catch(() => ({ posts: [] })),
+    wisp.getComments({ slug, page: 1, limit: "all" }).catch(() => ({ comments: [], config: null })),
+    wisp.getCtas({ slug, limit: 1 }).catch(() => ({ ctas: [] })),
   ]);
   function getReadTime(html: string) {
     const text = html.replace(/<[^>]*>/g, ' ');
