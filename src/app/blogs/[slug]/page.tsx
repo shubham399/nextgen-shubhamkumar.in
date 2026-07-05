@@ -26,7 +26,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const [me, socials, nav, related, commentsResult, ctasResult] = await Promise.all([
     getMe(), getSocials(), getNav(),
     wisp.getRelatedPosts({ slug, limit: 3 }).catch(() => ({ posts: [] })),
-    wisp.getComments({ slug, page: 1, limit: "all" }).catch(() => ({ comments: [], config: null })),
+    wisp.getComments({ slug, page: 1, limit: "all" }).catch(() => ({ comments: [], pagination: { page: 1, limit: "all" as const, totalPages: 0, totalComments: 0, nextPage: null, prevPage: null }, config: { enabled: false, allowUrls: false, allowNested: false, reviewType: "AUTO_APPROVE" as const, signUpMessage: null } })),
     wisp.getCtas({ slug, limit: 1 }).catch(() => ({ ctas: [] })),
   ]);
   function getReadTime(html: string) {
