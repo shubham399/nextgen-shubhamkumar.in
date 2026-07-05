@@ -6,13 +6,17 @@ import { getMe } from "@/lib/api";
 export async function GET(request: NextRequest) {
   const [me, result] = await Promise.all([
     getMe(),
-    wisp.getPosts({ limit: 20 }),
+    wisp.getPosts({ limit: 10 }),
   ]);
 
   const baseUrl = new URL(request.url).origin;
 
+  const postsWithContent = await Promise.all(
+    result.posts.map((post) => wisp.getPost(post.slug))
+  );
+
   const feed = new RSS({
-    title: `${me.name} -  Blog`,
+    title: `${me.name} - Blog`,
     description: "Tales from the trenches of backend engineering, system design, and building at scale.",
     site_url: baseUrl,
     feed_url: `${baseUrl}/rss`,
@@ -20,10 +24,11 @@ export async function GET(request: NextRequest) {
     pubDate: new Date(),
   });
 
-  result.posts.forEach((post) => {
+  postsWithContent.forEach(({ post }) => {
+    if (!post) return;
     feed.item({
       title: post.title,
-      description: post.description || "",
+      description: post.content,
       url: `${baseUrl}/blogs/${post.slug}`,
       date: post.publishedAt || post.updatedAt,
       categories: post.tags.map((t) => t.name),

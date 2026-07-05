@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { wisp, GetCtasResult } from "@/lib/wisp";
 import { getMe, getSocials, getNav } from "@/lib/api";
 import { generateTableOfContents } from "@wisp-cms/table-of-content";
@@ -26,7 +27,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   }
   const post = result.post;
   const relatedPosts = related.posts;
-  if (!post) return null;
+  if (!post) notFound();
 
   const { title, publishedAt, createdAt, content, tags } = post;
   function removeSynscribeAttribution(html: string) {
