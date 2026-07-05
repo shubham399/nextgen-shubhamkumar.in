@@ -16,8 +16,14 @@ import BlogViewCounter from "@/components/BlogViewCounter";
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [me, socials, nav, result, related, commentsResult, ctasResult] = await Promise.all([
-    getMe(), getSocials(), getNav(), wisp.getPost(slug), wisp.getRelatedPosts({ slug, limit: 3 }), wisp.getComments({ slug, page: 1, limit: "all" }), wisp.getCtas({ slug, limit: 1 })
+  let result;
+  try {
+    result = await wisp.getPost(slug);
+  } catch {
+    notFound();
+  }
+  const [me, socials, nav, related, commentsResult, ctasResult] = await Promise.all([
+    getMe(), getSocials(), getNav(), wisp.getRelatedPosts({ slug, limit: 3 }), wisp.getComments({ slug, page: 1, limit: "all" }), wisp.getCtas({ slug, limit: 1 })
   ]);
   function getReadTime(html: string) {
     const text = html.replace(/<[^>]*>/g, ' ');

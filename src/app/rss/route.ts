@@ -11,9 +11,9 @@ export async function GET(request: NextRequest) {
 
   const baseUrl = new URL(request.url).origin;
 
-  const postsWithContent = await Promise.all(
+  const postsWithContent = (await Promise.allSettled(
     result.posts.map((post) => wisp.getPost(post.slug))
-  );
+  )).filter((r) => r.status === "fulfilled").map((r) => r.value);
 
   const feed = new RSS({
     title: `${me.name} - Blog`,
