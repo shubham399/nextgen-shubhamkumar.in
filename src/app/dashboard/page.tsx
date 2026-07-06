@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { fetchAPI, getWorkouts, getWorkoutSummary, getMe, getSocials, getNav } from "@/lib/api";
 import { wisp, GetPostsResult } from "@/lib/wisp";
 import { Resend } from "resend";
@@ -6,6 +7,14 @@ import SocialMetrics from "@/components/sections/SocialMetrics";
 import BlogViews from "@/components/sections/BlogViews";
 import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Dashboard — Shubham Kumar",
+    description: "Personal dashboard with blog analytics, workout tracking, and social metrics.",
+    robots: { index: false, follow: false },
+  };
+}
 
 async function getGitHubStats() {
   try {

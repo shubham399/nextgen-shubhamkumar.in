@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getMe, getTestimonials, getSocials, getNav, getExperience, getContacts } from "@/lib/api";
 import type { Experience } from "@/types";
 import Navigation from "@/components/sections/Navigation";
@@ -110,6 +111,14 @@ const TARGET_AUDIENCES = [
     icon: "ion:bulb-outline",
   },
 ];
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Consulting — Shubham Kumar",
+    description:
+      "Ship faster with expert engineering guidance. System architecture, code reviews, performance optimization, cloud infrastructure, and technical strategy.",
+  };
+}
 
 const FAQ_ITEMS = [
   {

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { wisp, GetCtasResult } from "@/lib/wisp";
 import { getMe, getSocials, getNav } from "@/lib/api";
 import { removeSynscribeAttribution } from "@/lib/utils";
@@ -14,6 +15,34 @@ import CommentSection from "@/components/sections/CommentSection";
 import BlogCtaSection from "@/components/sections/BlogCtaSection";
 import BlogToc from "@/components/sections/BlogToc";
 import BlogViewCounter from "@/components/sections/BlogViewCounter";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  try {
+    const result = await wisp.getPost(slug);
+    const post = result.post;
+    if (!post) return { title: "Blog — Shubham Kumar" };
+    return {
+      title: `${post.title} — Shubham Kumar`,
+      description: post.description || undefined,
+      openGraph: {
+        title: post.title,
+        description: post.description || undefined,
+        images: post.image ? [{ url: post.image }] : undefined,
+        type: "article",
+        publishedTime: post.publishedAt?.toISOString(),
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: post.title,
+        description: post.description || undefined,
+        images: post.image ? [post.image] : undefined,
+      },
+    };
+  } catch {
+    return { title: "Blog — Shubham Kumar" };
+  }
+}
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

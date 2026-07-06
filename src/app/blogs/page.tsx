@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { wisp, GetPostsResult } from "@/lib/wisp";
 import { getMe, getSocials, getNav } from "@/lib/api";
 import { Icon } from "@iconify/react";
@@ -10,6 +11,19 @@ import BlogListClient from "@/components/sections/BlogListClient";
 import BlogCtaSection from "@/components/sections/BlogCtaSection";
 
 export const revalidate = 3600;
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Blog — Shubham Kumar",
+    description:
+      "Tales from the trenches of backend engineering, system design, and building at scale.",
+    openGraph: {
+      title: "Blog — Shubham Kumar",
+      description:
+        "Tales from the trenches of backend engineering, system design, and building at scale.",
+    },
+  };
+}
 
 export default async function BlogListing() {
   const [me, socials, nav] = await Promise.all([

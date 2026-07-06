@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getMe, getSocials, getNav } from "@/lib/api";
 import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
@@ -5,6 +6,14 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 import { Icon } from "@iconify/react";
 import NewsletterSubscribe from "./NewsletterSubscribe";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Newsletter — Shubham Kumar",
+    description:
+      "Weekly engineering insights from the trenches — distributed systems, fintech engineering, and building things that work at scale.",
+  };
+}
 
 const BENEFITS = [
   {
