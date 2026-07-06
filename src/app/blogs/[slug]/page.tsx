@@ -56,32 +56,15 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           </Link>
 
           <header className="mb-10">
-            <div className="flex flex-wrap items-center gap-2 mb-4">
-              <span className="font-label text-xs text-on-surface-variant/60">
-                {Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(
-                  new Date(publishedAt || createdAt)
-                )}
-              </span>
-              <span className="font-label text-xs text-on-surface-variant/60">•</span>
+            <h1 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter text-on-surface leading-[1.1] mb-4">
+              {title.replace(/—/g, '-')}
+            </h1>
+            <div className="flex justify-between items-center">
               <span className="font-label text-xs text-on-surface-variant/60">
                 About {getReadTime(content)} min read
               </span>
-              <span className="font-label text-xs text-on-surface-variant/60">•</span>
               <BlogViewCounter slug={slug} />
-              {tags.length > 0 && (
-                <>
-                  <span className="w-0.5 h-0.5 rounded-full bg-outline-variant/40" />
-                  {tags.map((tag) => (
-                    <span key={tag.id} className="badge text-[10px] px-2 py-0.5">
-                      #{tag.name}
-                    </span>
-                  ))}
-                </>
-              )}
             </div>
-            <h1 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter text-on-surface leading-[1.1]">
-              {title.replace(/—/g, '-')}
-            </h1>
           </header>
 
           <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent mb-10" />
@@ -98,6 +81,23 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         </article>
 
         <BlogCtaSection cta={ctasResult.ctas[0] || null} />
+
+        <section className="section-base">
+          <div className="flex justify-between items-start gap-4 mb-12">
+            <div className="flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <span key={tag.id} className="badge text-[10px] px-2 py-0.5">
+                  #{tag.name}
+                </span>
+              ))}
+            </div>
+            <span className="font-label text-xs text-on-surface-variant/60 shrink-0">
+              {Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(
+                new Date(publishedAt || createdAt)
+              )}
+            </span>
+          </div>
+        </section>
 
         <section className="section-base">
           <AnimateOnScroll>
