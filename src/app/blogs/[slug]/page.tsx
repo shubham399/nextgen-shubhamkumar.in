@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { wisp, GetCtasResult } from "@/lib/wisp";
+import { wisp, getCachedPost, GetCtasResult } from "@/lib/wisp";
 import { getMe, getSocials, getNav } from "@/lib/api";
 import { removeSynscribeAttribution } from "@/lib/utils";
 import { generateTableOfContents } from "@wisp-cms/table-of-content";
@@ -19,7 +19,7 @@ import BlogViewCounter from "@/components/sections/BlogViewCounter";
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   try {
-    const result = await wisp.getPost(slug);
+    const result = await getCachedPost(slug);
     const post = result.post;
     if (!post) return { title: "Blog — Shubham Kumar" };
     return {
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         description: post.description || undefined,
         images: post.image ? [{ url: post.image }] : undefined,
         type: "article",
-        publishedTime: post.publishedAt?.toISOString(),
+        publishedTime: post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined,
       },
       twitter: {
         card: "summary_large_image",
@@ -48,7 +48,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   let result;
   try {
-    result = await wisp.getPost(slug);
+    result = await getCachedPost(slug);
   } catch {
     notFound();
   }
