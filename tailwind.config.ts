@@ -10,7 +10,6 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Surface hierarchy (darkest → lightest)
         "surface-tint": "#47d6ff",
         "surface-container-highest": "#353534",
         "surface-container-high": "#2a2a2a",
@@ -22,11 +21,9 @@ const config: Config = {
         "surface-dim": "#131313",
         surface: "#131313",
         background: "#131313",
-        // On-surface
         "on-surface": "#e5e2e1",
         "on-surface-variant": "#bbc9cf",
         "on-background": "#e5e2e1",
-        // Primary (cyan / teal)
         "primary-fixed": "#b6ebff",
         "primary-fixed-dim": "#47d6ff",
         primary: "#a5e7ff",
@@ -36,7 +33,6 @@ const config: Config = {
         "on-primary-fixed-variant": "#004e60",
         "on-primary-container": "#00566a",
         "inverse-primary": "#00677f",
-        // Secondary
         "secondary-fixed": "#acecff",
         "secondary-fixed-dim": "#6fd4ee",
         secondary: "#6fd4ee",
@@ -45,7 +41,6 @@ const config: Config = {
         "on-secondary-fixed": "#001f26",
         "on-secondary-fixed-variant": "#004e5c",
         "on-secondary-container": "#002e38",
-        // Tertiary
         "tertiary-fixed": "#c0e8ff",
         "tertiary-fixed-dim": "#7bd1fa",
         tertiary: "#b3e4ff",
@@ -54,12 +49,10 @@ const config: Config = {
         "on-tertiary-fixed": "#001e2b",
         "on-tertiary-fixed-variant": "#004d66",
         "on-tertiary-container": "#005671",
-        // Error
         error: "#ffb4ab",
         "error-container": "#93000a",
         "on-error": "#690005",
         "on-error-container": "#ffdad6",
-        // Misc
         outline: "#859399",
         "outline-variant": "#3c494e",
         "inverse-surface": "#e5e2e1",
@@ -86,12 +79,12 @@ const config: Config = {
         glow: "0 0 48px rgba(71,214,255,0.06)",
         "glow-md": "0 0 48px rgba(71,214,255,0.12)",
         "glow-lg": "0 0 64px rgba(71,214,255,0.18)",
+        "inner-glow": "inset 0 1px 0 rgba(165,231,255,0.15)",
       },
       backgroundImage: {
-        "primary-gradient":
-          "linear-gradient(135deg, #a5e7ff 0%, #00d2ff 100%)",
-        "primary-gradient-subtle":
-          "linear-gradient(135deg, rgba(165,231,255,0.15) 0%, rgba(0,210,255,0.15) 100%)",
+        "primary-gradient": "linear-gradient(135deg, #a5e7ff 0%, #00d2ff 100%)",
+        "primary-gradient-subtle": "linear-gradient(135deg, rgba(165,231,255,0.15) 0%, rgba(0,210,255,0.15) 100%)",
+        "gradient-text": "linear-gradient(135deg, #a5e7ff 0%, #00d2ff 100%)",
       },
       animation: {
         "fade-up": "fadeUp 0.6s ease forwards",
