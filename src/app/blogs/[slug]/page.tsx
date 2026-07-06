@@ -125,9 +125,9 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                         <Image
                           alt={post.title}
                           src={post.image}
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        fill
+                        className="object-contain transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">

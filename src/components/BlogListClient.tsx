@@ -174,7 +174,7 @@ export default function BlogListClient({ initialPosts, initialPagination, allTag
                         alt={post.title}
                         src={post.image}
                         fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="object-contain transition-transform duration-500 group-hover:scale-105"
                         sizes="(max-width: 640px) 100vw, 224px"
                       />
                     ) : (
