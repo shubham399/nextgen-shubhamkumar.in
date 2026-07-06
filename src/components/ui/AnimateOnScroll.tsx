@@ -46,7 +46,6 @@ export default function AnimateOnScroll({
   );
 }
 
-// Staggered container for grid items
 export function StaggerContainer({
   children,
   className,

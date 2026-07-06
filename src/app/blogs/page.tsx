@@ -2,12 +2,12 @@ import { wisp, GetPostsResult } from "@/lib/wisp";
 import { getMe, getSocials, getNav } from "@/lib/api";
 import { Icon } from "@iconify/react";
 
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
-import SectionHeader from "@/components/SectionHeader";
-import AnimateOnScroll from "@/components/AnimateOnScroll";
-import BlogListClient from "@/components/BlogListClient";
-import BlogCtaSection from "@/components/BlogCtaSection";
+import Navigation from "@/components/sections/Navigation";
+import Footer from "@/components/sections/Footer";
+import SectionHeader from "@/components/ui/SectionHeader";
+import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
+import BlogListClient from "@/components/sections/BlogListClient";
+import BlogCtaSection from "@/components/sections/BlogCtaSection";
 
 export const revalidate = 3600;
 

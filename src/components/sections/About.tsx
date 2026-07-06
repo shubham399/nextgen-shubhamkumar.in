@@ -1,8 +1,8 @@
 import { Icon } from "@iconify/react";
 import type { Me, Contact, Experience } from "@/types";
-import SectionHeader from "./SectionHeader";
-import AnimateOnScroll from "./AnimateOnScroll";
-import { StaggerContainer, StaggerItem } from "./AnimateOnScroll";
+import SectionHeader from "../ui/SectionHeader";
+import AnimateOnScroll from "../ui/AnimateOnScroll";
+import { StaggerContainer, StaggerItem } from "../ui/AnimateOnScroll";
 
 interface AboutProps {
   me: Me;

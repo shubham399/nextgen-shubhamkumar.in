@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { Icon } from "@iconify/react";
-import AnimateOnScroll from "./AnimateOnScroll";
+import AnimateOnScroll from "../ui/AnimateOnScroll";
 import type { GetCommentsResult } from "@/lib/wisp";
 
 interface CommentSectionProps {

@@ -10,16 +10,16 @@ import {
   getCertificates,
 } from "@/lib/api";
 
-import Navigation from "@/components/Navigation";
-import Hero from "@/components/Hero";
-import About from "@/components/About";
-import ExperienceSection from "@/components/Experience";
-import Skills from "@/components/Skills";
-import Services from "@/components/Services";
-import Testimonials from "@/components/Testimonials";
-import Certificates from "@/components/Certificates";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
+import Navigation from "@/components/sections/Navigation";
+import Hero from "@/components/sections/Hero";
+import About from "@/components/sections/About";
+import ExperienceSection from "@/components/sections/Experience";
+import Skills from "@/components/sections/Skills";
+import Services from "@/components/sections/Services";
+import Testimonials from "@/components/sections/Testimonials";
+import Certificates from "@/components/sections/Certificates";
+import Contact from "@/components/sections/Contact";
+import Footer from "@/components/sections/Footer";
 
 // All data fetched in parallel on the server
 export default async function Home() {

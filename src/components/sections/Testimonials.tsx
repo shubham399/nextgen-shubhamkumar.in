@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@iconify/react";
 import type { Testimonial } from "@/types";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "../ui/SectionHeader";
 
 interface TestimonialsProps {
   testimonials: Testimonial[];

@@ -1,6 +1,6 @@
 import type { Skill } from "@/types";
-import SectionHeader from "./SectionHeader";
-import { StaggerContainer, StaggerItem } from "./AnimateOnScroll";
+import SectionHeader from "../ui/SectionHeader";
+import { StaggerContainer, StaggerItem } from "../ui/AnimateOnScroll";
 
 interface SkillsProps {
   skills: Skill[];

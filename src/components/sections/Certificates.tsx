@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import type { Certificate } from "@/types";
-import SectionHeader from "./SectionHeader";
-import { StaggerContainer, StaggerItem } from "./AnimateOnScroll";
+import SectionHeader from "../ui/SectionHeader";
+import { StaggerContainer, StaggerItem } from "../ui/AnimateOnScroll";
 
 interface CertificatesProps {
   certificates: Certificate[];

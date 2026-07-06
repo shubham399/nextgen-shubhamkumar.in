@@ -1,5 +1,5 @@
 import type { Workout, WorkoutSummary } from "@/types";
-import AnimateOnScroll from "./AnimateOnScroll";
+import AnimateOnScroll from "../ui/AnimateOnScroll";
 import { Icon } from "@iconify/react";
 
 interface WorkoutDashboardProps {

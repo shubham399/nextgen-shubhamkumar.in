@@ -6,7 +6,7 @@ import { Icon } from "@iconify/react";
 import type { Me, Nav, Social } from "@/types";
 import { NAV_LINKS } from "@/lib/navigation";
 import CTA from "./CTA";
-import { UTMLink } from "./UTMLink";
+import { UTMLink } from "../ui/UTMLink";
 
 interface NavigationProps {
   nav: Nav;

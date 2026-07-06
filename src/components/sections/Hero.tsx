@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import type { Me, Social, Nav, Experience } from "@/types";
-import { UTMLink } from "./UTMLink";
+import { UTMLink } from "../ui/UTMLink";
 import CTA from "./CTA";
 
 interface HeroProps {

@@ -1,9 +1,9 @@
 import Image from "next/image";
 import type { Experience } from "@/types";
-import SectionHeader from "./SectionHeader";
-import AnimateOnScroll from "./AnimateOnScroll";
-import { StaggerContainer, StaggerItem } from "./AnimateOnScroll";
-import { UTMLink } from "./UTMLink";
+import SectionHeader from "../ui/SectionHeader";
+import AnimateOnScroll from "../ui/AnimateOnScroll";
+import { StaggerContainer, StaggerItem } from "../ui/AnimateOnScroll";
+import { UTMLink } from "../ui/UTMLink";
 
 interface ExperienceProps {
   experiences: Experience[];

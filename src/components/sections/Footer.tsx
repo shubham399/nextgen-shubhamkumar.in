@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import type { Social, Nav, Me } from "@/types";
 import { NAV_LINKS } from "@/lib/navigation";
-import { UTMLink } from "./UTMLink";
+import { UTMLink } from "../ui/UTMLink";
 
 interface FooterProps {
   socials: Social[];

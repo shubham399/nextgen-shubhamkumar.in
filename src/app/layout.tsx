@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next"
-import MailingListPopup from "@/components/MailingListPopup";
+import MailingListPopup from "@/components/sections/MailingListPopup";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 

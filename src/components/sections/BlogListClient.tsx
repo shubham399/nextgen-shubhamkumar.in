@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
-import { StaggerContainer, StaggerItem } from "./AnimateOnScroll";
+import { StaggerContainer, StaggerItem } from "../ui/AnimateOnScroll";
 import type { GetPostsResult, GetTagsResult } from "@/lib/wisp";
 
 interface BlogListClientProps {

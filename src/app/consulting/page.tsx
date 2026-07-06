@@ -1,15 +1,15 @@
 import { getMe, getTestimonials, getSocials, getNav, getExperience, getContacts } from "@/lib/api";
 import type { Experience } from "@/types";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
-import SectionHeader from "@/components/SectionHeader";
-import AnimateOnScroll, { StaggerContainer, StaggerItem } from "@/components/AnimateOnScroll";
-import CTA from "@/components/CTA";
+import Navigation from "@/components/sections/Navigation";
+import Footer from "@/components/sections/Footer";
+import SectionHeader from "@/components/ui/SectionHeader";
+import AnimateOnScroll, { StaggerContainer, StaggerItem } from "@/components/ui/AnimateOnScroll";
+import CTA from "@/components/sections/CTA";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
-import { UTMLink } from "@/components/UTMLink";
-import Testimonials from "@/components/Testimonials";
-import Contact from "@/components/Contact";
+import { UTMLink } from "@/components/ui/UTMLink";
+import Testimonials from "@/components/sections/Testimonials";
+import Contact from "@/components/sections/Contact";
 
 function getYearsOfExperience(experience: Experience[]): string {
   const starts = experience.filter((e) => !e.skip).map((e) => new Date(e.start).getFullYear());

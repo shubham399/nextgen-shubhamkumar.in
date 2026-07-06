@@ -1,11 +1,11 @@
 import { fetchAPI, getWorkouts, getWorkoutSummary, getMe, getSocials, getNav } from "@/lib/api";
 import { wisp, GetPostsResult } from "@/lib/wisp";
 import { Resend } from "resend";
-import WorkoutDashboard from "@/components/WorkoutDashboard";
-import SocialMetrics from "@/components/SocialMetrics";
-import BlogViews from "@/components/BlogViews";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
+import WorkoutDashboard from "@/components/sections/WorkoutDashboard";
+import SocialMetrics from "@/components/sections/SocialMetrics";
+import BlogViews from "@/components/sections/BlogViews";
+import Navigation from "@/components/sections/Navigation";
+import Footer from "@/components/sections/Footer";
 
 async function getGitHubStats() {
   try {

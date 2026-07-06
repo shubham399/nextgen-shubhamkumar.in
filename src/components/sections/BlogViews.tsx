@@ -1,5 +1,5 @@
 import { fetchAPI } from "@/lib/api";
-import AnimateOnScroll from "./AnimateOnScroll";
+import AnimateOnScroll from "../ui/AnimateOnScroll";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 

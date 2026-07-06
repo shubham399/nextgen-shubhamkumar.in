@@ -7,13 +7,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
-import AnimateOnScroll, { StaggerContainer, StaggerItem } from "@/components/AnimateOnScroll";
-import CommentSection from "@/components/CommentSection";
-import BlogCtaSection from "@/components/BlogCtaSection";
-import BlogToc from "@/components/BlogToc";
-import BlogViewCounter from "@/components/BlogViewCounter";
+import Navigation from "@/components/sections/Navigation";
+import Footer from "@/components/sections/Footer";
+import AnimateOnScroll, { StaggerContainer, StaggerItem } from "@/components/ui/AnimateOnScroll";
+import CommentSection from "@/components/sections/CommentSection";
+import BlogCtaSection from "@/components/sections/BlogCtaSection";
+import BlogToc from "@/components/sections/BlogToc";
+import BlogViewCounter from "@/components/sections/BlogViewCounter";
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

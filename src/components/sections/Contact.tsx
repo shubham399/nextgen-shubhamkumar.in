@@ -1,8 +1,8 @@
 import { Icon } from "@iconify/react";
 import type { Contact, Me, Social } from "@/types";
-import SectionHeader from "./SectionHeader";
-import AnimateOnScroll from "./AnimateOnScroll";
-import { UTMLink } from "./UTMLink";
+import SectionHeader from "../ui/SectionHeader";
+import AnimateOnScroll from "../ui/AnimateOnScroll";
+import { UTMLink } from "../ui/UTMLink";
 import CTA from "./CTA";
 
 interface ContactProps {

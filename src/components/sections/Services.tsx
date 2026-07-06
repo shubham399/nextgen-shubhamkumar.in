@@ -1,6 +1,6 @@
 import type { Service } from "@/types";
-import SectionHeader from "./SectionHeader";
-import { StaggerContainer, StaggerItem } from "./AnimateOnScroll";
+import SectionHeader from "../ui/SectionHeader";
+import { StaggerContainer, StaggerItem } from "../ui/AnimateOnScroll";
 
 interface ServicesProps {
   services: Service[];

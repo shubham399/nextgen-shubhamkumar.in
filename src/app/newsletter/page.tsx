@@ -1,8 +1,8 @@
 import { getMe, getSocials, getNav } from "@/lib/api";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
-import SectionHeader from "@/components/SectionHeader";
-import AnimateOnScroll from "@/components/AnimateOnScroll";
+import Navigation from "@/components/sections/Navigation";
+import Footer from "@/components/sections/Footer";
+import SectionHeader from "@/components/ui/SectionHeader";
+import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 import { Icon } from "@iconify/react";
 import NewsletterSubscribe from "./NewsletterSubscribe";
 
