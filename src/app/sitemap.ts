@@ -4,14 +4,16 @@ import { wisp } from "@/lib/wisp";
 const BASE_URL = "https://www.shubhkumar.in";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const { posts } = await wisp.getPosts({ limit: "all" });
-
-  const blogPosts = posts.map((post) => ({
-    url: `${BASE_URL}/blogs/${post.slug}`,
-    lastModified: new Date(post.updatedAt ?? post.publishedAt ?? post.createdAt),
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  }));
+  let blogPosts: MetadataRoute.Sitemap = [];
+  try {
+    const { posts } = await wisp.getPosts({ limit: "all" });
+    blogPosts = posts.map((post) => ({
+      url: `${BASE_URL}/blogs/${post.slug}`,
+      lastModified: new Date(post.updatedAt ?? post.publishedAt ?? post.createdAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    }));
+  } catch {}
 
   return [
     {

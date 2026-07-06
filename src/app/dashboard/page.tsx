@@ -1,5 +1,5 @@
 import { fetchAPI, getWorkouts, getWorkoutSummary, getMe, getSocials, getNav } from "@/lib/api";
-import { wisp } from "@/lib/wisp";
+import { wisp, GetPostsResult } from "@/lib/wisp";
 import { Resend } from "resend";
 import WorkoutDashboard from "@/components/WorkoutDashboard";
 import SocialMetrics from "@/components/SocialMetrics";
@@ -64,8 +64,12 @@ async function getTotalBlogViews(slugs: string[]): Promise<number> {
 }
 
 export default async function Dashboard() {
-  const [allPosts, workouts, summary, me, socials, nav, github, twitterFollowers, subscribers] = await Promise.all([
-    wisp.getPosts({ limit: 100 }),
+  let allPosts: GetPostsResult = { posts: [], pagination: { page: 1, limit: 100, totalPages: 0, totalPosts: 0, nextPage: null, prevPage: null } };
+  try {
+    allPosts = await wisp.getPosts({ limit: 100 });
+  } catch {}
+
+  const [workouts, summary, me, socials, nav, github, twitterFollowers, subscribers] = await Promise.all([
     getWorkouts(),
     getWorkoutSummary(),
     getMe(),

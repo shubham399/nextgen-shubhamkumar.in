@@ -1,4 +1,4 @@
-import { wisp } from "@/lib/wisp";
+import { wisp, GetPostsResult } from "@/lib/wisp";
 import { getMe, getSocials, getNav } from "@/lib/api";
 import { Icon } from "@iconify/react";
 
@@ -12,17 +12,23 @@ import BlogCtaSection from "@/components/BlogCtaSection";
 export const revalidate = 3600;
 
 export default async function BlogListing() {
-  const [me, socials, nav, result, allPublished] = await Promise.all([
-    getMe(), getSocials(), getNav(), wisp.getPosts({ page: 1, limit: 6 }), wisp.getPosts({ limit: "all" }),
+  const [me, socials, nav] = await Promise.all([
+    getMe(), getSocials(), getNav(),
   ]);
 
-  const tagMap = new Map<string, { id: string; name: string; description: string | null }>();
-  for (const post of allPublished.posts) {
-    for (const tag of post.tags) {
-      if (!tagMap.has(tag.id)) tagMap.set(tag.id, { id: tag.id, name: tag.name, description: null });
+  let result = { posts: [], pagination: { page: 1, limit: 6, totalPages: 0, totalPosts: 0, nextPage: null, prevPage: null } } as GetPostsResult;
+  let publishedTags: { id: string; name: string; description: string | null }[] = [];
+  try {
+    result = await wisp.getPosts({ page: 1, limit: 6 });
+    const allPublished = await wisp.getPosts({ limit: "all" });
+    const tagMap = new Map<string, { id: string; name: string; description: string | null }>();
+    for (const post of allPublished.posts) {
+      for (const tag of post.tags) {
+        if (!tagMap.has(tag.id)) tagMap.set(tag.id, { id: tag.id, name: tag.name, description: null });
+      }
     }
-  }
-  const publishedTags = Array.from(tagMap.values());
+    publishedTags = Array.from(tagMap.values());
+  } catch {}
 
   return (
     <>
