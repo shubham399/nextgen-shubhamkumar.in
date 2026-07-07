@@ -16,6 +16,7 @@ const BASE_URL = process.env.API_URL || "http://localhost:3001";
 
 interface FetchAPIOptions {
   method?: "GET" | "POST";
+  bypassCache?: boolean;
 }
 
 async function fetchAPI<T>(path: string, options?: FetchAPIOptions): Promise<T> {
@@ -28,11 +29,18 @@ async function fetchAPI<T>(path: string, options?: FetchAPIOptions): Promise<T> 
     headers["x-internal-secret"] = secret;
   }
 
-  const res = await fetch(`${BASE_URL}${path}`, {
+  const fetchOptions: RequestInit & { next?: { revalidate: number } } = {
     method: options?.method ?? "GET",
-    next: { revalidate: 600 },
     headers,
-  });
+  };
+
+  if (options?.bypassCache) {
+    fetchOptions.cache = "no-store";
+  } else {
+    fetchOptions.next = { revalidate: 600 };
+  }
+
+  const res = await fetch(`${BASE_URL}${path}`, fetchOptions);
 
   if (!res.ok) {
     throw new Error(`Failed to fetch ${path}: ${res.status}`);
