@@ -1,0 +1,37 @@
+# https://www.shubhkumar.in/robots.txt
+User-agent: *
+Allow: /
+
+# Blog posts - allow all slugs
+Allow: /blogs/*
+Allow: /blogs
+
+# LLM-specific files
+Allow: /llms.txt
+Allow: /llms-full.txt
+
+# Disallow internal/technical paths
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+Sitemap: https://www.shubhkumar.in/sitemap.xml
+
+# LLM access
+User-agent: GPTBot
+Allow: /
+Allow: /blogs/*
+Allow: /llms.txt
+Allow: /llms-full.txt
+
+User-agent: Google-Extended
+Allow: /
+Allow: /blogs/*
+Allow: /llms.txt
+Allow: /llms-full.txt
+
+User-agent: ClaudeBot
+Allow: /
+Allow: /blogs/*
+Allow: /llms.txt
+Allow: /llms-full.txt

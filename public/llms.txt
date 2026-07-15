@@ -1,0 +1,26 @@
+# Shubham Kumar - Software Engineer
+
+## About
+Backend engineer specializing in system design, scalable architectures, and building at scale. Focused on Node.js, TypeScript, distributed systems, and cloud infrastructure.
+
+## Site Structure
+- Home: https://www.shubhkumar.in
+- Blog: https://www.shubhkumar.in/blogs
+- Blog posts: https://www.shubhkumar.in/blogs/{slug}
+
+## Content
+Blog posts cover backend engineering, system design, DevOps, and building production-grade applications. Posts are published via Wisp CMS.
+
+## API
+- Me: https://www.shubhkumar.in/api/me
+- Socials: https://www.shubhkumar.in/api/socials
+- Contacts: https://www.shubhkumar.in/api/contacts
+- Nav: https://www.shubhkumar.in/api/nav
+- Experience: https://www.shubhkumar.in/api/experience
+- Skills: https://www.shubhkumar.in/api/skills
+- Services: https://www.shubhkumar.in/api/services
+- Testimonials: https://www.shubhkumar.in/api/testimonials
+- Certificates: https://www.shubhkumar.in/api/certificates
+
+## Full Content
+For full blog content, see: https://www.shubhkumar.in/llms-full.txt

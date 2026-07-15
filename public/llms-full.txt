@@ -1,0 +1,28 @@
+# Shubham Kumar - Full Content
+
+## About
+Backend engineer specializing in system design, scalable architectures, and building at scale. Focused on Node.js, TypeScript, distributed systems, and cloud infrastructure.
+
+## Experience
+Senior Backend Engineer with expertise in building high-throughput systems, microservices architectures, and real-time data pipelines. Proficient in Node.js, TypeScript, Python, Go, PostgreSQL, Redis, Kafka, Docker, Kubernetes, and AWS.
+
+## Skills
+- Languages: TypeScript, JavaScript, Python, Go
+- Backend: Node.js, Express, Fastify, NestJS
+- Databases: PostgreSQL, MongoDB, Redis, DynamoDB
+- Infrastructure: AWS, Docker, Kubernetes, Terraform
+- Messaging: Kafka, RabbitMQ, Redis Streams
+- Monitoring: Datadog, Grafana, Prometheus
+
+## Services
+- Backend system architecture and development
+- API design and implementation
+- Database design and optimization
+- Cloud infrastructure setup and management
+- Performance optimization and scaling
+- Code review and technical consulting
+
+## Blog
+All blog posts are available at https://www.shubhkumar.in/blogs. Each post can be accessed at https://www.shubhkumar.in/blogs/{slug}.
+
+For the complete index of all blog posts, visit the blog listing page.
