@@ -36,8 +36,27 @@ export default async function Home() {
       getCertificates(),
     ]);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: me.name,
+    url: "https://www.shubhkumar.in",
+    image: me.avatarUrl,
+    jobTitle: "Associate Lead Engineer",
+    description: me.about,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: me.location,
+    },
+    sameAs: socials.map((s) => s.href),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navigation me={me} nav={nav} socials={socials} />
 
       <main>

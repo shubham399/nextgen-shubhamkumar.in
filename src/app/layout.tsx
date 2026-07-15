@@ -78,11 +78,30 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Shubham Kumar",
+    url: "https://www.shubhkumar.in",
+    jobTitle: "Associate Lead Engineer",
+    sameAs: [
+      "https://github.com/shubhamkumar",
+      "https://linkedin.com/in/shubhamkumar",
+      "https://twitter.com/shubhamkumar",
+    ],
+  };
+
   return (
     <html
       lang="en"
       className={`dark ${spaceGrotesk.variable} ${inter.variable}`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="antialiased bg-surface text-on-surface font-body">
         {children}
         <MailingListPopup />

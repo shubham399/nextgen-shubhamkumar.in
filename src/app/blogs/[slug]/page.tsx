@@ -28,15 +28,25 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       openGraph: {
         title: post.title,
         description: post.description || undefined,
-        images: post.image ? [{ url: post.image }] : undefined,
+        url: `https://www.shubhkumar.in/blogs/${slug}`,
+        siteName: "Shubham Kumar",
+        images: post.image ? [{ url: post.image, width: 1200, height: 630, alt: post.title }] : undefined,
+        locale: "en_US",
         type: "article",
         publishedTime: post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined,
+        modifiedTime: post.updatedAt ? new Date(post.updatedAt).toISOString() : undefined,
+        authors: ["Shubham Kumar"],
+        tags: post.tags.map((t) => t.name),
       },
       twitter: {
         card: "summary_large_image",
         title: post.title,
         description: post.description || undefined,
         images: post.image ? [post.image] : undefined,
+        creator: "@shubhamkumar",
+      },
+      alternates: {
+        canonical: `https://www.shubhkumar.in/blogs/${slug}`,
       },
     };
   } catch {
@@ -71,8 +81,39 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const { title, publishedAt, createdAt, content, tags } = post;
   const cleanedContent = removeSynscribeAttribution(content);
   const { modifiedHtml, tableOfContents } = generateTableOfContents(cleanedContent);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: title,
+    description: post.description || undefined,
+    image: post.image || undefined,
+    url: `https://www.shubhkumar.in/blogs/${slug}`,
+    datePublished: publishedAt ? new Date(publishedAt).toISOString() : undefined,
+    dateModified: post.updatedAt ? new Date(post.updatedAt).toISOString() : undefined,
+    author: {
+      "@type": "Person",
+      name: me.name,
+      url: "https://www.shubhkumar.in",
+    },
+    publisher: {
+      "@type": "Person",
+      name: me.name,
+      url: "https://www.shubhkumar.in",
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://www.shubhkumar.in/blogs/${slug}`,
+    },
+    keywords: tags.map((t) => t.name),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navigation me={me} nav={nav} socials={socials} />
       <main>
         <article className="section-base pt-36">

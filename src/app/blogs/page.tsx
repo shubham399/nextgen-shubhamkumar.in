@@ -21,6 +21,28 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "Blog — Shubham Kumar",
       description:
         "Tales from the trenches of backend engineering, system design, and building at scale.",
+      url: "https://www.shubhkumar.in/blogs",
+      siteName: "Shubham Kumar",
+      images: [
+        {
+          url: "https://www.shubhkumar.in/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: "Shubham Kumar Blog",
+        },
+      ],
+      locale: "en_US",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Blog — Shubham Kumar",
+      description:
+        "Tales from the trenches of backend engineering, system design, and building at scale.",
+      creator: "@shubhamkumar",
+    },
+    alternates: {
+      canonical: "https://www.shubhkumar.in/blogs",
     },
   };
 }

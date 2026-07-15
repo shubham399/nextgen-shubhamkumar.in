@@ -52,8 +52,33 @@ export default function Skills({ skills }: SkillsProps) {
     {} as Record<string, Skill[]>
   );
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    name: "Tech Stack - Shubham Kumar",
+    description: "Languages, frameworks, and platforms used by Shubham Kumar",
+    programmingLanguage: skills
+      .filter((s) => s.category.toLowerCase() === "programming language")
+      .map((s) => s.skill),
+    runtimePlatform: skills
+      .filter((s) => s.category.toLowerCase() === "framework and runtime")
+      .map((s) => s.skill),
+    softwareRequirements: skills
+      .filter((s) => s.category.toLowerCase() === "tools")
+      .map((s) => s.skill),
+    author: {
+      "@type": "Person",
+      name: "Shubham Kumar",
+      url: "https://www.shubhkumar.in",
+    },
+  };
+
   return (
     <section id="skills" className="section-base">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <SectionHeader
         label="Tech Stack"
         title="Tools of the trade"
