@@ -107,3 +107,8 @@ export interface WorkoutSummary {
 export interface DailyViewsResponse {
   days: { date: string; views: number }[];
 }
+
+export interface BlogViewsSummary {
+  total: number;
+  daily: Record<string, number>;
+}

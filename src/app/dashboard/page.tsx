@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { fetchAPI, getWorkouts, getWorkoutSummary, getMe, getSocials, getNav } from "@/lib/api";
-import { wisp, GetPostsResult } from "@/lib/wisp";
+import { getWorkouts, getWorkoutSummary, getMe, getSocials, getNav } from "@/lib/api";
 import { Resend } from "resend";
 import WorkoutDashboard from "@/components/sections/WorkoutDashboard";
 import SocialMetrics from "@/components/sections/SocialMetrics";
@@ -59,25 +58,7 @@ async function getSubscriberCount(): Promise<number> {
   }
 }
 
-async function getTotalBlogViews(slugs: string[]): Promise<number> {
-  try {
-    const results = await Promise.all(
-      slugs.map((slug) =>
-        fetchAPI<{ total: number }>(`/api/blog/views/${slug}?readonly=true`).catch(() => ({ total: 0 }))
-      )
-    );
-    return results.reduce((sum, r) => sum + (r.total || 0), 0);
-  } catch {
-    return 0;
-  }
-}
-
 export default async function Dashboard() {
-  let allPosts: GetPostsResult = { posts: [], pagination: { page: 1, limit: 100, totalPages: 0, totalPosts: 0, nextPage: null, prevPage: null } };
-  try {
-    allPosts = await wisp.getPosts({ limit: 100 });
-  } catch {}
-
   const [workouts, summary, me, socials, nav, github, twitterFollowers, subscribers] = await Promise.all([
     getWorkouts().catch(() => []),
     getWorkoutSummary().catch(() => null),
@@ -89,14 +70,6 @@ export default async function Dashboard() {
     getSubscriberCount(),
   ]);
 
-  const slugs = allPosts.posts.filter((p) => p.slug).map((p) => p.slug);
-  const totalViews = slugs.length > 0 ? await getTotalBlogViews(slugs) : 0;
-
-  const blogTitles: Record<string, string> = {};
-  for (const p of allPosts.posts) {
-    if (p.slug) blogTitles[p.slug] = p.title;
-  }
-
   return (
     <>
       {me && nav && socials && <Navigation me={me} nav={nav} socials={socials} />}
@@ -105,14 +78,14 @@ export default async function Dashboard() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
         </div>
-        <BlogViews slugs={slugs} blogTitles={blogTitles} />
+        <BlogViews />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
         </div>
         <SocialMetrics
           socials={socials ?? []}
-          blogCount={allPosts.pagination.totalPosts}
-          totalViews={totalViews}
+          blogCount={0}
+          totalViews={0}
           github={github}
           twitterFollowers={twitterFollowers}
           subscribers={subscribers}

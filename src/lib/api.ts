@@ -11,6 +11,7 @@ import type {
   Workout,
   WorkoutSummary,
   DailyViewsResponse,
+  BlogViewsSummary,
 } from "@/types";
 
 const BASE_URL = process.env.API_URL || "http://localhost:3001";
@@ -66,3 +67,5 @@ export const getWorkouts = () => fetchAPI<Workout[]>("/api/workouts");
 export const getWorkoutSummary = () => fetchAPI<WorkoutSummary>("/api/workouts/summary");
 
 export const getDailyViews = () => fetchAPI<DailyViewsResponse>("/api/blog/views/daily");
+
+export const getBlogViewsSummary = () => fetchAPI<BlogViewsSummary>("/api/blog/views/summary");

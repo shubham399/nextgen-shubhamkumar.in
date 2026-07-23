@@ -1,40 +1,24 @@
-import { fetchAPI, getDailyViews } from "@/lib/api";
-import type { DailyViewsResponse } from "@/types";
+import { getBlogViewsSummary } from "@/lib/api";
 import AnimateOnScroll from "../ui/AnimateOnScroll";
 import { Icon } from "@iconify/react";
-import Link from "next/link";
 import DailyViewsChart from "../ui/DailyViewsChart";
 
-interface BlogViewsProps {
-  slugs: string[];
-  blogTitles: Record<string, string>;
-}
-
-export default async function BlogViews({ slugs, blogTitles }: BlogViewsProps) {
-  let viewsData: { slug: string; total: number; daily: number }[] = [];
+export default async function BlogViews() {
+  let total = 0;
+  let daily: Record<string, number> = {};
   try {
-    viewsData = await Promise.all(
-      slugs.map(async (slug) => {
-        try {
-          const data = await fetchAPI<{ total: number; daily: number }>(
-            `/api/blog/views/${slug}?readonly=true`
-          );
-          return { slug, total: data.total, daily: data.daily };
-        } catch {
-          return { slug, total: 0, daily: 0 };
-        }
-      })
-    );
+    const summary = await getBlogViewsSummary();
+    total = summary.total;
+    daily = summary.daily;
   } catch {}
-  let dailyData: DailyViewsResponse = { days: [] };
-  try {
-    dailyData = await getDailyViews();
-  } catch {}
-  const todayViews = viewsData.reduce((sum, v) => sum + v.daily, 0);
-  const totalViews = viewsData.reduce((sum, v) => sum + v.total, 0);
-  const sorted = [...viewsData].sort((a, b) => b.total - a.total).slice(0, 5);
 
-  if (!viewsData.length) return null;
+  const today = new Date().toISOString().slice(0, 10);
+  const todayViews = daily[today] ?? 0;
+
+  const days = Object.keys(daily)
+    .sort()
+    .slice(-7)
+    .map((date) => ({ date, views: daily[date] }));
 
   return (
     <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 md:pb-24">
@@ -69,7 +53,7 @@ export default async function BlogViews({ slugs, blogTitles }: BlogViewsProps) {
               Views (Last 7 Days)
             </h3>
             <div className="flex-1 min-h-0">
-              <DailyViewsChart days={dailyData.days ?? []} />
+              <DailyViewsChart days={days} />
             </div>
           </div>
         </AnimateOnScroll>
