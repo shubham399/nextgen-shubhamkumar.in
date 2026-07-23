@@ -47,7 +47,7 @@ export default function DailyViewsChart({ days }: DailyViewsChartProps) {
             fontSize: 12,
             color: "var(--color-on-surface)",
           }}
-          formatter={(value: number) => [value.toLocaleString(), "views"]}
+          formatter={(value) => [Number(value).toLocaleString(), "views"]}
           labelFormatter={(label) => label}
         />
         <Bar
