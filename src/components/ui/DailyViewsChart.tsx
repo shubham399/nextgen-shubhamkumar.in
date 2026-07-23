@@ -29,23 +29,23 @@ export default function DailyViewsChart({ days }: DailyViewsChartProps) {
       <BarChart data={chartData} margin={{ top: 4, right: 4, left: -16, bottom: 0 }}>
         <XAxis
           dataKey="label"
-          tick={{ fontSize: 10, fill: "var(--color-on-surface-variant)" }}
+          tick={{ fontSize: 10, fill: "#bbc9cf" }}
           axisLine={false}
           tickLine={false}
         />
         <YAxis
-          tick={{ fontSize: 10, fill: "var(--color-on-surface-variant)" }}
+          tick={{ fontSize: 10, fill: "#bbc9cf" }}
           axisLine={false}
           tickLine={false}
           allowDecimals={false}
         />
         <Tooltip
           contentStyle={{
-            background: "var(--color-surface-container-high)",
+            background: "#2a2a2a",
             border: "none",
             borderRadius: 8,
             fontSize: 12,
-            color: "var(--color-on-surface)",
+            color: "#e5e2e1",
           }}
           formatter={(value) => [Number(value).toLocaleString(), "views"]}
           labelFormatter={(label) => label}
@@ -53,6 +53,7 @@ export default function DailyViewsChart({ days }: DailyViewsChartProps) {
         <Bar
           dataKey="views"
           fill="#a5e7ff"
+          activeBar={{ fill: "#00d2ff" }}
           radius={[4, 4, 0, 0]}
           maxBarSize={32}
         />
