@@ -26,7 +26,7 @@ export default function DailyViewsChart({ days }: DailyViewsChartProps) {
 
   return (
     <ResponsiveContainer width="100%" height={180}>
-      <BarChart data={chartData} margin={{ top: 4, right: 4, left: -16, bottom: 0 }} cursor={{ fill: "rgba(165, 231, 255, 0.1)" }}>
+      <BarChart data={chartData} margin={{ top: 4, right: 4, left: -16, bottom: 0 }}>
         <XAxis
           dataKey="label"
           tick={{ fontSize: 10, fill: "#bbc9cf" }}
