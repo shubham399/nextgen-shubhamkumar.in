@@ -103,3 +103,7 @@ export interface WorkoutSummary {
   preferredTimeOfDay: string;
   calendar: Record<string, string>;
 }
+
+export interface DailyViewsResponse {
+  days: { date: string; views: number }[];
+}
