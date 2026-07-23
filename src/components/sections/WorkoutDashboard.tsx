@@ -7,7 +7,7 @@ interface WorkoutDashboardProps {
   summary: WorkoutSummary;
 }
 
-function getMonthGrid(calendar: Record<string, boolean>, workouts: Workout[]) {
+function getMonthGrid(calendar: Record<string, string>, workouts: Workout[]) {
   const now = new Date();
   let year = now.getFullYear();
   let month = now.getMonth() + 1;
@@ -28,11 +28,6 @@ function getMonthGrid(calendar: Record<string, boolean>, workouts: Workout[]) {
     }
   }
 
-  const dateTypeMap = new Map<string, string>();
-  for (const w of workouts) {
-    if (w.createdAt && !dateTypeMap.has(w.createdAt)) dateTypeMap.set(w.createdAt, w.type);
-  }
-
   const daysInMonth = new Date(year, month, 0).getDate();
   const firstDayOfWeek = (new Date(year, month - 1, 1).getDay() + 6) % 7;
 
@@ -42,11 +37,11 @@ function getMonthGrid(calendar: Record<string, boolean>, workouts: Workout[]) {
   for (let i = 0; i < firstDayOfWeek; i++) cells.push({ day: 0, type: null, skipped: false });
   for (let d = 1; d <= daysInMonth; d++) {
     const dateStr = `${year}-${String(month).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-    const hasWorkout = !!calendar[dateStr];
+    const calValue = calendar[dateStr];
     cells.push({
       day: d,
-      type: hasWorkout ? (dateTypeMap.get(dateStr) ?? "gym") : null,
-      skipped: !hasWorkout && dateStr < todayStr,
+      type: calValue ?? null,
+      skipped: !calValue && dateStr < todayStr,
     });
   }
   return { year, month, cells };
@@ -151,10 +146,6 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
                   <span className="font-label text-[10px] text-on-surface-variant/50 capitalize">{type}</span>
                 </div>
               ))}
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: "#f87171" }} />
-                <span className="font-label text-[10px] text-on-surface-variant/50 capitalize">skipped</span>
-              </div>
             </div>
           </div>
         </AnimateOnScroll>

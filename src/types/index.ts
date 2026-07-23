@@ -101,5 +101,5 @@ export interface WorkoutSummary {
   totalVolumeKg: number;
   totalSets: number;
   preferredTimeOfDay: string;
-  calendar: Record<string, boolean>;
+  calendar: Record<string, string>;
 }
