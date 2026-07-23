@@ -69,7 +69,7 @@ export default async function BlogViews({ slugs, blogTitles }: BlogViewsProps) {
               Views (Last 7 Days)
             </h3>
             <div className="flex-1 min-h-0">
-              <DailyViewsChart days={dailyData.days} />
+              <DailyViewsChart days={dailyData.days ?? []} />
             </div>
           </div>
         </AnimateOnScroll>
