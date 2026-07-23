@@ -1,7 +1,9 @@
-import { fetchAPI } from "@/lib/api";
+import { fetchAPI, getDailyViews } from "@/lib/api";
+import type { DailyViewsResponse } from "@/types";
 import AnimateOnScroll from "../ui/AnimateOnScroll";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import DailyViewsChart from "../ui/DailyViewsChart";
 
 interface BlogViewsProps {
   slugs: string[];
@@ -23,6 +25,10 @@ export default async function BlogViews({ slugs, blogTitles }: BlogViewsProps) {
         }
       })
     );
+  } catch {}
+  let dailyData: DailyViewsResponse = { days: [] };
+  try {
+    dailyData = await getDailyViews();
   } catch {}
   const todayViews = viewsData.reduce((sum, v) => sum + v.daily, 0);
   const totalViews = viewsData.reduce((sum, v) => sum + v.total, 0);
@@ -57,52 +63,14 @@ export default async function BlogViews({ slugs, blogTitles }: BlogViewsProps) {
         </AnimateOnScroll>
 
         <AnimateOnScroll className="md:col-span-3" delay={0.05}>
-          <div className="bg-surface-container-low rounded-2xl p-5 inner-glow">
-            <h3 className="font-headline font-semibold text-sm tracking-tight text-on-surface mb-4 flex items-center gap-2">
-              <Icon icon="ion:heart-outline" width={14} className="text-primary" />
-              Most Popular Blogs
+          <div className="bg-surface-container-low rounded-2xl p-5 inner-glow h-full flex flex-col">
+            <h3 className="font-headline font-semibold text-sm tracking-tight text-on-surface mb-2 flex items-center gap-2">
+              <Icon icon="ion:bar-chart-outline" width={14} className="text-primary" />
+              Views (Last 7 Days)
             </h3>
-            <div className="space-y-2">
-              {sorted.map((blog, i) => {
-                const maxTotal = sorted[0].total || 1;
-                const barWidth = (blog.total / maxTotal) * 100;
-                return (
-                  <Link
-                    key={blog.slug}
-                    href={`/blogs/${blog.slug}`}
-                    className="block group"
-                  >
-                    <div className="flex items-center gap-3 py-1.5">
-                      <span className="font-label text-xs text-on-surface-variant/40 w-4 text-right flex-shrink-0">
-                        {i + 1}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between mb-1">
-                          <p className="font-label text-sm text-on-surface group-hover:text-primary transition-colors truncate">
-                            {blogTitles[blog.slug] || blog.slug}
-                          </p>
-                          <span className="font-label text-xs text-on-surface-variant/50 flex-shrink-0 ml-2 tabular-nums">
-                            {blog.total.toLocaleString()}
-                          </span>
-                        </div>
-                        <div className="h-1.5 rounded-full bg-surface-container overflow-hidden">
-                          <div
-                            className="h-full rounded-full bg-primary transition-all duration-500"
-                            style={{ width: `${barWidth}%` }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
+            <div className="flex-1 min-h-0">
+              <DailyViewsChart days={dailyData.days} />
             </div>
-            <Link
-              href="/blogs"
-              className="mt-4 inline-flex items-center gap-1 font-label text-xs text-primary/70 hover:text-primary transition-colors"
-            >
-              All Posts <Icon icon="ion:arrow-forward" width={12} />
-            </Link>
           </div>
         </AnimateOnScroll>
       </div>
