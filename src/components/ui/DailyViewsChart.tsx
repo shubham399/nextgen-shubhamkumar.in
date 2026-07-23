@@ -52,7 +52,7 @@ export default function DailyViewsChart({ days }: DailyViewsChartProps) {
         />
         <Bar
           dataKey="views"
-          fill="var(--color-primary)"
+          fill="#a5e7ff"
           radius={[4, 4, 0, 0]}
           maxBarSize={32}
         />
