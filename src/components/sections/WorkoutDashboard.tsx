@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 
 interface WorkoutDashboardProps {
   workouts: Workout[];
-  summary: WorkoutSummary;
+  summary: WorkoutSummary | null;
 }
 
 function getMonthGrid(calendar: Record<string, string>, workouts: Workout[]) {
@@ -62,6 +62,7 @@ function getTypeColor(type: string): string {
 }
 
 export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboardProps) {
+  if (!summary) return null;
   const { year, month, cells } = getMonthGrid(summary.calendar, workouts);
   const monthWorkouts = workouts.filter(w => {
     if (!w.createdAt) return false;

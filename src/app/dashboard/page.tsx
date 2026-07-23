@@ -79,11 +79,11 @@ export default async function Dashboard() {
   } catch {}
 
   const [workouts, summary, me, socials, nav, github, twitterFollowers, subscribers] = await Promise.all([
-    getWorkouts(),
-    getWorkoutSummary(),
-    getMe(),
-    getSocials(),
-    getNav(),
+    getWorkouts().catch(() => []),
+    getWorkoutSummary().catch(() => null),
+    getMe().catch(() => null),
+    getSocials().catch(() => []),
+    getNav().catch(() => null),
     getGitHubStats(),
     getTwitterFollowers(),
     getSubscriberCount(),
@@ -99,7 +99,7 @@ export default async function Dashboard() {
 
   return (
     <>
-      <Navigation me={me} nav={nav} socials={socials} />
+      {me && nav && socials && <Navigation me={me} nav={nav} socials={socials} />}
       <main>
         <WorkoutDashboard workouts={workouts} summary={summary} />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -110,7 +110,7 @@ export default async function Dashboard() {
           <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
         </div>
         <SocialMetrics
-          socials={socials}
+          socials={socials ?? []}
           blogCount={allPosts.pagination.totalPosts}
           totalViews={totalViews}
           github={github}
@@ -118,7 +118,7 @@ export default async function Dashboard() {
           subscribers={subscribers}
         />
       </main>
-      <Footer socials={socials} nav={nav} me={me} />
+      {me && nav && socials && <Footer socials={socials} nav={nav} me={me} />}
     </>
   );
 }
