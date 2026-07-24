@@ -12,6 +12,12 @@ import { UTMLink } from "@/components/ui/UTMLink";
 import Testimonials from "@/components/sections/Testimonials";
 import Contact from "@/components/sections/Contact";
 
+const LIGHT_MODE_LOGOS = new Set(["AirFi", "Alaan"]);
+
+function logoContainerClass(company: string) {
+  return LIGHT_MODE_LOGOS.has(company) ? "bg-white" : "bg-surface-container";
+}
+
 function getYearsOfExperience(experience: Experience[]): string {
   const starts = experience.filter((e) => !e.skip).map((e) => new Date(e.start).getFullYear());
   const earliest = Math.min(...starts);
@@ -488,7 +494,7 @@ export default async function ConsultingPage() {
                 <div className="space-y-4">
                   {experience.filter((e) => !e.skip).slice(0, 4).map((exp) => (
                     <div key={exp.company + exp.title + exp.start} className="flex items-start gap-3">
-                      <div className="relative w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center flex-shrink-0 mt-0.5 overflow-hidden">
+                      <div className={`relative w-8 h-8 rounded-lg ${logoContainerClass(exp.company)} flex items-center justify-center flex-shrink-0 mt-0.5 overflow-hidden`}>
                         {exp.logo ? (
                           <Image src={exp.logo} alt={exp.company} fill className="object-contain p-1" sizes="32px" unoptimized />
                         ) : (
