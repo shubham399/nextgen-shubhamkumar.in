@@ -1,4 +1,5 @@
 import type { Service } from "@/types";
+import { Icon } from "@iconify/react";
 import SectionHeader from "../ui/SectionHeader";
 import { StaggerContainer, StaggerItem } from "../ui/AnimateOnScroll";
 
@@ -41,20 +42,7 @@ export default function Services({ services }: ServicesProps) {
               <div
                 className={`relative w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center mb-6 ${SERVICE_ICON_COLORS[idx % SERVICE_ICON_COLORS.length]}`}
               >
-                {/* Code/dev icon */}
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polyline points="16 18 22 12 16 6" />
-                  <polyline points="8 6 2 12 8 18" />
-                </svg>
+                <Icon icon={service.icon} width={22} />
               </div>
 
               <div className="relative">

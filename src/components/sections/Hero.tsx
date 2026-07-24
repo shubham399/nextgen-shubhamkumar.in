@@ -118,7 +118,7 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
             </motion.div>
             {/* Socials */}
             <motion.div
-
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.65 }}
               className="flex items-center gap-1 lg:gap-4"
@@ -180,27 +180,6 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
             </div>
           </motion.div>
         </div>
-
-        {/* CTA message bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-          className="mt-20 p-6 rounded-xl bg-surface-container-low inner-glow"
-        >
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
-            <p className="font-body text-sm text-on-surface-variant leading-relaxed max-w-xl">
-              {me.cta.message}
-            </p>
-            <CTA
-              btn={`${me.cta.btn}`}
-              className="btn-primary whitespace-nowrap flex-shrink-0"
-            >
-              <Icon icon="ion:arrow-forward" width={14} />
-              Schedule a meeting
-            </CTA>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

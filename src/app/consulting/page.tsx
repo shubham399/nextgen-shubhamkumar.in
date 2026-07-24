@@ -195,12 +195,13 @@ export default async function ConsultingPage() {
 
           {/* Quick stats */}
           <AnimateOnScroll delay={0.15}>
-            <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="mt-16 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
               {[
                 { value: getYearsOfExperience(experience), label: "Years Experience" },
-                { value: getCompanyCount(experience), label: "Companies Served" },
-                { value: "99.99%", label: "Uptime SLA" },
-                { value: "M+", label: "Users Served" },
+                { value: getCompanyCount(experience), label: "Companies" },
+                { value: "90%", label: "Latency Reduction" },
+                { value: "75%+", label: "Captive Portal Launch Rate" },
+                { value: "99.999%", label: "SLA Services" },
               ].map((stat) => (
                 <div key={stat.label} className="bg-surface-container-low rounded-2xl p-5 inner-glow text-center">
                   <p className="font-headline text-2xl font-bold gradient-text mb-1">{stat.value}</p>

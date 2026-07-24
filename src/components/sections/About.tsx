@@ -17,12 +17,18 @@ function getYearsOfExperience(experience: Experience[]): string {
   return `${years}+`;
 }
 
+function getCompaniesCount(experience: Experience[]): string {
+  const companies = new Set(experience.filter((e) => !e.skip).map((e) => e.company));
+  return `${companies.size}`;
+}
+
 export default function About({ me, contacts, experience }: AboutProps) {
   const STATS = [
     { value: getYearsOfExperience(experience), label: "Years Experience" },
-    { value: "99.99%", label: "Uptime SLA" },
+    { value: getCompaniesCount(experience), label: "Companies" },
     { value: "90%", label: "Latency Reduction" },
-    { value: "M+", label: "Users Served" },
+    { value: "75%+", label: "Captive Portal Launch Rate" },
+    { value: "99.999%", label: "SLA Services" },
   ];
   return (
     <section id="about" className="section-base">
@@ -33,7 +39,7 @@ export default function About({ me, contacts, experience }: AboutProps) {
       />
 
       {/* Stats row */}
-      <StaggerContainer className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+      <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
         {STATS.map((stat) => (
           <StaggerItem key={stat.label}>
             <div className="bg-surface-container-low rounded-xl p-4 inner-glow text-center">
@@ -52,7 +58,7 @@ export default function About({ me, contacts, experience }: AboutProps) {
         {/* Bio card */}
         <div className="bg-surface-container-low rounded-2xl p-7 inner-glow">
           <h3 className="font-headline font-bold text-xl tracking-tighter text-on-surface mb-4">
-            {me.about}
+            Background
           </h3>
           <p className="font-body text-sm leading-[1.8] text-on-surface-variant whitespace-pre-line">
             {me.summary}

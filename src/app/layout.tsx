@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next"
-import MailingListPopup from "@/components/sections/MailingListPopup";
+import NewsletterFullscreen from "@/components/sections/NewsletterFullscreen";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { getMe } from "@/lib/api";
 
 
 const spaceGrotesk = Space_Grotesk({
@@ -73,11 +74,16 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let me = { name: "Shubham Kumar", avatarUrl: "" };
+  try {
+    me = await getMe();
+  } catch {}
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -104,7 +110,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased bg-surface text-on-surface font-body">
         {children}
-        <MailingListPopup />
+        <NewsletterFullscreen name={me.name} avatarUrl={me.avatarUrl} />
         <Analytics />
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
         <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "81cd3bc5c97945c4b8b57909f87a3926"}'></script>
