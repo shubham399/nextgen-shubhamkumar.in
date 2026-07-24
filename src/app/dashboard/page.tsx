@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { getWorkouts, getWorkoutSummary, getMe, getSocials, getNav } from "@/lib/api";
+import { getWorkouts, getWorkoutSummary, getMe, getSocials, getNav, getBlogViewsSummary } from "@/lib/api";
+import { wisp, GetPostsResult } from "@/lib/wisp";
 import { Resend } from "resend";
 import WorkoutDashboard from "@/components/sections/WorkoutDashboard";
 import SocialMetrics from "@/components/sections/SocialMetrics";
@@ -59,7 +60,12 @@ async function getSubscriberCount(): Promise<number> {
 }
 
 export default async function Dashboard() {
-  const [workouts, summary, me, socials, nav, github, twitterFollowers, subscribers] = await Promise.all([
+  let allPosts: GetPostsResult = { posts: [], pagination: { page: 1, limit: 100, totalPages: 0, totalPosts: 0, nextPage: null, prevPage: null } };
+  try {
+    allPosts = await wisp.getPosts({ limit: 100 });
+  } catch {}
+
+  const [workouts, summary, me, socials, nav, github, twitterFollowers, subscribers, blogViews] = await Promise.all([
     getWorkouts().catch(() => []),
     getWorkoutSummary().catch(() => null),
     getMe().catch(() => null),
@@ -68,6 +74,7 @@ export default async function Dashboard() {
     getGitHubStats(),
     getTwitterFollowers(),
     getSubscriberCount(),
+    getBlogViewsSummary().catch(() => ({ total: 0, daily: {} })),
   ]);
 
   return (
@@ -84,8 +91,8 @@ export default async function Dashboard() {
         </div>
         <SocialMetrics
           socials={socials ?? []}
-          blogCount={0}
-          totalViews={0}
+          blogCount={allPosts.pagination.totalPosts}
+          totalViews={blogViews.total}
           github={github}
           twitterFollowers={twitterFollowers}
           subscribers={subscribers}
