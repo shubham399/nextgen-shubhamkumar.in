@@ -95,7 +95,7 @@ export default function MailingListPopup({ cta }: Props) {
             className="pointer-events-auto w-full max-w-none"
             layout
           >
-            <div className="relative overflow-hidden rounded-2xl bg-surface-container-low p-4 sm:p-5 inner-glow border border-outline-variant/10 shadow-glow">
+            <div className="relative overflow-hidden rounded-2xl bg-surface-container-low p-4 sm:p-5 inner-glow shadow-glow">
               <div className="absolute top-0 right-0 w-48 h-48 bg-primary-gradient-subtle rounded-full blur-3xl translate-x-1/3 -translate-y-1/3 pointer-events-none" />
 
               <button
@@ -158,7 +158,7 @@ export default function MailingListPopup({ cta }: Props) {
                         onKeyDown={handleKeyDown}
                         placeholder="your@email.com"
                         disabled={stage === "loading"}
-                        className="flex-1 min-w-0 px-4 py-3 rounded-lg bg-surface-container text-on-surface text-sm font-body placeholder:text-on-surface-variant/50 border border-outline-variant/20 focus:outline-none focus:border-primary/50 transition-colors disabled:opacity-50"
+                        className="flex-1 min-w-0 px-4 py-3 rounded-lg bg-surface-container text-on-surface text-sm font-body placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all disabled:opacity-50"
                       />
                       <button
                         onClick={subscribe}
