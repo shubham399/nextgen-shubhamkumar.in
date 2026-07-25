@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Icon } from "@iconify/react";
 import type { Me, Social, Nav, Experience } from "@/types";
 import { UTMLink } from "../ui/UTMLink";
+import FloatingShapes from "../ui/FloatingShapes";
 import CTA from "./CTA";
 
 interface HeroProps {
@@ -27,13 +28,14 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
       id="hero"
       className="relative min-h-screen flex items-center pt-28 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
     >
-      {/* Background glow — amplified */}
+      {/* Animated background glow — replaced static blob */}
       <div
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full opacity-[0.07] pointer-events-none"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full opacity-[0.07] pointer-events-none animate-pulse-glow"
         style={{
           background: "radial-gradient(circle, #00d2ff 0%, transparent 70%)",
         }}
       />
+      <FloatingShapes />
 
       <div className="max-w-6xl mx-auto w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">

@@ -3,6 +3,7 @@ import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next"
 import NewsletterFullscreen from "@/components/sections/NewsletterFullscreen";
+import AnimatedBackground from "@/components/ui/AnimatedBackground";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { getMe } from "@/lib/api";
 
@@ -109,11 +110,14 @@ export default async function RootLayout({
         />
       </head>
       <body className="antialiased bg-surface text-on-surface font-body">
+        <AnimatedBackground />
+        <div className="relative z-10">
         {children}
         <NewsletterFullscreen name={me.name} avatarUrl={me.avatarUrl} />
         <Analytics />
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
         <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "81cd3bc5c97945c4b8b57909f87a3926"}'></script>
+        </div>
       </body>
     </html>
   );
