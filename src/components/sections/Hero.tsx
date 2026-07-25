@@ -27,12 +27,11 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
       id="hero"
       className="relative min-h-screen flex items-center pt-28 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
     >
-      {/* Ambient background glow */}
+      {/* Background glow — amplified */}
       <div
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.04] pointer-events-none"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full opacity-[0.07] pointer-events-none"
         style={{
-          background:
-            "radial-gradient(circle, #00d2ff 0%, transparent 70%)",
+          background: "radial-gradient(circle, #00d2ff 0%, transparent 70%)",
         }}
       />
 
@@ -58,43 +57,43 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
               </a>
             </motion.div>
 
-            {/* Main title */}
+            {/* Main title — display scale */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <h1 className="font-headline font-bold tracking-tighter leading-[0.95]">
-                <span className="block text-5xl sm:text-6xl lg:text-7xl text-on-surface">
+              <h1 className="font-headline font-bold tracking-tighter leading-[0.9]">
+                <span className="block text-6xl sm:text-7xl lg:text-8xl text-on-surface">
                   {me.name.split(" ")[0]}
                 </span>
-                <span className="block text-5xl sm:text-6xl lg:text-7xl gradient-text">
+                <span className="block text-6xl sm:text-7xl lg:text-8xl gradient-text">
                   {me.name.split(" ").slice(1).join(" ")}
                 </span>
               </h1>
             </motion.div>
 
-            {/* Role */}
+            {/* Role — prominent, not muted */}
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.35 }}
-              className="font-headline text-lg sm:text-xl text-on-surface-variant font-medium tracking-tight"
+              className="font-headline text-xl sm:text-2xl text-on-surface font-semibold tracking-tight"
             >
               {me.about}
             </motion.p>
 
-            {/* Summary */}
+            {/* Summary — tighter, punchier */}
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.45 }}
-              className="font-body text-sm leading-[1.7] text-on-surface-variant max-w-lg"
+              className="font-body text-base leading-relaxed text-on-surface-variant max-w-lg"
             >
               {me.summary}
             </motion.p>
 
-            {/* CTAs */}
+            {/* CTAs — bolder */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -103,32 +102,32 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
             >
               <CTA
                 btn={`${me.cal}`}
-                className="btn-primary"
+                className="btn-primary px-6 py-3 text-base"
               >
-                <Icon icon="ion:calendar-outline" width={16} />
+                <Icon icon="ion:calendar-outline" width={18} />
                 Book a call
               </CTA>
               <UTMLink
                 href={nav.resume}
-                className="btn-ghost"
+                className="btn-ghost px-6 py-3 text-base"
               >
-                <Icon icon="ion:document-outline" width={16} />
-                View Resume
+                <Icon icon="ion:document-outline" width={18} />
+                Resume
               </UTMLink>
             </motion.div>
+
             {/* Socials */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.65 }}
-              className="flex items-center gap-1 lg:gap-4"
+              className="flex items-center gap-2 lg:gap-4"
             >
               {socials.map((social) => (
                 <UTMLink
                   key={social.name}
                   href={social.href}
                   aria-label={social.name}
-
                 >
                   <Icon icon={social.icon} width={18} />
                 </UTMLink>
@@ -136,7 +135,7 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
             </motion.div>
           </div>
 
-          {/* Right: Avatar */}
+          {/* Right: Avatar — amplified glow */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -144,14 +143,13 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
             className="flex justify-center lg:justify-end"
           >
             <div className="relative">
-              {/* Outer glow ring */}
+              {/* Outer glow ring — stronger */}
               <div
-                className="absolute inset-0 rounded-2xl opacity-20"
+                className="absolute inset-0 rounded-2xl opacity-30"
                 style={{
-                  background:
-                    "linear-gradient(135deg, #a5e7ff 0%, #00d2ff 100%)",
-                  filter: "blur(24px)",
-                  transform: "scale(1.05)",
+                  background: "linear-gradient(135deg, #a5e7ff 0%, #00d2ff 100%)",
+                  filter: "blur(32px)",
+                  transform: "scale(1.08)",
                 }}
               />
               {/* Avatar container */}
@@ -165,16 +163,16 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
                   sizes="(max-width: 640px) 288px, (max-width: 1024px) 320px, 384px"
                 />
               </div>
-              {/* Floating role badge */}
+              {/* Floating badge — bolder */}
               <div
-                className="absolute -bottom-4 -left-4 px-4 py-2.5 rounded-xl glass-card inner-glow"
-                style={{ boxShadow: "0 0 32px rgba(71,214,255,0.08)" }}
+                className="absolute -bottom-4 -left-4 px-5 py-3 rounded-xl glass-card inner-glow"
+                style={{ boxShadow: "0 0 40px rgba(71,214,255,0.12)" }}
               >
-                <p className="font-headline font-bold text-sm tracking-tight text-on-surface">
-                  {getYearsOfExperience(experience)} years experience
+                <p className="font-headline font-bold text-base tracking-tight text-on-surface">
+                  {getYearsOfExperience(experience)}+ years
                 </p>
                 <p className="font-label text-xs text-on-surface-variant mt-0.5">
-                  {me.location}
+                  shipping at scale
                 </p>
               </div>
             </div>
