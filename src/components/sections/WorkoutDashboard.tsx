@@ -139,7 +139,7 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
               ))}
             </div>
 
-            <div className="flex items-center gap-4 mt-4 pt-4 border-t border-outline-variant/10">
+            <div className="flex items-center gap-4 mt-4 pt-4">
               <span className="font-label text-[10px] text-on-surface-variant/50 uppercase tracking-wider">Legend</span>
               {Object.entries(TYPE_COLORS).map(([type, color]) => (
                 <div key={type} className="flex items-center gap-1.5">

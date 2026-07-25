@@ -59,7 +59,6 @@ export default function Contact({ contacts, me, socials }: ContactProps) {
             <div className="flex flex-wrap gap-2">
               {socials.map((social) => (
                 <UTMLink
-
                   key={social.name}
                   href={social.href}
                   aria-label={social.name}

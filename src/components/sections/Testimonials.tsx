@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Icon } from "@iconify/react";
 import type { Testimonial } from "@/types";
 import SectionHeader from "../ui/SectionHeader";
 
@@ -18,28 +17,16 @@ function formatDate(dateStr: string) {
   });
 }
 
-function TestimonialCard({
-  testimonial,
-  compact = false,
-}: {
-  testimonial: Testimonial;
-  compact?: boolean;
-}) {
-
+function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
     <div className="bg-surface-container-low rounded-2xl p-6 inner-glow h-full flex flex-col gap-4">
-      {/* Quote mark */}
       <div className="text-primary/30 font-headline text-5xl leading-none font-bold select-none">
         &ldquo;
       </div>
-
-      {/* Quote text */}
       <p className="font-body text-sm text-on-surface-variant leading-relaxed flex-1">
-        {testimonial.text.replace(/—/g, '-')}
+        {testimonial.text.replace(/—/g, "-")}
       </p>
-
-      {/* Author */}
-      <div className="flex items-center gap-3 pt-2 border-t border-outline-variant/10">
+      <div className="flex items-center gap-3 pt-2">
         <div className="relative w-9 h-9 rounded-full overflow-hidden bg-surface-container flex-shrink-0">
           <Image
             src={testimonial.avatar}
@@ -94,16 +81,17 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
         </AnimatePresence>
       </div>
 
-      {/* Selector dots + compact previews */}
+      {/* Selector dots */}
       <div className="flex flex-wrap gap-3 justify-center mb-8">
         {testimonials.map((t, idx) => (
           <button
             key={t.name}
             onClick={() => setActiveIdx(idx)}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-label transition-all duration-200 ${idx === activeIdx
-              ? "bg-primary/10 text-primary ring-1 ring-primary/30"
-              : "bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high"
-              }`}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-label transition-all duration-200 ${
+              idx === activeIdx
+                ? "bg-primary/10 text-primary ring-1 ring-primary/30"
+                : "bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high"
+            }`}
           >
             <div className="relative w-5 h-5 rounded-full overflow-hidden flex-shrink-0">
               <Image
@@ -120,7 +108,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
         ))}
       </div>
 
-      {/* All testimonials grid (smaller) */}
+      {/* All testimonials grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {testimonials.map((t, idx) => (
           <motion.div
@@ -133,8 +121,9 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
             className="cursor-pointer"
           >
             <div
-              className={`bg-surface-container-low rounded-2xl p-5 inner-glow transition-all duration-200 hover:bg-surface-container ${idx === activeIdx ? "ring-1 ring-primary/30 shadow-glow" : ""
-                }`}
+              className={`bg-surface-container-low rounded-2xl p-5 inner-glow transition-all duration-200 hover:bg-surface-container ${
+                idx === activeIdx ? "ring-1 ring-primary/30 shadow-glow" : ""
+              }`}
             >
               <div className="flex items-center gap-2.5 mb-3">
                 <div className="relative w-8 h-8 rounded-full overflow-hidden bg-surface-container flex-shrink-0">
@@ -152,13 +141,12 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                     {t.name.trim()}
                   </p>
                   <p className="font-label text-[10px] text-on-surface-variant">
-                    {t.destination.replace(/—/g, '-')}
-
+                    {t.destination.replace(/—/g, "-")}
                   </p>
                 </div>
               </div>
               <p className="font-body text-xs text-on-surface-variant leading-relaxed line-clamp-3">
-                {t.text.replace(/—/g, '-')}
+                {t.text.replace(/—/g, "-")}
               </p>
             </div>
           </motion.div>

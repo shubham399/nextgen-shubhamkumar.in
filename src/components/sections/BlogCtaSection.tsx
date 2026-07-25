@@ -50,7 +50,7 @@ export default function BlogCtaSection({ cta }: Props) {
 
   return (
     <section className="section-base">
-      <div className="relative overflow-hidden rounded-2xl bg-surface-container-low p-8 sm:p-12 inner-glow border border-outline-variant/10">
+      <div className="relative overflow-hidden rounded-2xl bg-surface-container-low p-8 sm:p-12 inner-glow">
         <div className="absolute top-0 right-0 w-72 h-72 bg-primary-gradient-subtle rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
         <div className="relative z-10">

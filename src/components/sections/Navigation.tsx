@@ -99,7 +99,7 @@ export default function Navigation({ me, nav, socials }: NavigationProps) {
                   {link.label}
                 </a>
               ))}
-              <div className="border-t border-outline-variant/20 mt-2 pt-3 flex gap-2">
+              <div className="mt-2 pt-3 flex gap-2">
                 <a
                   href={nav.resume}
                   target="_blank"

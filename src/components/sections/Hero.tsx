@@ -171,10 +171,10 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
                 style={{ boxShadow: "0 0 32px rgba(71,214,255,0.08)" }}
               >
                 <p className="font-headline font-bold text-sm tracking-tight text-on-surface">
-                  {me.about}
+                  {getYearsOfExperience(experience)} years experience
                 </p>
                 <p className="font-label text-xs text-on-surface-variant mt-0.5">
-                  {getYearsOfExperience(experience)} years experience
+                  {me.location}
                 </p>
               </div>
             </div>
