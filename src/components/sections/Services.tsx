@@ -7,17 +7,29 @@ interface ServicesProps {
   services: Service[];
 }
 
-const SERVICE_ICONS = [
-  // Gradient backgrounds for service cards
-  "from-primary/10 to-primary-container/10",
-  "from-secondary/10 to-secondary-container/10",
-  "from-tertiary/10 to-tertiary-container/10",
+const FALLBACK_ICONS = [
+  "tabler:server-cog",
+  "mdi:cash-multiple",
+  "mdi:source-branch",
 ];
 
-const SERVICE_ICON_COLORS = [
-  "text-primary",
-  "text-secondary",
-  "text-tertiary",
+function isValidIconifyName(name: string): boolean {
+  return /^[a-z0-9-]+:.+$/i.test(name);
+}
+
+const SERVICE_ACCENTS = [
+  {
+    tile: "from-primary/20 to-primary-container/10",
+    text: "text-primary",
+  },
+  {
+    tile: "from-secondary/20 to-secondary-container/10",
+    text: "text-secondary",
+  },
+  {
+    tile: "from-tertiary/20 to-tertiary-container/10",
+    text: "text-tertiary",
+  },
 ];
 
 export default function Services({ services }: ServicesProps) {
@@ -26,36 +38,47 @@ export default function Services({ services }: ServicesProps) {
       <SectionHeader
         label="What I Do"
         title="Services I offer"
-        description="From architecture to optimization -  here's where I deliver the most value."
+        description="From architecture to optimization - here's where I deliver the most value."
       />
 
       <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {services.map((service, idx) => (
-          <StaggerItem key={service.title}>
-            <div className="relative h-full bg-surface-container-low rounded-2xl p-7 inner-glow hover:bg-surface-container hover:shadow-glow transition-all duration-300 group overflow-hidden">
-              {/* Background gradient */}
-              <div
-                className={`absolute inset-0 bg-gradient-to-br ${SERVICE_ICONS[idx % SERVICE_ICONS.length]} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl`}
-              />
+        {services.map((service, idx) => {
+          const accent = SERVICE_ACCENTS[idx % SERVICE_ACCENTS.length];
+          const icon = isValidIconifyName(service.icon)
+            ? service.icon
+            : FALLBACK_ICONS[idx % FALLBACK_ICONS.length];
+          return (
+            <StaggerItem key={service.title}>
+              <div className="relative h-full bg-surface-container-low rounded-2xl p-7 inner-glow hover:bg-surface-container hover:shadow-glow hover:-translate-y-1 transition-all duration-300 group overflow-hidden">
+                {/* Background gradient wash */}
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${accent.tile} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl`}
+                />
 
-              {/* Icon */}
-              <div
-                className={`relative w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center mb-6 ${SERVICE_ICON_COLORS[idx % SERVICE_ICON_COLORS.length]}`}
-              >
-                <Icon icon={service.icon} width={22} />
-              </div>
+                {/* Index */}
+                <span className="absolute top-7 right-7 font-label text-xs tracking-widest text-on-surface-variant/50">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
 
-              <div className="relative">
-                <h3 className="font-headline font-bold text-lg tracking-tight text-on-surface mb-3">
-                  {service.title}
-                </h3>
-                <p className="font-body text-sm text-on-surface-variant leading-relaxed">
-                  {service.description}
-                </p>
+                {/* Icon */}
+                <div
+                  className={`relative w-12 h-12 rounded-xl bg-gradient-to-br ${accent.tile} inner-glow flex items-center justify-center mb-6 ${accent.text} transition-transform duration-300 group-hover:scale-105`}
+                >
+                  <Icon icon={icon} width={22} />
+                </div>
+
+                <div className="relative">
+                  <h3 className="font-headline font-bold text-lg tracking-tight text-on-surface group-hover:text-primary transition-colors mb-3">
+                    {service.title}
+                  </h3>
+                  <p className="font-body text-sm text-on-surface-variant leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
               </div>
-            </div>
-          </StaggerItem>
-        ))}
+            </StaggerItem>
+          );
+        })}
       </StaggerContainer>
     </section>
   );
