@@ -8,7 +8,7 @@ interface ServicesProps {
 }
 
 const FALLBACK_ICONS = [
-  "tabler:server-cog",
+  "mdi:server-network",
   "mdi:cash-multiple",
   "mdi:source-branch",
 ];
