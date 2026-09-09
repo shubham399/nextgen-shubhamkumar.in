@@ -61,46 +61,55 @@ interface GhSearchItem {
   created_at: string;
 }
 
-async function ghSearch(
-  query: string,
-  token: string,
-  page: number,
-): Promise<{ items: GhSearchItem[]; total_count: number }> {
-  const url = `https://api.github.com/search/issues?q=${encodeURIComponent(query)}&per_page=100&page=${page}&sort=created&order=desc`;
-  const res = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: "application/vnd.github+json",
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
-  });
-  if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    let msg = `${res.status} ${res.statusText}`;
-    try {
-      const j = JSON.parse(body);
-      if (j.message) msg += ` — ${j.message}`;
-    } catch {}
-    if (res.status === 401) msg += " (bad or expired token)";
-    if (res.status === 403 && /rate limit/i.test(body))
-      msg = "Search rate limit hit. Retry later.";
-    throw new Error(msg);
-  }
-  return res.json();
-}
 
 async function fetchAllCommits(
   login: string,
   token: string,
   windowStart: string,
 ): Promise<GhSearchItem[]> {
-  const query = `author:${login} is:commit created:>=${windowStart}`;
-  const items: GhSearchItem[] = [];
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    Accept: "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+
+  const sinceISO = `${windowStart}T00:00:00Z`;
+
+  const repos: { full_name: string; updated_at: string }[] = [];
   for (let page = 1; page <= 10; page++) {
-    const { items: pageItems, total_count } = await ghSearch(query, token, page);
-    items.push(...pageItems);
-    if (items.length >= total_count || pageItems.length < 100) break;
+    const res = await fetch(
+      `https://api.github.com/user/repos?per_page=100&page=${page}&type=owner&sort=pushed&direction=desc`,
+      { headers },
+    );
+    if (!res.ok) break;
+    const data = await res.json();
+    for (const r of data) {
+      if (r.updated_at >= windowStart) repos.push({ full_name: r.full_name, updated_at: r.updated_at });
+    }
+    if (data.length < 100) break;
   }
+
+  const items: GhSearchItem[] = [];
+  const batchSize = 10;
+  for (let i = 0; i < repos.length; i += batchSize) {
+    const batch = repos.slice(i, i + batchSize);
+    const results = await Promise.all(
+      batch.map(async (repo) => {
+        const res = await fetch(
+          `https://api.github.com/repos/${repo.full_name}/commits?author=${login}&since=${sinceISO}&per_page=100`,
+          { headers },
+        );
+        if (!res.ok) return [];
+        const data = await res.json();
+        return data
+          .map((c: any) => c.commit?.author?.date)
+          .filter(Boolean)
+          .map((date: string) => ({ created_at: date }));
+      }),
+    );
+    for (const r of results) items.push(...r);
+  }
+
   return items;
 }
 
