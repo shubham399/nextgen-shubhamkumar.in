@@ -48,8 +48,6 @@ function buildBuckets(now: Date): Bucket[] {
 
 interface GhSearchItem {
   created_at: string;
-  state: string;
-  pull_request?: { merged_at?: string | null };
 }
 
 async function ghSearch(
@@ -80,12 +78,12 @@ async function ghSearch(
   return res.json();
 }
 
-async function fetchAllPRs(
+async function fetchAllCommits(
   login: string,
   token: string,
   windowStart: string,
 ): Promise<GhSearchItem[]> {
-  const query = `author:${login} is:pr created:>=${windowStart}`;
+  const query = `author:${login} is:commit created:>=${windowStart}`;
   const items: GhSearchItem[] = [];
   for (let page = 1; page <= 10; page++) {
     const { items: pageItems, total_count } = await ghSearch(query, token, page);
@@ -120,11 +118,9 @@ export async function GET() {
     const user = await userRes.json();
     const login: string = user.login;
 
-    const items = await fetchAllPRs(login, token, windowStart);
+    const items = await fetchAllCommits(login, token, windowStart);
 
     const days = new Set<string>();
-    let merged = 0;
-    let open = 0;
     let last30 = 0;
     let last7 = 0;
     let prev7 = 0;
@@ -135,8 +131,6 @@ export async function GET() {
       const b = bs.find((x) => t >= x.start && t < x.end);
       if (b) b.count++;
       days.add(iso(new Date(t)));
-      if (it.pull_request?.merged_at) merged++;
-      if (it.state === "open") open++;
       if (t >= todayEnd - 30 * DAY) last30++;
       if (t >= todayEnd - 7 * DAY) last7++;
       else if (t >= todayEnd - 14 * DAY) prev7++;
@@ -149,10 +143,8 @@ export async function GET() {
 
     return NextResponse.json({
       login,
-      totalPRs: items.length,
+      totalCommits: items.length,
       activeDays: days.size,
-      merged,
-      open,
       last30,
       last7,
       prev7,

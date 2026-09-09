@@ -2,29 +2,27 @@ import { Icon } from "@iconify/react";
 import AnimateOnScroll from "../ui/AnimateOnScroll";
 import PRWeeklyChart from "../ui/PRWeeklyChart";
 
-interface PRBucket {
+interface Bucket {
   label: string;
   count: number;
   full: boolean;
   days: number;
 }
 
-interface GitHubPRsData {
+interface GitHubCommitsData {
   login: string;
-  totalPRs: number;
+  totalCommits: number;
   activeDays: number;
-  merged: number;
-  open: number;
   last30: number;
   last7: number;
   prev7: number;
   delta: number | null;
-  buckets: PRBucket[];
+  buckets: Bucket[];
   partialNote: string;
   error?: string;
 }
 
-async function getGitHubPRs(): Promise<GitHubPRsData | null> {
+async function getGitHubCommits(): Promise<GitHubCommitsData | null> {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}/api/github/prs`,
@@ -51,7 +49,7 @@ function tile(value: string, label: string, cls?: string) {
 }
 
 export default async function GitHubPRs() {
-  const data = await getGitHubPRs();
+  const data = await getGitHubCommits();
 
   if (!data || data.error) {
     return null;
@@ -74,22 +72,21 @@ export default async function GitHubPRs() {
         <div className="flex items-center gap-2 mb-1">
           <Icon icon="ion:logo-github" width={16} className="text-primary" />
           <p className="text-primary font-label text-xs font-semibold tracking-widest uppercase">
-            Pull Request Activity
+            Commit Activity
           </p>
         </div>
         <p className="font-body text-sm text-on-surface-variant/70 mb-6">
-          {data.merged} merged &middot; {data.open} still open &middot; {data.totalPRs} PRs in
-          the 13-week window
+          {data.totalCommits} commits in the 13-week window
         </p>
       </AnimateOnScroll>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
-        <AnimateOnScroll>{tile(data.totalPRs.toLocaleString(), "Total PRs Authored")}</AnimateOnScroll>
+        <AnimateOnScroll>{tile(data.totalCommits.toLocaleString(), "Total Commits")}</AnimateOnScroll>
         <AnimateOnScroll delay={0.02}>
           {tile(data.activeDays.toString(), "Active Days (13wk)")}
         </AnimateOnScroll>
         <AnimateOnScroll delay={0.04}>
-          {tile(data.last30.toString(), "PRs Last 30 Days")}
+          {tile(data.last30.toString(), "Commits Last 30 Days")}
         </AnimateOnScroll>
         <AnimateOnScroll delay={0.06}>{tile(deltaTxt, "Last 7d vs Prev 7d", deltaCls)}</AnimateOnScroll>
       </div>
@@ -99,7 +96,7 @@ export default async function GitHubPRs() {
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-headline font-semibold text-sm tracking-tight text-on-surface flex items-center gap-2">
               <Icon icon="ion:bar-chart-outline" width={14} className="text-primary" />
-              PRs Opened Per Week
+              Commits Per Week
             </h3>
             <div className="flex gap-3 text-xs text-on-surface-variant/60">
               <span className="flex items-center gap-1.5">

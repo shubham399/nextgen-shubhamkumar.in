@@ -26,14 +26,6 @@ export default function PRWeeklyChart({ buckets }: PRWeeklyChartProps) {
       : `${b.label}: ${b.count} PR${b.count === 1 ? "" : "s"} (partial, ${b.days}d)`,
   }));
 
-  if (!buckets.length || buckets.every((b) => b.count === 0)) {
-    return (
-      <div className="h-full flex items-center justify-center text-on-surface-variant/30 font-label text-xs">
-        No data yet
-      </div>
-    );
-  }
-
   return (
     <ResponsiveContainer width="100%" height={220}>
       <BarChart data={chartData} margin={{ top: 20, right: 4, left: -16, bottom: 0 }}>
