@@ -26,7 +26,7 @@ async function getGitHubCommits(): Promise<GitHubCommitsData | null> {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}/api/github/prs`,
-      { next: { revalidate: 3600 } },
+      { next: { revalidate: 0 } },
     );
     if (!res.ok) return null;
     return res.json();
@@ -76,12 +76,12 @@ export default async function GitHubPRs() {
           </p>
         </div>
         <p className="font-body text-sm text-on-surface-variant/70 mb-6">
-          {data.totalCommits} commits in the 13-week window
+          {data.totalCommits ?? 0} commits in the 13-week window
         </p>
       </AnimateOnScroll>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
-        <AnimateOnScroll>{tile(data.totalCommits.toLocaleString(), "Total Commits")}</AnimateOnScroll>
+        <AnimateOnScroll>{tile((data.totalCommits ?? 0).toLocaleString(), "Total Commits")}</AnimateOnScroll>
         <AnimateOnScroll delay={0.02}>
           {tile(data.activeDays.toString(), "Active Days (13wk)")}
         </AnimateOnScroll>
