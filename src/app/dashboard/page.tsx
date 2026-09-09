@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getWorkouts, getWorkoutSummary, getMe, getSocials, getNav, getBlogViewsSummary } from "@/lib/api";
+import { getGitHubCommits } from "@/lib/github";
 import { wisp, GetPostsResult } from "@/lib/wisp";
 import { Resend } from "resend";
 import WorkoutDashboard from "@/components/sections/WorkoutDashboard";
@@ -66,7 +67,7 @@ export default async function Dashboard() {
     allPosts = await wisp.getPosts({ limit: 100 });
   } catch {}
 
-  const [workouts, summary, me, socials, nav, github, twitterFollowers, subscribers, blogViews] = await Promise.all([
+  const [workouts, summary, me, socials, nav, github, twitterFollowers, subscribers, blogViews, githubCommits] = await Promise.all([
     getWorkouts().catch(() => []),
     getWorkoutSummary().catch(() => null),
     getMe().catch(() => null),
@@ -76,6 +77,7 @@ export default async function Dashboard() {
     getTwitterFollowers(),
     getSubscriberCount(),
     getBlogViewsSummary().catch(() => ({ total: 0, daily: {} })),
+    getGitHubCommits().catch(() => null),
   ]);
 
   return (
@@ -90,7 +92,7 @@ export default async function Dashboard() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
         </div>
-        <GitHubPRs />
+        <GitHubPRs data={githubCommits} />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
         </div>

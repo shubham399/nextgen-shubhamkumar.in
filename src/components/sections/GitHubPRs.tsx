@@ -1,35 +1,10 @@
 import { Icon } from "@iconify/react";
 import AnimateOnScroll from "../ui/AnimateOnScroll";
 import PRWeeklyChart from "../ui/PRWeeklyChart";
+import type { GitHubCommitsData } from "@/lib/github";
 
-interface Bucket {
-  label: string;
-  count: number;
-  full: boolean;
-  days: number;
-}
-
-interface GitHubCommitsData {
-  login: string;
-  totalCommits: number;
-  activeDays: number;
-  last30: number;
-  last7: number;
-  prev7: number;
-  delta: number | null;
-  buckets: Bucket[];
-  partialNote: string;
-  error?: string;
-}
-
-async function getGitHubCommits(): Promise<GitHubCommitsData | null> {
-  try {
-    const res = await fetch("/api/github/prs", { next: { revalidate: 0 } });
-    if (!res.ok) return null;
-    return res.json();
-  } catch {
-    return null;
-  }
+interface GitHubPRsProps {
+  data: GitHubCommitsData | null;
 }
 
 function tile(value: string, label: string, cls?: string) {
@@ -45,9 +20,7 @@ function tile(value: string, label: string, cls?: string) {
   );
 }
 
-export default async function GitHubPRs() {
-  const data = await getGitHubCommits();
-
+export default function GitHubPRs({ data }: GitHubPRsProps) {
   if (!data || data.error) {
     return null;
   }
