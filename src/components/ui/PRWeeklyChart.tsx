@@ -57,7 +57,7 @@ export default function PRWeeklyChart({ buckets }: PRWeeklyChartProps) {
           ]}
           labelFormatter={() => ""}
         />
-        <Bar dataKey="count" radius={[4, 4, 0, 0]} maxBarSize={40}>
+        <Bar dataKey="count" radius={[4, 4, 0, 0]} maxBarSize={40} label={{ position: "top", fontSize: 10, fill: "#bbc9cf", offset: 4 }}>
           {chartData.map((entry, i) => (
             <Cell key={i} fill={entry.full ? COLOR_FULL : COLOR_PARTIAL} />
           ))}
