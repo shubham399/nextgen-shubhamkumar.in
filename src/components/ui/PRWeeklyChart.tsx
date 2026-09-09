@@ -51,8 +51,8 @@ export default function PRWeeklyChart({ buckets }: PRWeeklyChartProps) {
             fontSize: 12,
             color: "#e5e2e1",
           }}
-          formatter={(value: number, _name: string, props: { payload: { tooltip: string } }) => [
-            props.payload.tooltip,
+          formatter={(value, _name, props) => [
+            String((props.payload as Record<string, unknown>).tooltip ?? value),
             "",
           ]}
           labelFormatter={() => ""}
