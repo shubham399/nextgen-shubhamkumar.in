@@ -5,6 +5,7 @@ import { Resend } from "resend";
 import WorkoutDashboard from "@/components/sections/WorkoutDashboard";
 import SocialMetrics from "@/components/sections/SocialMetrics";
 import BlogViews from "@/components/sections/BlogViews";
+import GitHubPRs from "@/components/sections/GitHubPRs";
 import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
 
@@ -86,6 +87,10 @@ export default async function Dashboard() {
           <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
         </div>
         <BlogViews />
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
+        </div>
+        <GitHubPRs />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
         </div>
