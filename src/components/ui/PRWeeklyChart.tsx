@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell } from "recharts";
 
 interface PRBucket {
   label: string;
@@ -13,8 +13,8 @@ interface PRWeeklyChartProps {
   buckets: PRBucket[];
 }
 
-const COLOR_FULL = "#33a852";
-const COLOR_PARTIAL = "#7a72e8";
+const COLOR_FULL = "#a5e7ff";
+const COLOR_PARTIAL = "#00d2ff";
 
 export default function PRWeeklyChart({ buckets }: PRWeeklyChartProps) {
   const chartData = buckets.map((b) => ({
@@ -22,8 +22,8 @@ export default function PRWeeklyChart({ buckets }: PRWeeklyChartProps) {
     count: b.count,
     full: b.full,
     tooltip: b.full
-      ? `${b.label}: ${b.count} PR${b.count === 1 ? "" : "s"}`
-      : `${b.label}: ${b.count} PR${b.count === 1 ? "" : "s"} (partial, ${b.days}d)`,
+      ? `${b.label}: ${b.count} commit${b.count === 1 ? "" : "s"}`
+      : `${b.label}: ${b.count} commit${b.count === 1 ? "" : "s"} (partial, ${b.days}d)`,
   }));
 
   return (
@@ -42,21 +42,7 @@ export default function PRWeeklyChart({ buckets }: PRWeeklyChartProps) {
           tickLine={false}
           allowDecimals={false}
         />
-        <Tooltip
-          cursor={{ fill: "rgba(165, 231, 255, 0.08)" }}
-          contentStyle={{
-            background: "#1c1b1b",
-            border: "none",
-            borderRadius: 8,
-            fontSize: 12,
-            color: "#e5e2e1",
-          }}
-          formatter={(value, _name, props) => [
-            String((props.payload as Record<string, unknown>).tooltip ?? value),
-            "",
-          ]}
-          labelFormatter={() => ""}
-        />
+
         <Bar dataKey="count" radius={[4, 4, 0, 0]} maxBarSize={40} label={{ position: "top", fontSize: 10, fill: "#bbc9cf", offset: 4 }}>
           {chartData.map((entry, i) => (
             <Cell key={i} fill={entry.full ? COLOR_FULL : COLOR_PARTIAL} />
