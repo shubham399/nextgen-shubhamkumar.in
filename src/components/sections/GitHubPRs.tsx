@@ -24,10 +24,7 @@ interface GitHubCommitsData {
 
 async function getGitHubCommits(): Promise<GitHubCommitsData | null> {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}/api/github/prs`,
-      { next: { revalidate: 0 } },
-    );
+    const res = await fetch("/api/github/prs", { next: { revalidate: 0 } });
     if (!res.ok) return null;
     return res.json();
   } catch {
