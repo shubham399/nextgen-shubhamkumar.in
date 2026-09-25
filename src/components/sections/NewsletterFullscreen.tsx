@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 
@@ -39,6 +39,7 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
   const titleId = useId();
   const emailId = useId();
   const errorId = useId();
+  const shouldReduceMotion = useReducedMotion() ?? false;
 
   useEffect(() => {
     if (readStorage(LS_SUBSCRIBED)) return;
@@ -61,6 +62,8 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
   useEffect(() => {
     if (!isOpen) return;
     const previousFocus = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     closeButtonRef.current?.focus();
 
     const onKeyDown = (event: KeyboardEvent) => {
@@ -88,6 +91,7 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
     document.addEventListener("keydown", onKeyDown);
     return () => {
       document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
       previousFocus?.focus();
     };
   }, [dismiss, isOpen]);
@@ -124,14 +128,14 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
       {isOpen && (
         <motion.div
           className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-          initial={{ opacity: 0 }}
+          initial={shouldReduceMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
         >
           <motion.div
             className="absolute inset-0 bg-surface-container-lowest/95"
-            initial={{ opacity: 0 }}
+            initial={shouldReduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={dismiss}
@@ -145,10 +149,10 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
             aria-label={stage === "success" ? "Newsletter signup" : undefined}
             aria-labelledby={stage === "success" ? undefined : titleId}
             className="relative w-full max-w-md"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 16, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.25, ease: [0.16, 1, 0.3, 1] }}
           >
             <button
               ref={closeButtonRef}
@@ -178,7 +182,7 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
                 <div className="relative mx-auto mb-5 h-20 w-20 overflow-hidden rounded-full ring-2 ring-primary/20 ring-offset-2 ring-offset-surface-container-lowest">
                   <Image
                     src={avatarUrl}
-                    alt={name}
+                    alt=""
                     fill
                     className="object-cover"
                     sizes="80px"
@@ -189,9 +193,9 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
                 <p className="mb-1 font-headline text-sm font-semibold tracking-tight text-on-surface">{name}</p>
                 <p className="mb-6 font-label text-xs text-content-muted">writes about backend systems</p>
 
-                <h1 id={titleId} className="mb-3 font-headline text-2xl font-bold leading-[1.15] tracking-tighter text-on-surface sm:text-3xl">
+                <h2 id={titleId} className="mb-3 font-headline text-2xl font-bold leading-[1.15] tracking-tighter text-on-surface sm:text-3xl">
                   Lessons from systems that stay up<span className="text-secondary">.</span>
-                </h1>
+                </h2>
                 <p className="mx-auto mb-8 max-w-sm font-body text-sm leading-relaxed text-on-surface-variant">
                   Fintech, distributed systems, and production engineering. One useful dispatch at a time.
                 </p>
@@ -203,7 +207,7 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
                 )}
 
                 <form
-                  className="mx-auto flex max-w-sm gap-2"
+                  className="mx-auto flex max-w-sm flex-col gap-2 sm:flex-row"
                   onSubmit={(event) => {
                     event.preventDefault();
                     void subscribe();
@@ -220,12 +224,12 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
                     disabled={stage === "loading"}
                     aria-invalid={stage === "error"}
                     aria-describedby={stage === "error" ? errorId : undefined}
-                    className="form-control min-h-11 min-w-0 flex-1 rounded-lg px-4 py-3 text-base sm:text-sm disabled:opacity-50"
+                    className="form-control min-w-0 flex-1"
                   />
                   <button
                     type="submit"
                     disabled={stage === "loading"}
-                    className="btn-primary min-h-11 flex-shrink-0 disabled:opacity-50"
+                    className="btn-primary flex-shrink-0"
                   >
                     {stage === "loading" ? (
                       <Icon icon="ion:loader" width={14} className="animate-spin" aria-label="Subscribing" />

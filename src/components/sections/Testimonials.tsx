@@ -34,7 +34,7 @@ function FeaturedTestimonial({ testimonial }: { testimonial: Testimonial }) {
         <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full bg-surface-container-high">
           <Image
             src={testimonial.avatar}
-            alt={testimonial.name}
+            alt=""
             fill
             className="object-cover"
             sizes="40px"
@@ -150,7 +150,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                   onClick={() => setIsManuallyPaused((paused) => !paused)}
                   aria-pressed={isManuallyPaused}
                   aria-label={isManuallyPaused ? "Resume notes rotation" : "Pause notes rotation"}
-                  className="flex min-h-11 items-center gap-1.5 rounded-lg px-2 font-label text-[10px] uppercase tracking-wider text-content-subtle transition-colors hover:bg-surface-container hover:text-on-surface"
+                  className="interactive-surface flex min-h-11 items-center gap-1.5 rounded-lg px-3 font-label text-xs font-medium text-content-subtle hover:text-on-surface"
                 >
                   <Icon icon={isManuallyPaused ? "ion:play" : "ion:pause"} width={13} />
                   {isManuallyPaused ? "Play" : "Pause"}
@@ -165,7 +165,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                   type="button"
                   aria-pressed={index === activeIdx}
                   onClick={() => setActiveIdx(index)}
-                  className={`group flex min-h-16 w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition-colors ${
+                  className={`interactive-surface group flex min-h-16 w-full items-center gap-3 rounded-xl px-3 py-3 text-left ${
                     index === activeIdx
                       ? "bg-surface-container"
                       : "bg-surface-container-low hover:bg-surface-container"
@@ -182,7 +182,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                     />
                   </div>
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate font-headline text-sm font-semibold text-on-surface group-hover:text-primary">
+                    <span className="block truncate font-headline text-sm font-semibold text-on-surface transition-colors group-hover:text-primary group-focus-visible:text-primary">
                       {testimonial.name.trim()}
                     </span>
                     <span className="block truncate font-label text-xs text-content-muted">

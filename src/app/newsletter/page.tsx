@@ -31,7 +31,7 @@ export default async function NewsletterPage() {
     <>
       <Navigation me={me} nav={nav} socials={socials} />
 
-      <main>
+      <main id="main-content">
         <section className="section-base pb-16 pt-24 md:pb-20 md:pt-32">
           <AnimateOnScroll>
             <p className="signal-label mb-4">Newsletter</p>

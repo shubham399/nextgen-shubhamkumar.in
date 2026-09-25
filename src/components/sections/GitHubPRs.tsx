@@ -10,7 +10,7 @@ interface GitHubPRsProps {
 function tile(value: string, label: string, cls?: string) {
   return (
     <div className="bg-surface-container-low rounded-xl p-4 h-full">
-      <p className="font-label text-[10px] text-content-subtle uppercase tracking-wider mb-1">
+      <p className="mb-1 font-label text-xs font-medium text-content-subtle">
         {label}
       </p>
       <p className={`font-headline font-bold text-2xl tracking-tight mb-0.5 ${cls ?? "text-on-surface"}`}>
@@ -41,9 +41,7 @@ export default function GitHubPRs({ data }: GitHubPRsProps) {
       <AnimateOnScroll>
         <div className="flex items-center gap-2 mb-1">
           <Icon icon="ion:logo-github" width={16} className="text-primary" />
-          <p className="text-primary font-label text-xs font-semibold tracking-widest uppercase">
-            Commit Activity
-          </p>
+          <h2 className="signal-label">Commit activity</h2>
         </div>
         <p className="font-body text-sm text-content-muted mb-6">
           {data.totalCommits ?? 0} commits in the 13-week window
@@ -51,14 +49,14 @@ export default function GitHubPRs({ data }: GitHubPRsProps) {
       </AnimateOnScroll>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
-        <AnimateOnScroll>{tile((data.totalCommits ?? 0).toLocaleString(), "Total Commits")}</AnimateOnScroll>
+        <AnimateOnScroll>{tile((data.totalCommits ?? 0).toLocaleString(), "Total commits")}</AnimateOnScroll>
         <AnimateOnScroll delay={0.02}>
-          {tile(data.activeDays.toString(), "Active Days (13wk)")}
+          {tile(data.activeDays.toString(), "Active days, 13 weeks")}
         </AnimateOnScroll>
         <AnimateOnScroll delay={0.04}>
-          {tile(data.last30.toString(), "Commits Last 30 Days")}
+          {tile(data.last30.toString(), "Commits, last 30 days")}
         </AnimateOnScroll>
-        <AnimateOnScroll delay={0.06}>{tile(deltaTxt, "Last 7d vs Prev 7d", deltaCls)}</AnimateOnScroll>
+        <AnimateOnScroll delay={0.06}>{tile(deltaTxt, "Last 7 vs previous 7 days", deltaCls)}</AnimateOnScroll>
       </div>
 
       <AnimateOnScroll delay={0.08}>
@@ -66,7 +64,7 @@ export default function GitHubPRs({ data }: GitHubPRsProps) {
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-headline font-semibold text-sm tracking-tight text-on-surface flex items-center gap-2">
               <Icon icon="ion:bar-chart-outline" width={14} className="text-primary" />
-              Commits Per Week
+              Commits per week
             </h3>
             <div className="flex gap-3 text-xs text-content-muted">
               <span className="flex items-center gap-1.5">
@@ -80,7 +78,7 @@ export default function GitHubPRs({ data }: GitHubPRsProps) {
             </div>
           </div>
           <PRWeeklyChart buckets={data.buckets} />
-          <p className="text-content-subtle font-label text-[11px] mt-2">{data.partialNote}</p>
+          <p className="mt-2 font-label text-xs text-content-subtle">{data.partialNote}</p>
         </div>
       </AnimateOnScroll>
     </section>

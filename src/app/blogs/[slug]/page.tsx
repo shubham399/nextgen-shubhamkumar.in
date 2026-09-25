@@ -115,14 +115,14 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Navigation me={me} nav={nav} socials={socials} />
-      <main>
+      <main id="main-content">
         <article className="section-base pt-36">
           <Link
             href="/blogs"
             className="inline-flex items-center gap-1.5 font-body text-sm text-content-muted hover:text-primary transition-colors mb-8"
           >
             <Icon icon="ion:arrow-back" width={14} />
-            Back to Thoughts & Insights
+            Back to thoughts and insights
           </Link>
 
           <header className="mb-10">
@@ -141,7 +141,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
             <div
-              className="blog-content max-w-none lg:col-span-3"
+              className="blog-content w-full max-w-[72ch] lg:col-span-3"
               dangerouslySetInnerHTML={{ __html: modifiedHtml }}
             />
             <aside className="hidden lg:block">
@@ -156,7 +156,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           <div className="flex justify-between items-start gap-4 mb-12">
             <div className="flex flex-wrap gap-2">
               {tags.map((tag) => (
-                <span key={tag.id} className="badge text-[10px] px-2 py-0.5">
+                <span key={tag.id} className="badge px-2 py-0.5">
                   #{tag.name}
                 </span>
               ))}
@@ -172,7 +172,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         <section className="section-base">
           <AnimateOnScroll>
             <h2 className="font-headline text-2xl sm:text-3xl font-bold tracking-tighter text-on-surface mb-8">
-              Related Thoughts
+              Related thoughts
             </h2>
           </AnimateOnScroll>
           {relatedPosts.length === 0 ? (
@@ -206,12 +206,12 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                       )}
                     </div>
                     <div className="flex-1 p-5 flex flex-col gap-3">
-                      <span className="font-label text-[11px] text-content-muted">
+                      <span className="font-label text-xs text-content-muted">
                         {Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(
                           new Date(post.publishedAt || post.createdAt)
                         )}
                       </span>
-                      <h3 className="font-headline font-bold text-base tracking-tighter text-on-surface group-hover:text-primary transition-colors leading-snug">
+                      <h3 className="font-headline text-base font-bold leading-snug tracking-tight text-on-surface transition-colors group-hover:text-primary group-focus-visible:text-primary">
                         {post.title}
                       </h3>
                       {post.description && (

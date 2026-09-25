@@ -88,7 +88,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                 <div className="ml-6 sm:ml-8 border-l-2 border-outline-variant/20 pl-4 sm:pl-6 mb-3">
                   <div className="flex items-center gap-2 mb-1.5">
                     <Icon icon="ion:chatbubble-ellipses-outline" width={12} className="text-content-subtle" />
-                    <span className="font-label text-[11px] text-content-subtle">
+                    <span className="font-label text-xs text-content-subtle">
                       In reply to {comment.parent.author}
                     </span>
                   </div>
@@ -109,7 +109,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                       {comment.author}
                     </span>
                   </div>
-                  <span className="font-label text-[11px] text-content-muted flex-shrink-0">
+                  <span className="flex-shrink-0 font-label text-xs text-content-muted">
                     {Intl.DateTimeFormat("en-US", {
                       month: "short",
                       day: "numeric",
@@ -156,7 +156,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
-              <h3 className="font-headline font-bold text-lg tracking-tighter text-on-surface">
+              <h3 className="font-headline text-lg font-bold tracking-tight text-on-surface">
                 Join the conversation
               </h3>
 
@@ -168,10 +168,13 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                   <input
                     id="comment-author"
                     type="text"
+                    name="name"
+                    autoComplete="name"
+                    required
                     value={author}
                     onChange={(e) => setAuthor(e.target.value)}
                     placeholder="Your name"
-                    className="w-full bg-surface-container rounded-xl px-4 py-2.5 font-body text-sm text-on-surface placeholder:text-content-subtle focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all duration-200"
+                    className="form-control"
                   />
                 </div>
                 <div>
@@ -181,10 +184,14 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                   <input
                     id="comment-email"
                     type="email"
+                    name="email"
+                    autoComplete="email"
+                    spellCheck={false}
+                    required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="w-full bg-surface-container rounded-xl px-4 py-2.5 font-body text-sm text-on-surface placeholder:text-content-subtle focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all duration-200"
+                    className="form-control"
                   />
                 </div>
               </div>
@@ -197,10 +204,12 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                   <input
                     id="comment-url"
                     type="url"
+                    name="url"
+                    autoComplete="url"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="https://example.com"
-                    className="w-full bg-surface-container rounded-xl px-4 py-2.5 font-body text-sm text-on-surface placeholder:text-content-subtle focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all duration-200"
+                    className="form-control"
                   />
                 </div>
               )}
@@ -211,11 +220,13 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                 </label>
                 <textarea
                   id="comment-content"
+                  name="comment"
+                  required
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   placeholder="Share your thoughts..."
                   rows={4}
-                  className="w-full bg-surface-container rounded-xl px-4 py-2.5 font-body text-sm text-on-surface placeholder:text-content-subtle focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all duration-200 resize-y min-h-[100px]"
+                  className="form-control min-h-[100px] resize-y"
                 />
               </div>
 
@@ -234,7 +245,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
               )}
 
               {error && (
-                <div className="flex items-center gap-2 text-sm text-error bg-error/10 rounded-xl px-4 py-3">
+                <div role="alert" className="flex items-center gap-2 text-sm text-error bg-error/10 rounded-xl px-4 py-3">
                   <Icon icon="ion:alert-circle-outline" width={16} className="flex-shrink-0 text-error" />
                   <span className="font-body">{error}</span>
                 </div>

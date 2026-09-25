@@ -69,12 +69,13 @@ export default async function BlogListing() {
   return (
     <>
       <Navigation me={me} nav={nav} socials={socials} />
-      <main>
+      <main id="main-content">
         <section className="section-base pt-36">
           <SectionHeader
             label="Blog"
-            title="Thoughts & Insights"
+            title="Thoughts and insights"
             description="Tales from the trenches of backend engineering, system design, and building at scale."
+            level="h1"
           />
 
           <div className="h-px bg-divider mb-14" />

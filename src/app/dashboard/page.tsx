@@ -83,7 +83,7 @@ export default async function Dashboard() {
   return (
     <>
       {me && nav && socials && <Navigation me={me} nav={nav} socials={socials} />}
-      <main>
+      <main id="main-content">
         <WorkoutDashboard workouts={workouts} summary={summary} />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-px bg-divider" />

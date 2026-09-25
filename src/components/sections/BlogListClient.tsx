@@ -194,7 +194,7 @@ export default function BlogListClient({ initialPosts, initialPagination, allTag
                   </div>
                   <div className="flex-1 p-5 flex flex-col gap-3 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="font-label text-[11px] text-content-muted">
+                      <span className="font-label text-xs text-content-muted">
                         {Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(
                           new Date(post.publishedAt || post.updatedAt)
                         )}
@@ -203,14 +203,14 @@ export default function BlogListClient({ initialPosts, initialPagination, allTag
                         <>
                           <span className="w-0.5 h-0.5 rounded-full bg-outline-variant/40" />
                           {post.tags.map((tag, i) => (
-                            <span key={tag.id} className="font-label text-[11px] text-primary/70">
+                            <span key={tag.id} className="font-label text-xs text-primary/70">
                               #{tag.name}
                             </span>
                           ))}
                         </>
                       )}
                     </div>
-                    <h2 className="font-headline font-bold text-lg tracking-tighter text-on-surface group-hover:text-primary transition-colors leading-snug">
+                    <h2 className="font-headline text-lg font-bold leading-snug tracking-tight text-on-surface transition-colors group-hover:text-primary group-focus-visible:text-primary">
                       {post.title}
                     </h2>
                     {post.description && (

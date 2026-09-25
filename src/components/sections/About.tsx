@@ -83,7 +83,7 @@ export default function About({ me, contacts, experience }: AboutProps) {
       <AnimateOnScroll className="grid grid-cols-1 gap-6 lg:grid-cols-2" delay={0.1}>
         <div className="surface-card p-7">
           <p className="signal-label mb-3">The through-line</p>
-          <h3 className="mb-4 font-headline text-xl font-bold tracking-tighter text-on-surface">
+          <h3 className="mb-4 font-headline text-xl font-bold tracking-tight text-on-surface">
             Make the system legible.
           </h3>
           <p className="font-body text-sm leading-[1.8] text-on-surface-variant">

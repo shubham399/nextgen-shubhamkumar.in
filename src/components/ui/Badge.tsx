@@ -5,7 +5,7 @@ interface BadgeProps {
 
 export default function Badge({ children, className }: BadgeProps) {
   return (
-    <span className={`badge text-[10px] px-2 py-0.5 ${className ?? ""}`}>
+    <span className={`badge px-2 py-0.5 ${className ?? ""}`}>
       {children}
     </span>
   );

@@ -94,28 +94,39 @@ export default function Skills({ skills }: SkillsProps) {
             <StaggerContainer className="flex flex-wrap gap-2.5">
               {items.map((skill) => {
                 const iconSrc = getIconSrc(skill.icon);
+                const content = (
+                  <>
+                    {iconSrc && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={iconSrc}
+                        alt=""
+                        width={16}
+                        height={16}
+                        className="flex-shrink-0 object-contain"
+                      />
+                    )}
+                    <span className="font-label text-sm text-on-surface-variant transition-colors group-hover:text-on-surface group-focus-visible:text-on-surface">
+                      {skill.skill}
+                    </span>
+                  </>
+                );
                 return (
                   <StaggerItem key={skill.skill}>
-                    <a
-                      href={skill.href !== "/" ? skill.href : undefined}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-2 rounded-lg bg-surface-container-low px-3.5 py-2 transition-colors duration-200 hover:bg-surface-container-high"
-                    >
-                      {iconSrc && (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={iconSrc}
-                          alt={skill.skill}
-                          width={16}
-                          height={16}
-                          className="object-contain flex-shrink-0"
-                        />
-                      )}
-                      <span className="font-label text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">
-                        {skill.skill}
+                    {skill.href !== "/" ? (
+                      <a
+                        href={skill.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="interactive-surface group inline-flex min-h-11 items-center gap-2 rounded-lg bg-surface-container-low px-3.5 py-2 hover:bg-surface-container-high focus-visible:bg-surface-container-high"
+                      >
+                        {content}
+                      </a>
+                    ) : (
+                      <span className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-surface-container-low px-3.5 py-2">
+                        {content}
                       </span>
-                    </a>
+                    )}
                   </StaggerItem>
                 );
               })}

@@ -46,15 +46,15 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
           <motion.div style={{ y: contentY }} className="flex flex-col gap-6">
             {/* Location chip */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
+              transition={{ duration: 0.4, delay: shouldReduceMotion ? 0 : 0.05, ease: [0.16, 1, 0.3, 1] }}
             >
               <a
                 href={me.locationLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant text-xs font-label hover:text-primary transition-colors"
+                className="interactive-surface inline-flex min-h-11 items-center gap-2 rounded-full bg-surface-container px-3 text-xs font-label text-on-surface-variant hover:bg-surface-container-high hover:text-primary"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-secondary" aria-hidden="true" />
                 {me.location}
@@ -64,9 +64,9 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
 
             {/* Main title — display scale */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.5, delay: shouldReduceMotion ? 0 : 0.12, ease: [0.16, 1, 0.3, 1] }}
             >
               <h1 className="font-headline font-bold tracking-tighter leading-[0.9]">
                 <span className="block text-6xl sm:text-7xl lg:text-8xl text-on-surface">
@@ -80,9 +80,9 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
 
             {/* Role — prominent, not muted */}
             <motion.p
-              initial={{ opacity: 0, y: 16 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.35 }}
+              transition={{ duration: 0.4, delay: shouldReduceMotion ? 0 : 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="font-headline text-xl sm:text-2xl text-on-surface font-semibold tracking-tight"
             >
               {me.about}
@@ -90,9 +90,9 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
 
             {/* Summary — tighter, punchier */}
             <motion.p
-              initial={{ opacity: 0, y: 16 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.45 }}
+              transition={{ duration: 0.4, delay: shouldReduceMotion ? 0 : 0.27, ease: [0.16, 1, 0.3, 1] }}
               className="font-body text-base leading-relaxed text-on-surface-variant max-w-lg"
             >
               {me.summary}
@@ -100,9 +100,9 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
 
             {/* CTAs — bolder */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.55 }}
+              transition={{ duration: 0.4, delay: shouldReduceMotion ? 0 : 0.34, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-wrap gap-3"
             >
               <CTA
@@ -123,9 +123,9 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
 
             {/* Socials */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.65 }}
+              transition={{ duration: 0.4, delay: shouldReduceMotion ? 0 : 0.41, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col items-start gap-3"
             >
               <p className="font-label text-xs font-semibold uppercase tracking-[0.18em] text-content-subtle">
@@ -137,7 +137,7 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
                     key={social.name}
                     href={social.href}
                     aria-label={social.name}
-                    className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-on-surface-variant transition-colors hover:bg-surface-container hover:text-primary"
+                    className="interactive-surface inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-primary"
                   >
                     <Icon icon={social.icon} width={18} aria-hidden="true" />
                     <span className="sr-only">{social.name}</span>
@@ -149,9 +149,9 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
 
           {/* Right: Avatar */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
+            transition={{ duration: 0.55, delay: shouldReduceMotion ? 0 : 0.18, ease: [0.16, 1, 0.3, 1] }}
             style={{ y: avatarY }}
             className="flex justify-center lg:justify-end"
           >

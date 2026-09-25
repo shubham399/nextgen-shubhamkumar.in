@@ -24,7 +24,7 @@ export default function Certificates({ certificates }: CertificatesProps) {
               href={certificate.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex h-full items-start gap-4 rounded-2xl bg-surface-container-low p-5 transition-colors hover:bg-surface-container sm:p-6"
+              className="interactive-surface group flex h-full items-start gap-4 rounded-2xl bg-surface-container-low p-5 sm:p-6"
             >
               <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-surface-container-high p-1.5">
                 <Image
@@ -43,7 +43,7 @@ export default function Certificates({ certificates }: CertificatesProps) {
                   </p>
                   <p className="font-label text-xs text-content-muted">{certificate.issuedAt}</p>
                 </div>
-                <p className="mt-2 font-headline font-semibold leading-snug text-on-surface transition-colors group-hover:text-primary">
+                <p className="mt-2 font-headline font-semibold leading-snug text-on-surface transition-colors group-hover:text-primary group-focus-visible:text-primary">
                   {certificate.title}
                 </p>
                 <p className="mt-4 flex items-center gap-1.5 font-label text-xs text-tertiary">
@@ -54,7 +54,7 @@ export default function Certificates({ certificates }: CertificatesProps) {
               <Icon
                 icon="ion:open-outline"
                 width={16}
-                className="mt-1 flex-shrink-0 text-content-subtle transition-colors group-hover:text-primary"
+                className="mt-1 flex-shrink-0 text-content-subtle transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-primary group-focus-visible:translate-x-0.5 group-focus-visible:text-primary"
                 aria-hidden="true"
               />
             </a>

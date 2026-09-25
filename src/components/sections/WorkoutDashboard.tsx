@@ -91,12 +91,10 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
       <AnimateOnScroll className="mb-8">
         <div className="flex items-center gap-2 mb-1">
           <Icon icon="ion:fitness-outline" width={16} className="text-primary" />
-          <p className="text-primary font-label text-xs font-semibold tracking-widest uppercase">
-            Open Dashboard
-          </p>
+          <p className="signal-label">Open dashboard</p>
         </div>
         <h1 className="font-headline text-2xl sm:text-3xl font-bold tracking-tighter text-on-surface mb-2">
-          Workout Tracker
+          Workout tracker
         </h1>
         <p className="font-body text-sm text-content-muted">
           A private record of training sessions, streaks, and health metrics.
@@ -107,17 +105,17 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
         <AnimateOnScroll>
           <div className="surface-card h-full p-5 sm:p-6">
             <div className="flex items-center justify-between mb-5">
-              <h3 className="font-headline font-semibold text-sm tracking-tight text-on-surface">
+              <h2 className="font-headline font-semibold text-sm tracking-tight text-on-surface">
                 {MONTH_NAMES[month - 1]} {year}
-              </h3>
+              </h2>
               {!isCurrentMonth && (
-                <span className="badge text-[10px]">Previous month</span>
+                <span className="badge">Previous month</span>
               )}
             </div>
 
             <div className="grid grid-cols-7 gap-1">
               {DAY_HEADERS.map((d) => (
-                <div key={d} className="font-label text-[10px] font-semibold text-content-subtle text-center uppercase pb-2">
+                <div key={d} className="pb-2 text-center font-label text-xs font-semibold uppercase text-content-subtle">
                   {d}
                 </div>
               ))}
@@ -140,11 +138,11 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
             </div>
 
             <div className="flex items-center gap-4 mt-4 pt-4">
-              <span className="font-label text-[10px] text-content-subtle uppercase tracking-wider">Legend</span>
+              <span className="font-label text-xs font-medium text-content-subtle">Legend</span>
               {Object.entries(TYPE_COLORS).map(([type, color]) => (
                 <div key={type} className="flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
-                  <span className="font-label text-[10px] text-content-subtle capitalize">{type}</span>
+                  <span className="font-label text-xs capitalize text-content-subtle">{type}</span>
                 </div>
               ))}
             </div>
@@ -155,7 +153,7 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
           {allStats.map((stat) => (
             <AnimateOnScroll key={stat.label} delay={0.03}>
               <div className="flex h-full flex-col justify-center bg-surface-container-low p-4">
-                <p className="mb-1.5 font-label text-[10px] uppercase tracking-wider text-content-subtle">
+                <p className="mb-1.5 font-label text-xs font-medium text-content-subtle">
                   {stat.label}
                 </p>
                 <p className="mb-0.5 font-headline text-xl font-bold tracking-tight text-on-surface sm:text-2xl">

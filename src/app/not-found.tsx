@@ -27,10 +27,11 @@ const itemVariants = {
 
 export default function NotFound() {
   return (
-    <main className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <main id="main-content" className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-3xl mx-auto w-full text-center">
         {/* 404 */}
         <motion.p
+          aria-hidden="true"
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -40,14 +41,14 @@ export default function NotFound() {
         </motion.p>
 
         {/* Subtitle */}
-        <motion.p
+        <motion.h1
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="font-headline text-xl sm:text-2xl font-semibold tracking-tighter text-on-surface mt-4"
+          className="mt-4 font-headline text-xl font-semibold tracking-tight text-on-surface sm:text-2xl"
         >
           Page not found
-        </motion.p>
+        </motion.h1>
 
         {/* Description */}
         <motion.p
@@ -80,7 +81,7 @@ export default function NotFound() {
                 <span className="font-headline font-semibold text-xs tracking-tight text-on-surface group-hover:text-primary transition-colors">
                   {link.label}
                 </span>
-                <span className="font-body text-[10px] leading-tight text-content-muted">
+                <span className="font-body text-xs leading-tight text-content-muted">
                   {link.desc}
                 </span>
               </Link>

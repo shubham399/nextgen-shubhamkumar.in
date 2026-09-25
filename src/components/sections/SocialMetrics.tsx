@@ -15,13 +15,13 @@ export default function SocialMetrics({ socials, blogCount, totalViews, twitterF
   const socialLinks = socials.filter((s) => s.name !== "Email" && s.name !== "GitHub" && s.name !== "Twitter" && s.name !== "LinkedIn" && s.name !== "Instagram");
 
   const stats = [
-    { icon: "ion:document-text-outline", label: "Total Blogs", value: blogCount.toString(), sub: "till now" },
-    { icon: "ion:eye-outline", label: "Total Blog Views", value: totalViews.toLocaleString(), sub: "all-time" },
-    { icon: "ion:logo-twitter", label: "Twitter Followers", value: twitterFollowers.toString(), sub: "friends" },
-    { icon: "ion:mail-outline", label: "Newsletter Subs", value: subscribers.toString(), sub: "readers" },
+    { icon: "ion:document-text-outline", label: "Total blogs", value: blogCount.toString(), sub: "to date" },
+    { icon: "ion:eye-outline", label: "Total blog views", value: totalViews.toLocaleString(), sub: "all time" },
+    { icon: "ion:logo-twitter", label: "Twitter followers", value: twitterFollowers.toString(), sub: "friends" },
+    { icon: "ion:mail-outline", label: "Newsletter subscribers", value: subscribers.toString(), sub: "readers" },
     ...(github ? [
-      { icon: "ion:logo-github", label: "GitHub Repos", value: github.publicRepos.toString(), sub: "public repos" },
-      { icon: "ion:people-outline", label: "GitHub Followers", value: github.followers.toString(), sub: "friends" },
+      { icon: "ion:logo-github", label: "GitHub repositories", value: github.publicRepos.toString(), sub: "public repositories" },
+      { icon: "ion:people-outline", label: "GitHub followers", value: github.followers.toString(), sub: "friends" },
     ] : []),
   ];
 
@@ -30,9 +30,7 @@ export default function SocialMetrics({ socials, blogCount, totalViews, twitterF
       <AnimateOnScroll>
         <div className="flex items-center gap-2 mb-1">
           <Icon icon="ion:share-outline" width={16} className="text-primary" />
-          <p className="text-primary font-label text-xs font-semibold tracking-widest uppercase">
-            Social Media Metrics
-          </p>
+          <h2 className="signal-label">Social media metrics</h2>
         </div>
         <p className="mb-6 font-body text-sm text-content-muted">
           A snapshot of the channels where I share notes and experiments.
@@ -45,10 +43,10 @@ export default function SocialMetrics({ socials, blogCount, totalViews, twitterF
             <div className="bg-surface-container-low p-4 h-full">
               <div className="flex items-center gap-1.5 mb-1">
                 <Icon icon={stat.icon} width={13} className="text-primary/70" />
-                <p className="font-label text-[10px] text-content-subtle uppercase tracking-wider">{stat.label}</p>
+                <p className="font-label text-xs font-medium text-content-subtle">{stat.label}</p>
               </div>
               <p className="font-headline font-bold text-lg tracking-tight text-on-surface mb-0.5">{stat.value}</p>
-              <p className="font-label text-[10px] text-content-subtle">{stat.sub}</p>
+              <p className="font-label text-xs text-content-subtle">{stat.sub}</p>
             </div>
           </AnimateOnScroll>
         ))}
@@ -59,16 +57,16 @@ export default function SocialMetrics({ socials, blogCount, totalViews, twitterF
               href={s.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-surface-container-low p-4 h-full block hover:bg-surface-container transition-colors duration-200 group"
+              className="interactive-surface group block h-full bg-surface-container-low p-4"
             >
               <div className="flex items-center gap-1.5 mb-1">
                 <Icon icon={s.icon} width={13} className="text-primary/70" />
-                <p className="font-label text-[10px] text-content-subtle uppercase tracking-wider">{s.name}</p>
+                <p className="font-label text-xs font-medium text-content-subtle">{s.name}</p>
               </div>
               <p className="font-headline font-bold text-lg tracking-tight text-on-surface group-hover:text-primary transition-colors mb-0.5">
                 {s.username ?? s.name}
               </p>
-              <p className="font-label text-[10px] text-content-subtle">connect</p>
+              <p className="font-label text-xs text-content-subtle">Connect</p>
             </a>
           </AnimateOnScroll>
         ))}

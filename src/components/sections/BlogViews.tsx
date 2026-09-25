@@ -25,9 +25,7 @@ export default async function BlogViews() {
       <AnimateOnScroll>
         <div className="flex items-center gap-2 mb-1">
           <Icon icon="ion:eye-outline" width={16} className="text-primary" />
-          <p className="text-primary font-label text-xs font-semibold tracking-widest uppercase">
-            Realtime Blog Views
-          </p>
+          <h2 className="signal-label">Realtime blog views</h2>
         </div>
         <p className="mb-6 font-body text-sm text-content-muted">
            Views today
@@ -40,7 +38,7 @@ export default async function BlogViews() {
              <p className="mb-1 font-headline text-5xl font-bold tracking-tighter text-primary sm:text-6xl">
               {todayViews.toLocaleString()}
             </p>
-            <p className="font-label text-xs uppercase tracking-wider text-content-muted">
+            <p className="font-label text-xs text-content-muted">
               views today
             </p>
           </div>
@@ -50,7 +48,7 @@ export default async function BlogViews() {
           <div className="surface-card flex h-full flex-col p-5">
             <h3 className="font-headline font-semibold text-sm tracking-tight text-on-surface mb-2 flex items-center gap-2">
               <Icon icon="ion:bar-chart-outline" width={14} className="text-primary" />
-              Views (Last 7 Days)
+              Views, last 7 days
             </h3>
             <div className="flex-1 min-h-0">
               <DailyViewsChart days={days} />

@@ -15,7 +15,7 @@ const CTA = ({ btn, children, className }: ICta) => {
     })();
   }, [])
   return (
-    <button type="button" className={`${className}`} data-cal-config='{"layout":"month_view"}' data-cal-link={btn}>
+    <button type="button" aria-haspopup="dialog" className={className} data-cal-config='{"layout":"month_view"}' data-cal-link={btn}>
       {children}
     </button>
   )

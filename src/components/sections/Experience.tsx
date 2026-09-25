@@ -31,19 +31,19 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
 
         {visible.map((exp, idx) => (
           <StaggerItem key={exp.title}>
-            <div className="relative flex gap-6 group">
+            <div className="relative flex gap-6">
               {/* Timeline dot */}
               <div className="hidden sm:flex flex-col items-center z-10 mt-1">
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${logoContainerClass(exp.company)} ring-2 transition-all duration-300 ${idx === 0
+                  className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${logoContainerClass(exp.company)} ring-2 ${idx === 0
                     ? "ring-primary-container"
-                    : "ring-surface-container-highest group-hover:ring-surface-variant"
+                    : "ring-surface-container-highest"
                     }`}
                 >
                   {exp.logo ? (
                     <Image
                       src={exp.logo}
-                      alt={exp.company}
+                      alt=""
                       width={24}
                       height={24}
                       className="rounded-full object-contain"
@@ -58,7 +58,7 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
               </div>
 
               {/* Card */}
-              <div className="mb-4 flex-1 rounded-2xl bg-surface-container-low p-6 transition-colors duration-200 hover:bg-surface-container">
+              <div className="mb-4 flex-1 rounded-2xl bg-surface-container-low p-6">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
@@ -67,7 +67,7 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
                         {exp.logo && (
                           <Image
                             src={exp.logo}
-                            alt={exp.company}
+                            alt=""
                             width={28}
                             height={28}
                             className="object-contain"
@@ -77,7 +77,7 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
                       </div>
                       <UTMLink
                         href={exp.link}
-                        className="font-headline font-bold text-lg tracking-tighter text-on-surface hover:text-primary transition-colors"
+                        className="font-headline text-lg font-bold tracking-tight text-on-surface transition-colors hover:text-primary"
                       >
                         {exp.company}
                       </UTMLink>

@@ -16,7 +16,7 @@ export default function Footer({ me, socials, nav }: FooterProps) {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-10">
           {/* Brand */}
           <div>
-            <p className="font-headline font-bold text-base tracking-tighter text-on-surface mb-2">
+            <p className="mb-2 font-headline text-base font-bold tracking-tight text-on-surface">
               {me.name}
             </p>
             <p className="font-body text-xs text-on-surface-variant leading-relaxed">
@@ -53,7 +53,7 @@ export default function Footer({ me, socials, nav }: FooterProps) {
                   key={social.name}
                   href={social.href}
                   aria-label={social.name}
-                  className="w-11 h-11 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-all duration-200"
+                  className="interactive-surface flex h-11 w-11 items-center justify-center rounded-lg bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-primary"
                 >
                   <Icon icon={social.icon} width={16} aria-hidden="true" />
                   <span className="sr-only">{social.name}</span>
@@ -65,7 +65,7 @@ export default function Footer({ me, socials, nav }: FooterProps) {
               className="font-body text-sm text-on-surface-variant hover:text-primary transition-colors inline-flex items-center gap-1.5"
             >
               <Icon icon="ion:document-outline" width={14} />
-              Download Resume
+              Download resume
             </UTMLink>
           </div>
         </div>

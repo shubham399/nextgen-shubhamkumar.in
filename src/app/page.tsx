@@ -68,7 +68,7 @@ export default async function Home() {
       />
       <Navigation me={me} nav={nav} socials={socials} />
 
-      <main>
+      <main id="main-content">
         <Hero me={me} socials={socials} nav={nav} experience={experience} />
 
         <SectionDivider />

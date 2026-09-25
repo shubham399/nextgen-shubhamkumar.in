@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap");
-
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -13,6 +11,12 @@
 
   body {
     @apply bg-surface-dim text-on-surface font-body;
+  }
+
+  section[id],
+  main[id],
+  .blog-content :is(h1, h2, h3, h4)[id] {
+    scroll-margin-top: 7rem;
   }
 
   :focus-visible {
@@ -38,19 +42,31 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-md font-headline font-semibold text-sm tracking-tight transition-all duration-200;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-5 py-2.5 font-label text-sm font-semibold tracking-tight;
+    @apply transition-[background-color,color,transform,opacity] duration-150 ease-out touch-manipulation;
     @apply bg-primary text-on-primary;
   }
   .btn-primary:hover {
     @apply bg-primary-fixed;
   }
 
+  .btn-primary:disabled,
+  .btn-primary[aria-disabled="true"] {
+    @apply cursor-not-allowed opacity-50;
+  }
+
   .btn-ghost {
-    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-md font-headline font-semibold text-sm tracking-tight transition-all duration-200;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-5 py-2.5 font-label text-sm font-semibold tracking-tight;
+    @apply transition-[background-color,color,transform,opacity] duration-150 ease-out touch-manipulation;
     @apply text-primary;
   }
   .btn-ghost:hover {
     @apply bg-primary/10;
+  }
+
+  .btn-ghost:disabled,
+  .btn-ghost[aria-disabled="true"] {
+    @apply cursor-not-allowed opacity-50;
   }
 
   .badge {
@@ -67,12 +83,36 @@
   }
 
   .form-control {
-    @apply w-full bg-surface-container text-on-surface placeholder:text-content-subtle;
-    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-surface-container;
+    @apply min-h-11 w-full rounded-lg bg-surface-container px-4 py-2.5 text-base text-on-surface placeholder:text-content-subtle sm:text-sm;
+    @apply transition-[background-color,box-shadow] duration-150 ease-out;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-container;
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .form-control[aria-invalid="true"] {
+    @apply ring-2 ring-error/70;
+  }
+
+  .interactive-surface {
+    @apply transition-[background-color,color,transform] duration-150 ease-out touch-manipulation;
+  }
+
+  .interactive-surface:hover,
+  .interactive-surface:focus-visible {
+    @apply bg-surface-container;
   }
 
   .editorial-row {
     @apply flex items-center gap-4 bg-surface-container-low px-4 py-4 transition-colors;
+  }
+
+  .skip-link {
+    @apply fixed left-4 top-4 z-[200] -translate-y-20 rounded-lg bg-primary px-4 py-3 font-headline text-sm font-semibold text-on-primary;
+    @apply transition-transform duration-150;
+  }
+
+  .skip-link:focus-visible {
+    @apply translate-y-0;
   }
 }
 
@@ -103,6 +143,20 @@
 
   .animate-pulse {
     animation: none !important;
+  }
+
+  .interactive-surface:active,
+  .btn-primary:active,
+  .btn-ghost:active {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .interactive-surface:active,
+  .btn-primary:active,
+  .btn-ghost:active {
+    transform: scale(0.98);
   }
 }
 

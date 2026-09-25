@@ -175,7 +175,7 @@ export default async function ConsultingPage() {
     <>
       <Navigation me={me} nav={nav} socials={socials} />
 
-      <main>
+      <main id="main-content">
         {/* Hero */}
         <section className="section-base pt-24 pb-16 md:pt-32 md:pb-20">
           <AnimateOnScroll>
@@ -255,7 +255,7 @@ export default async function ConsultingPage() {
                     </div>
                   </div>
                   {index === 0 && (
-                    <p className="mt-5 font-label text-[10px] uppercase tracking-widest text-content-subtle">
+                    <p className="mt-5 font-label text-xs uppercase tracking-widest text-content-subtle">
                       Start with the system
                     </p>
                   )}
@@ -376,7 +376,7 @@ export default async function ConsultingPage() {
 
             <StaggerItem>
               <div className="bg-surface-container-low rounded-2xl p-7 h-full flex flex-col ring-1 ring-primary/30">
-                <p className="font-label text-[10px] font-semibold tracking-widest uppercase text-primary mb-3">
+                <p className="mb-3 font-label text-xs font-semibold uppercase tracking-widest text-primary">
                   Most popular
                 </p>
                 <h3 className="font-headline font-bold text-lg tracking-tight text-on-surface mb-1">

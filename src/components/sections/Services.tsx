@@ -45,10 +45,10 @@ export default function Services({ services }: ServicesProps) {
           return (
             <StaggerItem key={service.title} className={layoutClass}>
               <div
-                className={`group relative flex h-full flex-col rounded-2xl p-6 transition-colors sm:p-7 ${
+                className={`relative flex h-full flex-col rounded-2xl p-6 sm:p-7 ${
                   index === 0
                     ? "bg-surface-container"
-                    : "bg-surface-container-low hover:bg-surface-container"
+                    : "bg-surface-container-low"
                 }`}
               >
                 <div className="relative flex items-start justify-between gap-4">
@@ -56,7 +56,7 @@ export default function Services({ services }: ServicesProps) {
                     <span className={`flex h-10 w-10 items-center justify-center rounded-lg ${accent.icon} ${accent.text}`}>
                       <Icon icon={icon} width={20} aria-hidden="true" />
                     </span>
-                    <h3 className={`font-headline font-bold tracking-tight text-on-surface transition-colors group-hover:text-primary ${
+                    <h3 className={`font-headline font-bold tracking-tight text-on-surface ${
                       index === 0 ? "text-2xl" : "text-lg"
                     }`}>
                       {service.title}

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 
 interface AnimateOnScrollProps {
@@ -18,6 +18,7 @@ export default function AnimateOnScroll({
 }: AnimateOnScrollProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const shouldReduceMotion = useReducedMotion() ?? false;
 
   const variants = {
     hidden: {
@@ -35,10 +36,10 @@ export default function AnimateOnScroll({
   return (
     <motion.div
       ref={ref}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
+      initial={shouldReduceMotion ? false : "hidden"}
+      animate={shouldReduceMotion || isInView ? "visible" : "hidden"}
       variants={variants}
-      transition={{ duration: 0.5, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.4, delay: shouldReduceMotion ? 0 : delay, ease: [0.16, 1, 0.3, 1] }}
       className={className}
     >
       {children}
@@ -55,14 +56,15 @@ export function StaggerContainer({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const shouldReduceMotion = useReducedMotion() ?? false;
 
   return (
     <motion.div
       ref={ref}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
+      initial={shouldReduceMotion ? false : "hidden"}
+      animate={shouldReduceMotion || isInView ? "visible" : "hidden"}
       variants={{
-        visible: { transition: { staggerChildren: 0.05 } },
+        visible: { transition: { staggerChildren: shouldReduceMotion ? 0 : 0.04 } },
         hidden: {},
       }}
       className={className}
@@ -79,11 +81,13 @@ export function StaggerItem({
   children: React.ReactNode;
   className?: string;
 }) {
+  const shouldReduceMotion = useReducedMotion() ?? false;
+
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] } },
+        hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
+        visible: { opacity: 1, y: 0, transition: { duration: shouldReduceMotion ? 0 : 0.4, ease: [0.16, 1, 0.3, 1] } },
       }}
       className={className}
     >

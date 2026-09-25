@@ -30,7 +30,7 @@ export default function BlogToc({ items }: { items: TableOfContentsItem[] }) {
 
   return (
     <nav className="lg:sticky lg:top-32">
-      <h3 className="font-headline text-sm font-semibold tracking-tighter text-on-surface mb-4">
+      <h3 className="mb-4 font-headline text-sm font-semibold tracking-tight text-on-surface">
         On this page
       </h3>
       <div className="border-l border-outline-variant/30 pl-4 space-y-2.5">

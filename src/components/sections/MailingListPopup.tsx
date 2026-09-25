@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { usePathname } from "next/navigation";
 import type { GetCtasResult } from "@/lib/wisp";
@@ -36,6 +36,7 @@ export default function MailingListPopup({ cta }: Props) {
   const [stage, setStage] = useState<Stage>("idle");
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const shouldReduceMotion = useReducedMotion() ?? false;
 
   const title = (cta?.title || "Weekly lessons from fintech, distributed systems, and production engineering.").replace(/—/g, "-");
   const description = (cta?.description || "New posts and projects land in your inbox. No spam, no filler - just the good stuff.").replace(/—/g, "-");
@@ -81,7 +82,6 @@ export default function MailingListPopup({ cta }: Props) {
       }
       writeStorage(localStorage, LS_SUBSCRIBED, "1");
       setStage("success");
-      window.setTimeout(dismiss, 3000);
     } catch (err) {
       setErrMsg(err instanceof Error ? err.message : "Something went wrong");
       setStage("error");
@@ -96,17 +96,17 @@ export default function MailingListPopup({ cta }: Props) {
         <motion.aside
           aria-label="Newsletter signup"
           className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center p-3 sm:p-4"
-          initial={{ opacity: 0, y: 32 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 32 }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.25, ease: [0.16, 1, 0.3, 1] }}
         >
           <motion.div className="pointer-events-auto w-full max-w-3xl" layout>
             <div className="relative overflow-hidden rounded-2xl bg-surface-container-low p-4 sm:p-5">
               <button
                 type="button"
                 onClick={dismiss}
-                className="absolute right-2 top-2 z-10 flex h-9 w-9 items-center justify-center rounded-lg text-content-subtle transition-colors hover:bg-surface-container hover:text-on-surface"
+                className="absolute right-1 top-1 z-10 flex h-11 w-11 items-center justify-center rounded-lg text-content-subtle transition-colors hover:bg-surface-container hover:text-on-surface"
                 aria-label="Close newsletter signup"
               >
                 <Icon icon="ion:close" width={18} />
@@ -120,7 +120,7 @@ export default function MailingListPopup({ cta }: Props) {
                     </div>
                     <div className="min-w-0">
                       <p className="font-headline text-sm font-bold tracking-tight text-on-surface">Signal received.</p>
-                      <p className="truncate font-body text-xs text-content-muted">Check your inbox - I sent a welcome note.</p>
+                      <p className="font-body text-xs text-content-muted">Check your inbox - I sent a welcome note.</p>
                     </div>
                   </div>
                 ) : stage === "error" && errMsg ? (
@@ -128,7 +128,7 @@ export default function MailingListPopup({ cta }: Props) {
                     <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-error/10">
                       <Icon icon="ion:alert-circle" width={20} className="text-error" />
                     </div>
-                    <p className="min-w-0 flex-1 truncate font-body text-sm text-error">{errMsg}</p>
+                    <p className="min-w-0 flex-1 font-body text-sm text-error">{errMsg}</p>
                     <button type="button" onClick={() => setStage("visible")} className="btn-ghost flex-shrink-0 text-xs">
                       Try again
                     </button>
@@ -155,9 +155,9 @@ export default function MailingListPopup({ cta }: Props) {
                         disabled={stage === "loading"}
                         aria-invalid={stage === "error"}
                         aria-describedby={stage === "error" ? errorId : undefined}
-                        className="form-control min-w-0 flex-1 py-3"
+                        className="form-control min-w-0 flex-1"
                       />
-                      <button type="submit" disabled={stage === "loading"} className="btn-primary flex-shrink-0 px-5 py-3 disabled:opacity-50">
+                      <button type="submit" disabled={stage === "loading"} className="btn-primary flex-shrink-0 px-5">
                         {stage === "loading" ? (
                           <Icon icon="ion:loader" width={14} className="animate-spin" />
                         ) : (

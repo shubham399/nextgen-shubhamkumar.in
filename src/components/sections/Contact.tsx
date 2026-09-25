@@ -26,8 +26,8 @@ export default function Contact({ contacts, me, socials }: ContactProps) {
             <p className="signal-label">Direct channels</p>
             <div className="mt-4 flex flex-col gap-1">
               {contacts.map((contact) => (
-                <div key={contact.title} className="group flex items-center gap-3 rounded-xl px-2 py-3 transition-colors hover:bg-surface-container">
-                  <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-surface-container-high text-primary transition-colors group-hover:text-secondary">
+                <div key={contact.title} className="flex items-center gap-3 rounded-xl px-2 py-3">
+                  <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-surface-container-high text-primary">
                     <Icon icon={contact.icon} width={16} aria-hidden="true" />
                   </div>
                   <div className="min-w-0">
@@ -57,7 +57,7 @@ export default function Contact({ contacts, me, socials }: ContactProps) {
                     key={social.name}
                     href={social.href}
                     aria-label={social.name}
-                    className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-surface-container-low px-3 py-2 font-label text-xs text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-primary"
+                    className="interactive-surface inline-flex min-h-11 items-center gap-2 rounded-lg bg-surface-container-low px-3 py-2 font-label text-xs text-on-surface-variant hover:bg-surface-container-high hover:text-primary"
                   >
                     <Icon icon={social.icon} width={16} aria-hidden="true" />
                     {social.name}
