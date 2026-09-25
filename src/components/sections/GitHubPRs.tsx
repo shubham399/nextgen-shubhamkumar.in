@@ -9,8 +9,8 @@ interface GitHubPRsProps {
 
 function tile(value: string, label: string, cls?: string) {
   return (
-    <div className="bg-surface-container-low rounded-xl p-4 inner-glow h-full">
-      <p className="font-label text-[10px] text-on-surface-variant/50 uppercase tracking-wider mb-1">
+    <div className="bg-surface-container-low rounded-xl p-4 h-full">
+      <p className="font-label text-[10px] text-content-subtle uppercase tracking-wider mb-1">
         {label}
       </p>
       <p className={`font-headline font-bold text-2xl tracking-tight mb-0.5 ${cls ?? "text-on-surface"}`}>
@@ -31,9 +31,9 @@ export default function GitHubPRs({ data }: GitHubPRsProps) {
     data.delta === null
       ? "text-on-surface"
       : data.delta > 0
-        ? "text-[#33a852]"
+        ? "text-tertiary"
         : data.delta < 0
-          ? "text-[#f0776c]"
+          ? "text-error"
           : "text-on-surface";
 
   return (
@@ -45,7 +45,7 @@ export default function GitHubPRs({ data }: GitHubPRsProps) {
             Commit Activity
           </p>
         </div>
-        <p className="font-body text-sm text-on-surface-variant/70 mb-6">
+        <p className="font-body text-sm text-content-muted mb-6">
           {data.totalCommits ?? 0} commits in the 13-week window
         </p>
       </AnimateOnScroll>
@@ -62,25 +62,25 @@ export default function GitHubPRs({ data }: GitHubPRsProps) {
       </div>
 
       <AnimateOnScroll delay={0.08}>
-        <div className="bg-surface-container-low rounded-2xl p-5 inner-glow">
+        <div className="bg-surface-container-low rounded-2xl p-5">
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-headline font-semibold text-sm tracking-tight text-on-surface flex items-center gap-2">
               <Icon icon="ion:bar-chart-outline" width={14} className="text-primary" />
               Commits Per Week
             </h3>
-            <div className="flex gap-3 text-xs text-on-surface-variant/60">
+            <div className="flex gap-3 text-xs text-content-muted">
               <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-sm bg-[#33a852] inline-block" />
+                <span className="inline-block h-2 w-2 rounded-sm bg-tertiary" />
                 full 7 days
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-sm bg-[#7a72e8] inline-block" />
+                <span className="inline-block h-2 w-2 rounded-sm bg-secondary" />
                 current, partial
               </span>
             </div>
           </div>
           <PRWeeklyChart buckets={data.buckets} />
-          <p className="text-on-surface-variant/40 font-label text-[11px] mt-2">{data.partialNote}</p>
+          <p className="text-content-subtle font-label text-[11px] mt-2">{data.partialNote}</p>
         </div>
       </AnimateOnScroll>
     </section>

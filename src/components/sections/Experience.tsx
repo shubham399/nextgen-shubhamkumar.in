@@ -22,7 +22,7 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
     <section id="experience" className="section-base">
       <SectionHeader
         label="Work History"
-        title="Where I've shipped at scale"
+        title="A record of production work"
       />
 
       <StaggerContainer className="flex flex-col gap-1 relative">
@@ -58,7 +58,7 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
               </div>
 
               {/* Card */}
-              <div className="flex-1 bg-surface-container-low rounded-2xl p-6 inner-glow mb-4 hover:bg-surface-container transition-colors duration-200">
+              <div className="mb-4 flex-1 rounded-2xl bg-surface-container-low p-6 transition-colors duration-200 hover:bg-surface-container">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                   <div>
                     <div className="flex items-center gap-2 mb-1">

@@ -29,25 +29,25 @@ export default async function BlogViews() {
             Realtime Blog Views
           </p>
         </div>
-        <p className="font-body text-sm text-on-surface-variant/70 mb-6">
-          views today
-        </p>
+        <p className="mb-6 font-body text-sm text-content-muted">
+           Views today
+         </p>
       </AnimateOnScroll>
 
       <div className="grid grid-cols-1 md:grid-cols-5 gap-5">
         <AnimateOnScroll className="md:col-span-2">
-          <div className="bg-surface-container-low rounded-2xl p-6 inner-glow h-full flex flex-col justify-center text-center">
-            <p className="font-headline font-bold text-5xl sm:text-6xl tracking-tighter gradient-text mb-1">
+          <div className="surface-card flex h-full flex-col justify-center p-6 text-center">
+             <p className="mb-1 font-headline text-5xl font-bold tracking-tighter text-primary sm:text-6xl">
               {todayViews.toLocaleString()}
             </p>
-            <p className="font-label text-xs text-on-surface-variant/50 uppercase tracking-wider">
+            <p className="font-label text-xs uppercase tracking-wider text-content-muted">
               views today
             </p>
           </div>
         </AnimateOnScroll>
 
         <AnimateOnScroll className="md:col-span-3" delay={0.05}>
-          <div className="bg-surface-container-low rounded-2xl p-5 inner-glow h-full flex flex-col">
+          <div className="surface-card flex h-full flex-col p-5">
             <h3 className="font-headline font-semibold text-sm tracking-tight text-on-surface mb-2 flex items-center gap-2">
               <Icon icon="ion:bar-chart-outline" width={14} className="text-primary" />
               Views (Last 7 Days)

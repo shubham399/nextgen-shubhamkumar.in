@@ -51,10 +51,10 @@ const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "Ju
 const DAY_HEADERS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 
 const TYPE_COLORS: Record<string, string> = {
-  gym: "#a5e7ff",
-  cardio: "#73daca",
-  calisthenics: "#bb9af7",
-  rest: "#6fd4ee",
+  gym: "#c4eef2",
+  cardio: "#b8d6a3",
+  calisthenics: "#f1b35c",
+  rest: "#70d5df",
 };
 
 function getTypeColor(type: string): string {
@@ -98,14 +98,14 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
         <h1 className="font-headline text-2xl sm:text-3xl font-bold tracking-tighter text-on-surface mb-2">
           Workout Tracker
         </h1>
-        <p className="font-body text-sm text-on-surface-variant/70">
-          tracks my workout sessions, health & fitness
+        <p className="font-body text-sm text-content-muted">
+          A private record of training sessions, streaks, and health metrics.
         </p>
       </AnimateOnScroll>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <AnimateOnScroll>
-          <div className="bg-surface-container-low rounded-2xl p-5 sm:p-6 inner-glow h-full">
+          <div className="surface-card h-full p-5 sm:p-6">
             <div className="flex items-center justify-between mb-5">
               <h3 className="font-headline font-semibold text-sm tracking-tight text-on-surface">
                 {MONTH_NAMES[month - 1]} {year}
@@ -117,7 +117,7 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
 
             <div className="grid grid-cols-7 gap-1">
               {DAY_HEADERS.map((d) => (
-                <div key={d} className="font-label text-[10px] font-semibold text-on-surface-variant/30 text-center uppercase pb-2">
+                <div key={d} className="font-label text-[10px] font-semibold text-content-subtle text-center uppercase pb-2">
                   {d}
                 </div>
               ))}
@@ -140,30 +140,28 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
             </div>
 
             <div className="flex items-center gap-4 mt-4 pt-4">
-              <span className="font-label text-[10px] text-on-surface-variant/50 uppercase tracking-wider">Legend</span>
+              <span className="font-label text-[10px] text-content-subtle uppercase tracking-wider">Legend</span>
               {Object.entries(TYPE_COLORS).map(([type, color]) => (
                 <div key={type} className="flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
-                  <span className="font-label text-[10px] text-on-surface-variant/50 capitalize">{type}</span>
+                  <span className="font-label text-[10px] text-content-subtle capitalize">{type}</span>
                 </div>
               ))}
             </div>
           </div>
         </AnimateOnScroll>
 
-        <div className="grid grid-cols-2 gap-3 h-full">
+        <div className="grid h-full grid-cols-2 gap-px overflow-hidden rounded-2xl bg-divider">
           {allStats.map((stat) => (
             <AnimateOnScroll key={stat.label} delay={0.03}>
-              <div className="bg-surface-container-low rounded-2xl p-5 inner-glow h-full flex flex-col justify-center">
-                <p className="font-label text-[10px] text-on-surface-variant/50 uppercase tracking-wider mb-1.5">
+              <div className="flex h-full flex-col justify-center bg-surface-container-low p-4">
+                <p className="mb-1.5 font-label text-[10px] uppercase tracking-wider text-content-subtle">
                   {stat.label}
                 </p>
-                <p className="font-headline font-bold text-xl sm:text-2xl tracking-tight text-on-surface mb-0.5">
+                <p className="mb-0.5 font-headline text-xl font-bold tracking-tight text-on-surface sm:text-2xl">
                   {stat.value}
                 </p>
-                <p className="font-label text-xs text-on-surface-variant/40">
-                  {stat.sub}
-                </p>
+                <p className="font-label text-xs text-content-subtle">{stat.sub}</p>
               </div>
             </AnimateOnScroll>
           ))}

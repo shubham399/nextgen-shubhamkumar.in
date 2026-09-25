@@ -1,18 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Icon } from "@iconify/react";
 
 type Stage = "idle" | "loading" | "success" | "error";
 
 export default function NewsletterSubscribe() {
+  const emailId = useId();
   const [stage, setStage] = useState<Stage>("idle");
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
   const subscribe = async () => {
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setErrMsg("Please enter a valid email");
+      setErrMsg("Enter a valid email address.");
       setStage("error");
       return;
     }
@@ -29,66 +30,69 @@ export default function NewsletterSubscribe() {
         return;
       }
       const data = await res.json();
-      throw new Error(data.error || "Failed to subscribe");
+      throw new Error(data.error || "Subscription failed. Try again.");
     } catch (err) {
-      setErrMsg(err instanceof Error ? err.message : "Something went wrong");
+      setErrMsg(err instanceof Error ? err.message : "Subscription failed. Try again.");
       setStage("error");
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") subscribe();
-  };
-
   if (stage === "success") {
     return (
-      <div className="flex items-center gap-3 bg-surface-container-low rounded-2xl p-5 inner-glow max-w-md mx-auto">
-        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-          <Icon icon="ion:checkmark-circle" width={22} className="text-primary" />
+      <div className="mx-auto flex max-w-md items-center gap-3 rounded-2xl bg-surface-container-low p-5" role="status">
+        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
+          <Icon icon="ion:checkmark-circle" width={22} className="text-primary" aria-hidden="true" />
         </div>
         <div>
-          <p className="font-headline font-semibold text-sm tracking-tight text-on-surface">
-            You&apos;re on the list.
-          </p>
-          <p className="font-body text-xs text-on-surface-variant">
-            Check your inbox for a welcome note.
-          </p>
+          <p className="font-headline text-sm font-semibold text-on-surface">You&apos;re on the list.</p>
+          <p className="font-body text-xs text-on-surface-variant">Check your inbox for a welcome note.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <div className="flex flex-col sm:flex-row gap-2 max-w-lg mx-auto">
+    <div className="mx-auto max-w-lg">
+      <form
+        className="flex flex-col gap-2 sm:flex-row"
+        onSubmit={(event) => {
+          event.preventDefault();
+          void subscribe();
+        }}
+      >
+        <label htmlFor={emailId} className="sr-only">
+          Email address
+        </label>
         <input
+          id={emailId}
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          onKeyDown={handleKeyDown}
+          onChange={(event) => setEmail(event.target.value)}
           placeholder="your@email.com"
+          required
           disabled={stage === "loading"}
-          className="flex-1 px-4 py-2.5 rounded-lg bg-surface-container text-on-surface text-sm font-body placeholder:text-on-surface-variant/50 border border-outline-variant/20 focus:outline-none focus:border-primary/50 transition-colors disabled:opacity-50"
+          aria-invalid={stage === "error"}
+          className="form-control min-h-11 flex-1 rounded-lg px-4 py-3 text-base sm:text-sm disabled:opacity-50"
         />
         <button
-          onClick={subscribe}
+          type="submit"
           disabled={stage === "loading"}
-          className="btn-primary flex-shrink-0 disabled:opacity-50"
+          className="btn-primary min-h-11 flex-shrink-0 justify-center disabled:opacity-50"
         >
           {stage === "loading" ? (
-            <Icon icon="ion:loader" width={16} className="animate-spin" />
+            <Icon icon="ion:loader" width={16} className="animate-spin" aria-label="Subscribing" />
           ) : (
-            <Icon icon="ion:arrow-forward" width={16} />
+            <Icon icon="ion:arrow-forward" width={16} aria-hidden="true" />
           )}
           Subscribe
         </button>
-      </div>
+      </form>
       {stage === "error" && (
-        <p className="font-body text-xs text-red mt-2 text-center">{errMsg}</p>
+        <p className="mt-2 text-center font-body text-xs text-error" role="alert">
+          {errMsg}
+        </p>
       )}
-      <p className="font-body text-xs text-on-surface-variant/60 mt-2 text-center">
-        No spam. Unsubscribe anytime.
-      </p>
+      <p className="mt-2 text-center font-body text-xs text-content-muted">No spam. Unsubscribe anytime.</p>
     </div>
   );
 }

@@ -9,7 +9,7 @@ interface SectionHeaderProps {
 export default function SectionHeader({ label, title, description }: SectionHeaderProps) {
   return (
     <AnimateOnScroll className="mb-14">
-      <p className="text-primary font-label text-xs font-semibold tracking-widest uppercase mb-3">
+      <p className="signal-label mb-3">
         {label}
       </p>
       <h2 className="font-headline text-3xl sm:text-4xl font-bold tracking-tighter text-on-surface mb-4">

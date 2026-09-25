@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working in this repository.
 
 ## Commands
 
@@ -16,19 +16,19 @@ npm run lint       # ESLint
 
 **Stack:** Next.js 15 (App Router), TypeScript, Tailwind CSS, Framer Motion, `@iconify/react`
 
-**Data flow:** All 9 API endpoints at `https://www.shubhkumar.in/api/*` are fetched in parallel in `app/page.tsx` (a server component) using `Promise.all`. Responses are cached for 1 hour via `next: { revalidate: 3600 }`. See `lib/api.ts` for all fetch functions.
+**Data flow:** The home page fetches its API data in parallel in `src/app/page.tsx` using `Promise.all`. Fetch wrappers live in `src/lib/api.ts`; responses use the configured API base and revalidation windows. Types live in `src/types/index.ts`.
 
 **Folder structure:**
-- `app/` — Next.js App Router (layout, page, globals.css)
-- `components/` — One file per section + shared utilities
-- `lib/api.ts` — Typed fetch wrappers for all 9 APIs
-- `types/index.ts` — TypeScript interfaces matching API shapes
+- `src/app/` — Next.js App Router routes, metadata, and global styles
+- `src/components/` — Section components and shared UI utilities
+- `src/lib/` — API, GitHub, CMS, and utility integrations
+- `src/types/` — TypeScript interfaces matching API shapes
 
 **Component split:**
 - Server components: About, Experience, Skills, Services, Certificates, Contact, Footer, SectionHeader
-- Client components (`"use client"`): Navigation (scroll state + mobile menu), Hero (Framer Motion entry animations), Testimonials (interactive carousel), AnimateOnScroll (scroll-triggered animations)
+- Client components: Navigation, Hero, Testimonials, AnimateOnScroll, newsletter forms, and interactive dashboard/blog controls
 
-**API endpoints used:**
+**API endpoints used on the home page:**
 
 | Export | Endpoint | Type |
 |--------|----------|------|
@@ -44,26 +44,28 @@ npm run lint       # ESLint
 
 ## Design System
 
-Strictly follows `DESIGN.md` — "The Digital Monolith" aesthetic.
+Follow `DESIGN.md`: the Editorial Engineering system.
 
 **Key rules:**
-- No 1px solid borders — use background color shifts between surface tokens
-- No pure black — use `surface` (#131313) or `surface-container-lowest` (#0e0e0e)
-- No drop shadows — use `shadow-glow` (cyan ambient: `0 0 48px rgba(71,214,255,0.06)`)
-- Primary gradient: `linear-gradient(135deg, #a5e7ff 0%, #00d2ff 100%)`
+- No pure black — use `surface` (`#131313`) or `surface-container-lowest` (`#0e0e0e`)
+- Use tonal surface shifts instead of decorative borders or glass blur
+- Use ice/teal for structure, amber for signals, and sage for supporting status
+- Keep gradients limited to functional cases; avoid generic `135deg` decoration
+- Use `content-muted` and `content-subtle` for secondary text
+- Respect `prefers-reduced-motion` for CSS, Framer Motion, canvas, parallax, and auto-rotation
 
-**Surface hierarchy (darkest→lightest):** `surface-container-lowest` → `surface-container-low` → `surface-container` → `surface-container-high` → `surface-container-highest`
+**Surface hierarchy (darkest to lightest):** `surface-container-lowest` → `surface-container-low` → `surface-container` → `surface-container-high` → `surface-container-highest`
 
-**Typography:** `font-headline` = Space Grotesk (display/titles), `font-body` = Inter (paragraphs), tracking-tighter on headlines
+**Typography:** `font-headline` = Space Grotesk; `font-body` = Inter; use tight tracking on headlines
 
-**Reusable CSS classes** (in `globals.css`):
-- `.btn-primary` — gradient CTA button
-- `.btn-ghost` — tertiary ghost button
-- `.badge` — small label chip
-- `.surface-card` — standard bento card
-- `.inner-glow` — top-edge 1px primary glow (chamfered glass effect)
-- `.glass-card` — frosted glass with backdrop-blur
-- `.gradient-text` — cyan gradient text fill
-- `.section-base` — standard section padding + max-width
+**Reusable CSS classes in `src/app/globals.css`:**
+- `.btn-primary` — flat primary CTA
+- `.btn-ghost` — tonal secondary action
+- `.badge` — borderless signal chip
+- `.surface-card` — opaque content surface
+- `.signal-label` — amber section marker
+- `.form-control` — shared input and focus treatment
+- `.editorial-row` — compact ledger row
+- `.section-base` — standard section padding and max width
 
-**Skill icons:** The `/api/skills` response returns icons as `{ light: string, dark: string }` base64 data URIs or URL strings. Always use the `dark` variant. Helper: `getIconSrc(icon: Skill["icon"])` in `components/Skills.tsx`.
+**Skill icons:** The `/api/skills` response returns icons as `{ light: string, dark: string }` base64 data URIs or URL strings. Always use the `dark` variant. Helper: `getIconSrc(icon: Skill["icon"])` in `src/components/sections/Skills.tsx`.

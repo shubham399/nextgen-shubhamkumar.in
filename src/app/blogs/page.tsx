@@ -77,13 +77,13 @@ export default async function BlogListing() {
             description="Tales from the trenches of backend engineering, system design, and building at scale."
           />
 
-          <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent mb-14" />
+          <div className="h-px bg-divider mb-14" />
 
           {result.posts.length === 0 ? (
             <AnimateOnScroll>
               <div className="text-center py-20">
-                <Icon icon="ion:document-text-outline" width={48} className="mx-auto text-on-surface-variant/40 mb-4" />
-                <p className="font-body text-on-surface-variant">No posts yet. Check back soon.</p>
+                <Icon icon="ion:document-text-outline" width={48} className="mx-auto text-content-subtle mb-4" />
+                <p className="font-body text-content-muted">No posts yet. Check back soon.</p>
               </div>
             </AnimateOnScroll>
           ) : (
@@ -96,7 +96,7 @@ export default async function BlogListing() {
         </section>
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
+          <div className="h-px bg-divider" />
         </div>
 
         <BlogCtaSection />

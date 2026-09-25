@@ -34,21 +34,21 @@ export default function SocialMetrics({ socials, blogCount, totalViews, twitterF
             Social Media Metrics
           </p>
         </div>
-        <p className="font-body text-sm text-on-surface-variant/70 mb-6">
-          tracks my social media metrics
+        <p className="mb-6 font-body text-sm text-content-muted">
+          A snapshot of the channels where I share notes and experiments.
         </p>
       </AnimateOnScroll>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-divider sm:grid-cols-4">
         {stats.map((stat, i) => (
           <AnimateOnScroll key={stat.label} delay={0.02 * (i + 1)}>
-            <div className="bg-surface-container-low rounded-xl p-4 inner-glow h-full">
+            <div className="bg-surface-container-low p-4 h-full">
               <div className="flex items-center gap-1.5 mb-1">
                 <Icon icon={stat.icon} width={13} className="text-primary/70" />
-                <p className="font-label text-[10px] text-on-surface-variant/50 uppercase tracking-wider">{stat.label}</p>
+                <p className="font-label text-[10px] text-content-subtle uppercase tracking-wider">{stat.label}</p>
               </div>
               <p className="font-headline font-bold text-lg tracking-tight text-on-surface mb-0.5">{stat.value}</p>
-              <p className="font-label text-[10px] text-on-surface-variant/40">{stat.sub}</p>
+              <p className="font-label text-[10px] text-content-subtle">{stat.sub}</p>
             </div>
           </AnimateOnScroll>
         ))}
@@ -59,16 +59,16 @@ export default function SocialMetrics({ socials, blogCount, totalViews, twitterF
               href={s.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-surface-container-low rounded-xl p-4 inner-glow h-full block hover:bg-surface-container transition-colors duration-200 group"
+              className="bg-surface-container-low p-4 h-full block hover:bg-surface-container transition-colors duration-200 group"
             >
               <div className="flex items-center gap-1.5 mb-1">
                 <Icon icon={s.icon} width={13} className="text-primary/70" />
-                <p className="font-label text-[10px] text-on-surface-variant/50 uppercase tracking-wider">{s.name}</p>
+                <p className="font-label text-[10px] text-content-subtle uppercase tracking-wider">{s.name}</p>
               </div>
               <p className="font-headline font-bold text-lg tracking-tight text-on-surface group-hover:text-primary transition-colors mb-0.5">
                 {s.username ?? s.name}
               </p>
-              <p className="font-label text-[10px] text-on-surface-variant/40">connect</p>
+              <p className="font-label text-[10px] text-content-subtle">connect</p>
             </a>
           </AnimateOnScroll>
         ))}

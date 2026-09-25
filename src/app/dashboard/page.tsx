@@ -86,15 +86,15 @@ export default async function Dashboard() {
       <main>
         <WorkoutDashboard workouts={workouts} summary={summary} />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
+          <div className="h-px bg-divider" />
         </div>
         <BlogViews />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
+          <div className="h-px bg-divider" />
         </div>
         <GitHubPRs data={githubCommits} />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
+          <div className="h-px bg-divider" />
         </div>
         <SocialMetrics
           socials={socials ?? []}

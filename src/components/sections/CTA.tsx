@@ -11,11 +11,11 @@ const CTA = ({ btn, children, className }: ICta) => {
   useEffect(() => {
     (async function () {
       const cal = await getCalApi({});
-      cal("ui", { "theme": "dark", "styles": { "branding": { "brandColor": "#000000" } }, "hideEventTypeDetails": false, "layout": "month_view" });
+      cal("ui", { "theme": "dark", "styles": { "branding": { "brandColor": "#131313" } }, "hideEventTypeDetails": false, "layout": "month_view" });
     })();
   }, [])
   return (
-    <button className={`${className}`} data-cal-config='{"layout":"month_view"}' data-cal-link={btn}>
+    <button type="button" className={`${className}`} data-cal-config='{"layout":"month_view"}' data-cal-link={btn}>
       {children}
     </button>
   )

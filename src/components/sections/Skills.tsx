@@ -80,15 +80,15 @@ export default function Skills({ skills }: SkillsProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <SectionHeader
-        label="Tech Stack"
-        title="Tools of the trade"
-        description="The languages, frameworks, and platforms I rely on to build mission-critical systems."
+        label="Tooling"
+        title="The stack behind the work"
+        description="The languages, frameworks, and platforms I reach for when the system has to hold."
       />
 
       <div className="flex flex-col gap-10">
         {Object.entries(grouped).map(([category, items]) => (
           <div key={category}>
-            <p className="font-label text-xs font-semibold tracking-widest uppercase text-on-surface-variant mb-4">
+            <p className="mb-4 font-label text-xs font-semibold uppercase tracking-widest text-content-muted">
               {CATEGORY_LABELS[category] ?? category}
             </p>
             <StaggerContainer className="flex flex-wrap gap-2.5">
@@ -100,7 +100,7 @@ export default function Skills({ skills }: SkillsProps) {
                       href={skill.href !== "/" ? skill.href : undefined}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-surface-container-low hover:bg-surface-container inner-glow transition-all duration-200 hover:shadow-glow group"
+                      className="group inline-flex items-center gap-2 rounded-lg bg-surface-container-low px-3.5 py-2 transition-colors duration-200 hover:bg-surface-container-high"
                     >
                       {iconSrc && (
                         // eslint-disable-next-line @next/next/no-img-element

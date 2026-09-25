@@ -18,7 +18,7 @@ export default function DailyViewsChart({ days }: DailyViewsChartProps) {
 
   if (!days.length || days.every((d) => d.views === 0)) {
     return (
-      <div className="h-full flex items-center justify-center text-on-surface-variant/30 font-label text-xs">
+      <div className="flex h-full items-center justify-center font-label text-xs text-content-subtle">
         No data yet
       </div>
     );
@@ -40,7 +40,7 @@ export default function DailyViewsChart({ days }: DailyViewsChartProps) {
           allowDecimals={false}
         />
         <Tooltip
-          cursor={{ fill: "rgba(165, 231, 255, 0.1)" }}
+          cursor={{ fill: "rgba(196, 238, 242, 0.1)" }}
           contentStyle={{
             background: "#2a2a2a",
             border: "none",
@@ -53,8 +53,8 @@ export default function DailyViewsChart({ days }: DailyViewsChartProps) {
         />
         <Bar
           dataKey="views"
-          fill="#a5e7ff"
-          activeBar={{ fill: "#00d2ff" }}
+          fill="#c4eef2"
+          activeBar={{ fill: "#f1b35c" }}
           radius={[4, 4, 0, 0]}
           maxBarSize={32}
         />

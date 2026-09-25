@@ -18,6 +18,10 @@ export default function BlogViewCounter({ slug }: BlogViewCounterProps) {
       duration: number,
       element: HTMLElement
     ) {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        element.textContent = end.toLocaleString();
+        return;
+      }
       const startTime = performance.now();
       const difference = end - start;
 
@@ -47,7 +51,6 @@ export default function BlogViewCounter({ slug }: BlogViewCounterProps) {
       try {
         const res = await fetch(url);
         const data = await res.json();
-        console.log(`[BlogViewCounter] slug=${slug} url=${url} status=${res.status} response=`, data);
         const total = data.total;
 
         if (totalRef.current) {
@@ -71,7 +74,7 @@ export default function BlogViewCounter({ slug }: BlogViewCounterProps) {
   }, [slug]);
 
   return (
-    <span className="font-label text-xs text-on-surface-variant/60 inline-flex items-center gap-1">
+    <span className="inline-flex items-center gap-1 font-label text-xs text-content-muted">
       <Icon icon="ion:eye-outline" width={13} />
       <span className="tabular-nums">
         <span ref={totalRef}><span className="animate-pulse">...</span></span>

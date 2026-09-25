@@ -2,50 +2,22 @@ import type { Metadata } from "next";
 import { getMe, getSocials, getNav } from "@/lib/api";
 import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
-import SectionHeader from "@/components/ui/SectionHeader";
 import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
-import { Icon } from "@iconify/react";
+import Divider from "@/components/ui/Divider";
 import NewsletterSubscribe from "./NewsletterSubscribe";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Newsletter — Shubham Kumar",
     description:
-      "Weekly engineering insights from the trenches — distributed systems, fintech engineering, and building things that work at scale.",
+      "A Friday note on backend architecture, production incidents, and the decisions behind reliable software.",
   };
 }
 
-const BENEFITS = [
-  {
-    icon: "ion:code-slash-outline",
-    title: "Production Engineering",
-    description: "Real lessons from building fintech systems, handling payments at scale, and keeping 99.99% uptime.",
-  },
-  {
-    icon: "ion:layers-outline",
-    title: "System Design Deep-Dives",
-    description: "Architecture breakdowns of systems I've built and operated — from IFE platforms to payment gateways.",
-  },
-  {
-    icon: "ion:flash-outline",
-    title: "Tools & Workflows",
-    description: "Dev environment setups, CI/CD patterns, monitoring stacks, and productivity hacks I use daily.",
-  },
-  {
-    icon: "ion:bulb-outline",
-    title: "Career & Mindset",
-    description: "Navigating engineering growth, remote work, and building a career across continents.",
-  },
-  {
-    icon: "ion:lock-closed-outline",
-    title: "Security & CTF",
-    description: "Lessons from ethical hacking, CTF writeups, and security practices for production systems.",
-  },
-  {
-    icon: "ion:rocket-outline",
-    title: "Early Access",
-    description: "New projects, open-source releases, and experiments before they go public.",
-  },
+const DELIVERY_NOTES = [
+  ["Friday", "One short dispatch, written for people who keep systems running."],
+  ["Five minutes", "Enough context to understand the trade-off, not just the outcome."],
+  ["No noise", "No filler, growth hacks, or advice copied from a conference slide."],
 ];
 
 export default async function NewsletterPage() {
@@ -60,83 +32,50 @@ export default async function NewsletterPage() {
       <Navigation me={me} nav={nav} socials={socials} />
 
       <main>
-        {/* Hero */}
-        <section className="section-base pt-24 pb-16 md:pt-32 md:pb-20">
+        <section className="section-base pb-16 pt-24 md:pb-20 md:pt-32">
           <AnimateOnScroll>
-            <p className="text-primary font-label text-xs font-semibold tracking-widest uppercase mb-4">
-              Newsletter
-            </p>
-            <h1 className="font-headline text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tighter text-on-surface mb-6 max-w-3xl">
-              Engineering insights{" "}
-              <span className="gradient-text">from the trenches</span>
+            <p className="signal-label mb-4">Newsletter</p>
+            <h1 className="mb-6 max-w-3xl font-headline text-4xl font-bold tracking-tighter text-on-surface sm:text-5xl lg:text-6xl">
+              Notes on systems that stay up.
             </h1>
-            <p className="font-body text-base sm:text-lg text-on-surface-variant leading-relaxed max-w-2xl mb-8">
-              Join {me.name.split(" ")[0]}&rsquo;s newsletter for weekly dispatches on distributed systems,
-              fintech engineering, and building things that work at scale.
+            <p className="mb-8 max-w-2xl font-body text-base leading-relaxed text-on-surface-variant sm:text-lg">
+              Join {me.name.split(" ")[0]} for a Friday note on backend architecture, production incidents, and the decisions behind reliable software.
             </p>
             <div className="flex justify-start">
-
               <NewsletterSubscribe />
             </div>
           </AnimateOnScroll>
 
-          {/* Stats */}
-          <AnimateOnScroll delay={0.15}>
-            <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                { value: "Weekly", label: "Posts" },
-                { value: "5 min", label: "Read time" },
-                { value: "No spam", label: "Ever" },
-                { value: "Unsubscribe", label: "Anytime" },
-              ].map((stat) => (
-                <div key={stat.label} className="bg-surface-container-low rounded-2xl p-5 inner-glow text-center">
-                  <p className="font-headline text-sm font-bold gradient-text mb-1">{stat.value}</p>
-                  <p className="font-body text-xs text-on-surface-variant">{stat.label}</p>
+          <AnimateOnScroll delay={0.15} className="mt-16 max-w-3xl">
+            <p className="signal-label mb-4">Inside each issue</p>
+            <div className="flex flex-col gap-2">
+              {DELIVERY_NOTES.map(([label, description]) => (
+                <div key={label} className="editorial-row">
+                  <span className="w-24 flex-shrink-0 font-headline text-sm font-semibold text-secondary">
+                    {label}
+                  </span>
+                  <span className="font-body text-sm text-on-surface-variant">{description}</span>
                 </div>
               ))}
             </div>
           </AnimateOnScroll>
         </section>
 
-        {/* Divider */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <Divider />
         </div>
 
-
-
-        {/* Divider */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
-        </div>
-
-        {/* Final CTA */}
         <section className="section-base pb-24">
           <AnimateOnScroll>
-            <div
-              className="rounded-2xl p-8 md:p-12 text-center relative overflow-hidden"
-              style={{
-                background:
-                  "linear-gradient(135deg, rgba(165,231,255,0.07) 0%, rgba(0,210,255,0.07) 100%)",
-              }}
-            >
-              <div
-                className="absolute -top-8 -right-8 w-48 h-48 rounded-full opacity-10 pointer-events-none"
-                style={{
-                  background: "radial-gradient(circle, #00d2ff 0%, transparent 70%)",
-                }}
-              />
-              <div className="relative">
-                <h2 className="font-headline text-3xl sm:text-4xl font-bold tracking-tighter text-on-surface mb-4">
-                  Join the list
-                </h2>
-                <p className="font-body text-base text-on-surface-variant leading-relaxed max-w-xl mx-auto mb-8">
-                  No spam, no filler. Just engineering insights from building at scale.
-                </p>
-                <div className="flex justify-center">
-                  <NewsletterSubscribe />
-                </div>
-              </div>
+            <div className="surface-card max-w-3xl p-8 sm:p-10">
+              <p className="signal-label mb-4">One useful dispatch, every Friday</p>
+              <h2 className="mb-4 font-headline text-3xl font-bold tracking-tighter text-on-surface sm:text-4xl">
+                Keep the useful parts close.
+              </h2>
+              <p className="mb-8 max-w-xl font-body text-base leading-relaxed text-on-surface-variant">
+                A focused note on the systems, incidents, and decisions that deserve a second look.
+              </p>
+              <NewsletterSubscribe />
             </div>
           </AnimateOnScroll>
         </section>
