@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useId, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { usePathname } from "next/navigation";
@@ -15,8 +15,24 @@ type Props = {
   cta?: GetCtasResult["ctas"][0] | null;
 };
 
+function readStorage(storage: Storage, key: string) {
+  try {
+    return storage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function writeStorage(storage: Storage, key: string, value: string) {
+  try {
+    storage.setItem(key, value);
+  } catch {}
+}
+
 export default function MailingListPopup({ cta }: Props) {
   const pathname = usePathname();
+  const emailId = useId();
+  const errorId = useId();
   const [stage, setStage] = useState<Stage>("idle");
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -25,25 +41,22 @@ export default function MailingListPopup({ cta }: Props) {
   const description = (cta?.description || "New posts and projects land in your inbox. No spam, no filler - just the good stuff.").replace(/—/g, "-");
 
   useEffect(() => {
-    if (localStorage.getItem(LS_SUBSCRIBED)) {
-      setStage("dismissed");
-      return;
-    }
-    if (sessionStorage.getItem(SS_DISMISSED)) {
+    if (readStorage(localStorage, LS_SUBSCRIBED) || readStorage(sessionStorage, SS_DISMISSED)) {
       setStage("dismissed");
       return;
     }
     setStage("idle");
-    const timer = setTimeout(() => setStage("visible"), 5000);
-    return () => clearTimeout(timer);
+    const timer = window.setTimeout(() => setStage("visible"), 5000);
+    return () => window.clearTimeout(timer);
   }, [pathname]);
 
   const dismiss = () => {
-    sessionStorage.setItem(SS_DISMISSED, "1");
+    writeStorage(sessionStorage, SS_DISMISSED, "1");
     setStage("dismissed");
   };
 
-  const subscribe = async () => {
+  const subscribe = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setErrMsg("Please enter a valid email");
       setStage("error");
@@ -58,25 +71,21 @@ export default function MailingListPopup({ cta }: Props) {
         body: JSON.stringify({ email }),
       });
       if (res.status === 409) {
-        localStorage.setItem(LS_SUBSCRIBED, "1");
+        writeStorage(localStorage, LS_SUBSCRIBED, "1");
         setStage("success");
         return;
       }
       if (!res.ok) {
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
         throw new Error(data.error || "Failed to subscribe");
       }
-      localStorage.setItem(LS_SUBSCRIBED, "1");
+      writeStorage(localStorage, LS_SUBSCRIBED, "1");
       setStage("success");
-      setTimeout(dismiss, 3000);
+      window.setTimeout(dismiss, 3000);
     } catch (err) {
       setErrMsg(err instanceof Error ? err.message : "Something went wrong");
       setStage("error");
     }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") subscribe();
   };
 
   const isOpen = stage === "visible" || stage === "loading" || stage === "success" || stage === "error";
@@ -84,87 +93,71 @@ export default function MailingListPopup({ cta }: Props) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
-          className="fixed bottom-0 left-0 right-0 z-50 flex justify-center p-3 sm:p-4 pointer-events-none"
+        <motion.aside
+          aria-label="Newsletter signup"
+          className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center p-3 sm:p-4"
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 32 }}
           transition={{ duration: 0.35, ease: "easeOut" }}
         >
-          <motion.div
-            className="pointer-events-auto w-full max-w-none"
-            layout
-          >
-            <div className="relative overflow-hidden rounded-2xl bg-surface-container-low p-4 sm:p-5 inner-glow shadow-glow">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-primary-gradient-subtle rounded-full blur-3xl translate-x-1/3 -translate-y-1/3 pointer-events-none" />
-
+          <motion.div className="pointer-events-auto w-full max-w-3xl" layout>
+            <div className="relative overflow-hidden rounded-2xl bg-surface-container-low p-4 sm:p-5">
               <button
+                type="button"
                 onClick={dismiss}
-                className="absolute top-2 right-2 text-on-surface-variant/50 hover:text-on-surface transition-colors z-10"
-                aria-label="Close"
+                className="absolute right-2 top-2 z-10 flex h-9 w-9 items-center justify-center rounded-lg text-content-subtle transition-colors hover:bg-surface-container hover:text-on-surface"
+                aria-label="Close newsletter signup"
               >
                 <Icon icon="ion:close" width={18} />
               </button>
 
               <div className="relative z-10">
                 {stage === "success" ? (
-                  <div className="flex items-center gap-3 py-1">
-                    <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <div className="flex items-center gap-3 py-1" role="status" aria-live="polite">
+                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
                       <Icon icon="ion:checkmark-circle" width={20} className="text-primary" />
                     </div>
                     <div className="min-w-0">
-                      <p className="font-headline font-bold text-sm tracking-tighter text-on-surface">
-                        Signal received.
-                      </p>
-                      <p className="font-body text-xs text-on-surface-variant truncate">
-                        Check your inbox - I sent a welcome note.
-                      </p>
+                      <p className="font-headline text-sm font-bold tracking-tight text-on-surface">Signal received.</p>
+                      <p className="truncate font-body text-xs text-content-muted">Check your inbox - I sent a welcome note.</p>
                     </div>
                   </div>
                 ) : stage === "error" && errMsg ? (
-                  <div className="flex items-center gap-3 py-1">
-                    <div className="w-9 h-9 rounded-lg bg-red/10 flex items-center justify-center flex-shrink-0">
-                      <Icon icon="ion:alert-circle" width={20} className="text-red" />
+                  <div className="flex items-center gap-3 py-1" role="alert">
+                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-error/10">
+                      <Icon icon="ion:alert-circle" width={20} className="text-error" />
                     </div>
-                    <p className="font-body text-sm text-red flex-1 min-w-0 truncate">{errMsg}</p>
-                    <button
-                      onClick={() => setStage("visible")}
-                      className="btn-ghost text-xs flex-shrink-0"
-                    >
+                    <p className="min-w-0 flex-1 truncate font-body text-sm text-error">{errMsg}</p>
+                    <button type="button" onClick={() => setStage("visible")} className="btn-ghost flex-shrink-0 text-xs">
                       Try again
                     </button>
                   </div>
                 ) : (
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
-                    <div className="flex items-center gap-2.5 min-w-0 flex-1 w-full sm:w-auto">
-                      <div className="w-9 h-9 rounded-lg bg-primary-gradient-subtle flex items-center justify-center flex-shrink-0">
+                  <form onSubmit={subscribe} className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <div className="flex min-w-0 flex-1 items-center gap-2.5">
+                      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
                         <Icon icon="ion:mail-unread" width={16} className="text-primary" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="font-headline font-bold text-sm tracking-tighter text-on-surface truncate">
-                          {title}
-                        </p>
-                        <p className="font-body text-xs text-on-surface-variant leading-snug line-clamp-1">
-                          {description}
-                        </p>
+                        <p className="truncate font-headline text-sm font-bold tracking-tight text-on-surface">{title}</p>
+                        <p className="line-clamp-1 font-body text-xs leading-snug text-content-muted">{description}</p>
                       </div>
                     </div>
-
-                    <div className="flex gap-1.5 w-full sm:w-auto flex-shrink-0">
+                    <div className="flex w-full flex-shrink-0 gap-1.5 sm:w-auto">
+                      <label htmlFor={emailId} className="sr-only">Email address</label>
                       <input
+                        id={emailId}
                         type="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        onKeyDown={handleKeyDown}
+                        onChange={(event) => setEmail(event.target.value)}
                         placeholder="your@email.com"
                         disabled={stage === "loading"}
-                        className="flex-1 min-w-0 px-4 py-3 rounded-lg bg-surface-container text-on-surface text-sm font-body placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all disabled:opacity-50"
+                        aria-invalid={stage === "error"}
+                        aria-describedby={stage === "error" ? errorId : undefined}
+                        className="form-control min-w-0 flex-1 py-3"
                       />
-                      <button
-                        onClick={subscribe}
-                        disabled={stage === "loading"}
-                        className="btn-primary text-sm px-5 py-3 flex-shrink-0 disabled:opacity-50"
-                      >
+                      <button type="submit" disabled={stage === "loading"} className="btn-primary flex-shrink-0 px-5 py-3 disabled:opacity-50">
                         {stage === "loading" ? (
                           <Icon icon="ion:loader" width={14} className="animate-spin" />
                         ) : (
@@ -173,12 +166,13 @@ export default function MailingListPopup({ cta }: Props) {
                         Join
                       </button>
                     </div>
-                  </div>
+                    {stage === "error" && errMsg && <span id={errorId} className="sr-only">{errMsg}</span>}
+                  </form>
                 )}
               </div>
             </div>
           </motion.div>
-        </motion.div>
+        </motion.aside>
       )}
     </AnimatePresence>
   );

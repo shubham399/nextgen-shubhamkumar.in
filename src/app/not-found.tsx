@@ -28,21 +28,13 @@ const itemVariants = {
 export default function NotFound() {
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Ambient glow */}
-      <div
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.04] pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, rgba(85,198,209,0.14) 0%, rgba(241,179,92,0.05) 34%, transparent 70%)",
-        }}
-      />
-
       <div className="max-w-3xl mx-auto w-full text-center">
         {/* 404 */}
         <motion.p
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="font-headline font-bold text-[8rem] sm:text-[10rem] lg:text-[12rem] leading-none gradient-text"
+          className="font-headline font-bold text-[8rem] sm:text-[10rem] lg:text-[12rem] leading-none text-primary"
         >
           404
         </motion.p>
@@ -78,7 +70,7 @@ export default function NotFound() {
             <motion.div key={link.href} variants={itemVariants}>
               <Link
                 href={link.href}
-                className="flex flex-col items-center gap-2 p-4 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all duration-200 inner-glow group"
+                className="group flex flex-col items-center gap-2 rounded-xl bg-surface-container-low p-4 transition-colors duration-200 hover:bg-surface-container"
               >
                 <Icon
                   icon={link.icon}
@@ -88,7 +80,7 @@ export default function NotFound() {
                 <span className="font-headline font-semibold text-xs tracking-tight text-on-surface group-hover:text-primary transition-colors">
                   {link.label}
                 </span>
-                <span className="font-body text-[10px] text-on-surface-variant/60 leading-tight">
+                <span className="font-body text-[10px] leading-tight text-content-muted">
                   {link.desc}
                 </span>
               </Link>

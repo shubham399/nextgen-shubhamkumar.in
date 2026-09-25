@@ -102,19 +102,25 @@ export default function BlogListClient({ initialPosts, initialPagination, allTag
           <Icon
             icon="ion:search"
             width={16}
-            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant/50"
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-content-subtle"
           />
+          <label htmlFor="blog-search" className="sr-only">
+            Search posts
+          </label>
           <input
-            type="text"
-            placeholder="Search posts..."
+            id="blog-search"
+            type="search"
+            placeholder="Search posts"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-surface-container-low rounded-xl border-none outline-none font-body text-sm text-on-surface placeholder:text-on-surface-variant/40 focus:ring-1 focus:ring-primary/30 transition-all"
+            className="form-control min-h-11 rounded-xl pl-10 pr-4 py-2.5 text-base sm:text-sm"
           />
           {searchQuery && (
             <button
+              type="button"
               onClick={() => setSearchQuery("")}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant/50 hover:text-on-surface-variant transition-colors"
+              className="absolute right-2 top-1/2 inline-flex min-h-9 min-w-9 -translate-y-1/2 items-center justify-center rounded-lg text-content-muted transition-colors hover:bg-surface-container hover:text-on-surface"
+              aria-label="Clear post search"
             >
               <Icon icon="ion:close" width={16} />
             </button>
@@ -126,11 +132,13 @@ export default function BlogListClient({ initialPosts, initialPagination, allTag
             {allTags.map((tag) => (
               <button
                 key={tag.id}
+                type="button"
+                aria-pressed={selectedTags.includes(tag.name)}
                 onClick={() => toggleTag(tag.name)}
-                className={`font-label text-xs px-3 py-1.5 rounded-full border transition-all duration-200 ${
+                className={`rounded-lg px-3 py-2 font-label text-xs transition-colors ${
                   selectedTags.includes(tag.name)
-                    ? "bg-primary/10 border-primary/30 text-primary"
-                    : "bg-surface-container-low border-outline-variant/20 text-on-surface-variant/60 hover:border-outline-variant/40 hover:text-on-surface-variant"
+                    ? "bg-primary/10 text-primary"
+                    : "bg-surface-container-low text-content-muted hover:bg-surface-container hover:text-on-surface"
                 }`}
               >
                 #{tag.name}
@@ -146,12 +154,13 @@ export default function BlogListClient({ initialPosts, initialPagination, allTag
         </div>
       ) : posts.length === 0 ? (
         <div className="text-center py-20">
-          <Icon icon="ion:document-text-outline" width={48} className="mx-auto text-on-surface-variant/40 mb-4" />
-          <p className="font-body text-on-surface-variant">
+          <Icon icon="ion:document-text-outline" width={48} className="mx-auto text-content-subtle mb-4" />
+          <p className="font-body text-content-muted">
             {hasActiveFilters ? "No posts match your filters." : "No posts yet. Check back soon."}
           </p>
           {hasActiveFilters && (
             <button
+              type="button"
               onClick={() => { setSearchQuery(""); setSelectedTags([]); }}
               className="mt-4 font-label text-xs text-primary hover:text-primary/80 transition-colors"
             >
@@ -166,7 +175,7 @@ export default function BlogListClient({ initialPosts, initialPagination, allTag
               <StaggerItem key={post.id}>
                 <Link
                   href={`/blogs/${post.slug}`}
-                  className="group flex flex-col sm:flex-row bg-surface-container-low rounded-2xl overflow-hidden inner-glow hover:bg-surface-container hover:shadow-glow transition-all duration-300"
+                  className="group flex flex-col overflow-hidden rounded-2xl bg-surface-container-low transition-colors duration-300 hover:bg-surface-container sm:flex-row"
                 >
                   <div className="relative w-full sm:w-56 lg:w-72 aspect-video sm:min-h-full overflow-hidden bg-surface-container flex-shrink-0">
                     {post.image ? (
@@ -178,14 +187,14 @@ export default function BlogListClient({ initialPosts, initialPagination, allTag
                         sizes="(max-width: 640px) 100vw, 224px"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-primary-gradient-subtle">
+                      <div className="w-full h-full flex items-center justify-center bg-surface-container-high">
                         <Icon icon="ion:document-text-outline" width={40} className="text-primary/40" />
                       </div>
                     )}
                   </div>
                   <div className="flex-1 p-5 flex flex-col gap-3 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="font-label text-[11px] text-on-surface-variant/60">
+                      <span className="font-label text-[11px] text-content-muted">
                         {Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(
                           new Date(post.publishedAt || post.updatedAt)
                         )}
@@ -205,7 +214,7 @@ export default function BlogListClient({ initialPosts, initialPagination, allTag
                       {post.title}
                     </h2>
                     {post.description && (
-                      <p className="font-body text-sm text-on-surface-variant leading-relaxed line-clamp-3">
+                      <p className="font-body text-sm text-content-muted leading-relaxed line-clamp-3">
                         {post.description}
                       </p>
                     )}
@@ -228,7 +237,7 @@ export default function BlogListClient({ initialPosts, initialPagination, allTag
           )}
 
           {!pagination.nextPage && posts.length > 0 && (
-            <p className="text-center font-body text-sm text-on-surface-variant/60 py-8">
+            <p className="text-center font-body text-sm text-content-muted py-8">
               You&apos;ve reached the end
             </p>
           )}

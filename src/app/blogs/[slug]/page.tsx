@@ -119,7 +119,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         <article className="section-base pt-36">
           <Link
             href="/blogs"
-            className="inline-flex items-center gap-1.5 font-body text-sm text-on-surface-variant hover:text-primary transition-colors mb-8"
+            className="inline-flex items-center gap-1.5 font-body text-sm text-content-muted hover:text-primary transition-colors mb-8"
           >
             <Icon icon="ion:arrow-back" width={14} />
             Back to Thoughts & Insights
@@ -130,14 +130,14 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
               {title.replace(/—/g, '-')}
             </h1>
             <div className="flex justify-between items-center">
-              <span className="font-label text-xs text-on-surface-variant/60">
+              <span className="font-label text-xs text-content-muted">
                 About {getReadTime(content)} min read
               </span>
               <BlogViewCounter slug={slug} />
             </div>
           </header>
 
-          <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent mb-10" />
+          <div className="h-px bg-divider mb-10" />
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
             <div
@@ -161,7 +161,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                 </span>
               ))}
             </div>
-            <span className="font-label text-xs text-on-surface-variant/60 shrink-0">
+            <span className="font-label text-xs text-content-muted shrink-0">
               {Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(
                 new Date(publishedAt || createdAt)
               )}
@@ -178,8 +178,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           {relatedPosts.length === 0 ? (
             <AnimateOnScroll>
               <div className="text-center py-20">
-                <Icon icon="ion:document-text-outline" width={48} className="mx-auto text-on-surface-variant/40 mb-4" />
-                <p className="font-body text-on-surface-variant">No related posts found.</p>
+                <Icon icon="ion:document-text-outline" width={48} className="mx-auto text-content-subtle mb-4" />
+                <p className="font-body text-content-muted">No related posts found.</p>
               </div>
             </AnimateOnScroll>
           ) : (
@@ -188,7 +188,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                 <StaggerItem key={post.id}>
                   <Link
                     href={`/blogs/${post.slug}`}
-                    className="group flex flex-col bg-surface-container-low rounded-2xl overflow-hidden inner-glow hover:bg-surface-container hover:shadow-glow transition-all duration-300 h-full"
+                    className="group flex flex-col bg-surface-container-low rounded-2xl overflow-hidden transition-colors duration-200 h-full hover:bg-surface-container"
                   >
                     <div className="relative w-full aspect-video overflow-hidden bg-surface-container">
                       {post.image ? (
@@ -206,7 +206,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                       )}
                     </div>
                     <div className="flex-1 p-5 flex flex-col gap-3">
-                      <span className="font-label text-[11px] text-on-surface-variant/60">
+                      <span className="font-label text-[11px] text-content-muted">
                         {Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(
                           new Date(post.publishedAt || post.createdAt)
                         )}
@@ -215,7 +215,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                         {post.title}
                       </h3>
                       {post.description && (
-                        <p className="font-body text-sm text-on-surface-variant leading-relaxed line-clamp-2">
+                        <p className="font-body text-sm text-content-muted leading-relaxed line-clamp-2">
                           {post.description}
                         </p>
                       )}

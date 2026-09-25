@@ -41,7 +41,7 @@ export default function BlogToc({ items }: { items: TableOfContentsItem[] }) {
             className={`block font-body text-sm transition-all duration-200 py-0.5 ${
               activeId === item.id
                 ? "text-primary border-l -ml-4 pl-[calc(1rem-1px)] border-primary"
-                : "text-on-surface-variant/50 hover:text-on-surface-variant"
+                : "text-content-subtle hover:text-on-surface-variant"
             }`}
             style={{ paddingLeft: `${(item.level - 1) * 12}px` }}
           >

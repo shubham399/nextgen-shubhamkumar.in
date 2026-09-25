@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Icon } from "@iconify/react";
 import { GetCtasResult } from "@/lib/wisp";
 
@@ -11,13 +11,15 @@ type Props = {
 };
 
 export default function BlogCtaSection({ cta }: Props) {
+  const emailId = useId();
+  const errorId = useId();
   const [stage, setStage] = useState<Stage>("idle");
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
   const subscribe = async () => {
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setErrMsg("Please enter a valid email");
+      setErrMsg("Enter a valid email address.");
       setStage("error");
       return;
     }
@@ -34,89 +36,79 @@ export default function BlogCtaSection({ cta }: Props) {
         return;
       }
       const data = await res.json();
-      throw new Error(data.error || "Failed to subscribe");
+      throw new Error(data.error || "Subscription failed. Try again.");
     } catch (err) {
-      setErrMsg(err instanceof Error ? err.message : "Something went wrong");
+      setErrMsg(err instanceof Error ? err.message : "Subscription failed. Try again.");
       setStage("error");
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") subscribe();
-  };
-
   const title = (cta?.title || "Stay in the loop").replace(/—/g, "-");
-  const description = (cta?.description || "New posts and projects land in your inbox. No spam, no filler - just the good stuff.").replace(/—/g, "-");
+  const description = (cta?.description || "New posts and projects land in your inbox. No spam, no filler.").replace(/—/g, "-");
 
   return (
     <section className="section-base">
-      <div className="relative overflow-hidden rounded-2xl bg-surface-container-low p-8 sm:p-12 inner-glow">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-primary-gradient-subtle rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-
-        <div className="relative z-10">
-          {stage === "success" ? (
-            <div className="flex flex-col items-center text-center py-6">
-              <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                <Icon icon="ion:checkmark-circle" width={28} className="text-primary" />
-              </div>
-              <h3 className="font-headline font-bold text-xl tracking-tighter text-on-surface">
-                You&apos;re on the list.
-              </h3>
-              <p className="font-body text-sm text-on-surface-variant mt-2 max-w-md">
-                Check your inbox - I sent a welcome note.
-              </p>
-              <button
-                onClick={() => { setStage("idle"); setEmail(""); }}
-                className="btn-ghost mt-4"
-              >
-                Subscribe another email
-              </button>
+      <div className="rounded-2xl bg-surface-container p-8 sm:p-10">
+        {stage === "success" ? (
+          <div className="flex flex-col items-center py-6 text-center">
+            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10">
+              <Icon icon="ion:checkmark-circle" width={28} className="text-primary" aria-hidden="true" />
             </div>
-          ) : (
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10">
-              <div className="flex-1">
-                <div className="w-12 h-12 rounded-xl bg-primary-gradient-subtle flex items-center justify-center mb-4">
-                  <Icon icon="ion:mail-unread" width={22} className="text-primary" />
-                </div>
-                <h3 className="font-headline font-bold text-xl tracking-tighter text-on-surface">
-                  {title}
-                </h3>
-                <p className="font-body text-sm text-on-surface-variant mt-1.5 max-w-md">
-                  {description}
-                </p>
-              </div>
-
-              <div className="w-full sm:w-auto flex-shrink-0 sm:min-w-[340px]">
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="your@email.com"
-                    disabled={stage === "loading"}
-                    className="flex-1 px-4 py-2.5 rounded-lg bg-surface-container text-on-surface text-sm font-body placeholder:text-on-surface-variant/50 border border-outline-variant/20 focus:outline-none focus:border-primary/50 transition-colors disabled:opacity-50"
-                  />
-                  <button
-                    onClick={subscribe}
-                    disabled={stage === "loading"}
-                    className="btn-primary flex-shrink-0 disabled:opacity-50"
-                  >
-                    {stage === "loading" ? (
-                      <Icon icon="ion:loader" width={16} className="animate-spin" />
-                    ) : (
-                      <Icon icon="ion:arrow-forward" width={16} />
-                    )}
-                    Subscribe
-                  </button>
-                </div>
-                {stage === "error" && (
-                  <p className="font-body text-xs text-red mt-2">{errMsg}</p>
-                )}
-              </div>
+            <h3 className="font-headline text-xl font-bold tracking-tighter text-on-surface">You&apos;re on the list.</h3>
+            <p className="mt-2 max-w-md font-body text-sm text-on-surface-variant">Check your inbox for a welcome note.</p>
+            <button
+              type="button"
+              onClick={() => { setStage("idle"); setEmail(""); }}
+              className="btn-ghost mt-4"
+            >
+              Subscribe another email
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2">
+            <div>
+              <p className="signal-label mb-4">Weekly dispatch</p>
+              <h3 className="font-headline text-2xl font-bold tracking-tighter text-on-surface">{title}</h3>
+              <p className="mt-2 max-w-md font-body text-sm leading-relaxed text-on-surface-variant">{description}</p>
             </div>
-          )}
-        </div>
+
+            <form
+              className="w-full"
+              onSubmit={(event) => {
+                event.preventDefault();
+                void subscribe();
+              }}
+            >
+              <label htmlFor={emailId} className="sr-only">Email address</label>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <input
+                  id={emailId}
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="your@email.com"
+                  required
+                  disabled={stage === "loading"}
+                  aria-invalid={stage === "error"}
+                  aria-describedby={stage === "error" ? errorId : undefined}
+                  className="form-control min-h-11 min-w-0 flex-1 rounded-lg px-4 py-3 text-base sm:text-sm disabled:opacity-50"
+                />
+                <button type="submit" disabled={stage === "loading"} className="btn-primary min-h-11 flex-shrink-0 justify-center disabled:opacity-50">
+                  {stage === "loading" ? (
+                    <Icon icon="ion:loader" width={16} className="animate-spin" aria-label="Subscribing" />
+                  ) : (
+                    <Icon icon="ion:arrow-forward" width={16} aria-hidden="true" />
+                  )}
+                  Subscribe
+                </button>
+              </div>
+              {stage === "error" && (
+                <p id={errorId} role="alert" className="mt-2 font-body text-xs text-error">{errMsg}</p>
+              )}
+              <p className="mt-2 font-body text-xs text-content-muted">No spam. Unsubscribe anytime.</p>
+            </form>
+          </div>
+        )}
       </div>
     </section>
   );

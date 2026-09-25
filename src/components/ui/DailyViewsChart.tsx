@@ -18,7 +18,7 @@ export default function DailyViewsChart({ days }: DailyViewsChartProps) {
 
   if (!days.length || days.every((d) => d.views === 0)) {
     return (
-      <div className="h-full flex items-center justify-center text-on-surface-variant/30 font-label text-xs">
+      <div className="flex h-full items-center justify-center font-label text-xs text-content-subtle">
         No data yet
       </div>
     );

@@ -87,17 +87,17 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
               {comment.parent && (
                 <div className="ml-6 sm:ml-8 border-l-2 border-outline-variant/20 pl-4 sm:pl-6 mb-3">
                   <div className="flex items-center gap-2 mb-1.5">
-                    <Icon icon="ion:chatbubble-ellipses-outline" width={12} className="text-on-surface-variant/40" />
-                    <span className="font-label text-[11px] text-on-surface-variant/40">
+                    <Icon icon="ion:chatbubble-ellipses-outline" width={12} className="text-content-subtle" />
+                    <span className="font-label text-[11px] text-content-subtle">
                       In reply to {comment.parent.author}
                     </span>
                   </div>
-                  <p className="font-body text-sm text-on-surface-variant/60 leading-relaxed line-clamp-2">
+                  <p className="font-body text-sm text-content-muted leading-relaxed line-clamp-2">
                     {comment.parent.content}
                   </p>
                 </div>
               )}
-              <div className="bg-surface-container-low rounded-2xl p-5 inner-glow">
+              <div className="bg-surface-container-low rounded-2xl p-5">
                 <div className="flex items-center justify-between gap-4 mb-2">
                   <div className="flex items-center gap-2 min-w-0">
                     <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -109,7 +109,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                       {comment.author}
                     </span>
                   </div>
-                  <span className="font-label text-[11px] text-on-surface-variant/60 flex-shrink-0">
+                  <span className="font-label text-[11px] text-content-muted flex-shrink-0">
                     {Intl.DateTimeFormat("en-US", {
                       month: "short",
                       day: "numeric",
@@ -117,7 +117,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                     }).format(new Date(comment.createdAt))}
                   </span>
                 </div>
-                <p className="font-body text-sm text-on-surface-variant leading-relaxed whitespace-pre-line">
+                <p className="font-body text-sm text-content-muted leading-relaxed whitespace-pre-line">
                   {comment.content}
                 </p>
               </div>
@@ -126,14 +126,14 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
         </AnimateOnScroll>
           ) : (
             <AnimateOnScroll delay={0.1} className="mb-10">
-              <div className="bg-surface-container-low rounded-2xl p-8 sm:p-10 inner-glow text-center">
+              <div className="bg-surface-container-low rounded-2xl p-8 text-center sm:p-10">
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                   <Icon icon="ion:chatbubble-ellipses-outline" width={24} className="text-primary/60" />
                 </div>
                 <p className="font-headline font-semibold text-base text-on-surface mb-1">
                   Be the first to comment
                 </p>
-                <p className="font-body text-sm text-on-surface-variant">
+                <p className="font-body text-sm text-content-muted">
                   Share your thoughts on this post
                 </p>
               </div>
@@ -141,7 +141,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
           )}
 
       <AnimateOnScroll delay={0.2}>
-        <div className="bg-surface-container-low rounded-2xl p-6 sm:p-8 inner-glow">
+        <div className="bg-surface-container-low rounded-2xl p-6 sm:p-8">
           {submitted ? (
             <div className="text-center py-8">
               <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
@@ -150,7 +150,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
               <h3 className="font-headline font-semibold text-lg text-on-surface mb-2">
                 Pending email verification
               </h3>
-              <p className="font-body text-sm text-on-surface-variant max-w-md mx-auto leading-relaxed">
+              <p className="font-body text-sm text-content-muted max-w-md mx-auto leading-relaxed">
                 Thanks for your comment! Please check your email to verify and post it. If you don&apos;t see it in your inbox, check your spam folder.
               </p>
             </div>
@@ -162,7 +162,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="comment-author" className="font-label text-xs text-on-surface-variant mb-1.5 block">
+                  <label htmlFor="comment-author" className="font-label text-xs text-content-muted mb-1.5 block">
                     Name <span className="text-error">*</span>
                   </label>
                   <input
@@ -171,11 +171,11 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                     value={author}
                     onChange={(e) => setAuthor(e.target.value)}
                     placeholder="Your name"
-                    className="w-full bg-surface-container rounded-xl px-4 py-2.5 font-body text-sm text-on-surface placeholder:text-on-surface-variant/40 border border-outline-variant/20 focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary/50 transition-all duration-200"
+                    className="w-full bg-surface-container rounded-xl px-4 py-2.5 font-body text-sm text-on-surface placeholder:text-content-subtle focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all duration-200"
                   />
                 </div>
                 <div>
-                  <label htmlFor="comment-email" className="font-label text-xs text-on-surface-variant mb-1.5 block">
+                  <label htmlFor="comment-email" className="font-label text-xs text-content-muted mb-1.5 block">
                     Email <span className="text-error">*</span>
                   </label>
                   <input
@@ -184,15 +184,15 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="w-full bg-surface-container rounded-xl px-4 py-2.5 font-body text-sm text-on-surface placeholder:text-on-surface-variant/40 border border-outline-variant/20 focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary/50 transition-all duration-200"
+                    className="w-full bg-surface-container rounded-xl px-4 py-2.5 font-body text-sm text-on-surface placeholder:text-content-subtle focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all duration-200"
                   />
                 </div>
               </div>
 
               {config.allowUrls && (
                 <div>
-                  <label htmlFor="comment-url" className="font-label text-xs text-on-surface-variant mb-1.5 block">
-                    Website <span className="text-on-surface-variant/40">(optional)</span>
+                  <label htmlFor="comment-url" className="font-label text-xs text-content-muted mb-1.5 block">
+                    Website <span className="text-content-subtle">(optional)</span>
                   </label>
                   <input
                     id="comment-url"
@@ -200,13 +200,13 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="https://example.com"
-                    className="w-full bg-surface-container rounded-xl px-4 py-2.5 font-body text-sm text-on-surface placeholder:text-on-surface-variant/40 border border-outline-variant/20 focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary/50 transition-all duration-200"
+                    className="w-full bg-surface-container rounded-xl px-4 py-2.5 font-body text-sm text-on-surface placeholder:text-content-subtle focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all duration-200"
                   />
                 </div>
               )}
 
               <div>
-                <label htmlFor="comment-content" className="font-label text-xs text-on-surface-variant mb-1.5 block">
+                <label htmlFor="comment-content" className="font-label text-xs text-content-muted mb-1.5 block">
                   Comment <span className="text-error">*</span>
                 </label>
                 <textarea
@@ -215,7 +215,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                   onChange={(e) => setContent(e.target.value)}
                   placeholder="Share your thoughts..."
                   rows={4}
-                  className="w-full bg-surface-container rounded-xl px-4 py-2.5 font-body text-sm text-on-surface placeholder:text-on-surface-variant/40 border border-outline-variant/20 focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary/50 transition-all duration-200 resize-y min-h-[100px]"
+                  className="w-full bg-surface-container rounded-xl px-4 py-2.5 font-body text-sm text-on-surface placeholder:text-content-subtle focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all duration-200 resize-y min-h-[100px]"
                 />
               </div>
 
@@ -227,7 +227,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                     onChange={(e) => setAllowEmailUsage(e.target.checked)}
                     className="mt-0.5 w-4 h-4 rounded border-outline-variant/40 bg-surface-container text-primary focus:ring-primary/50 focus:ring-offset-0"
                   />
-                  <span className="font-body text-xs text-on-surface-variant leading-relaxed group-hover:text-on-surface transition-colors">
+                  <span className="font-body text-xs text-content-muted leading-relaxed group-hover:text-on-surface transition-colors">
                     {config.signUpMessage}
                   </span>
                 </label>

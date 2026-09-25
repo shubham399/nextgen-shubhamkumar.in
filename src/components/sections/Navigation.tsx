@@ -32,11 +32,10 @@ export default function Navigation({ me, nav, socials }: NavigationProps) {
           }`}
       >
         <div
-          className={`mx-auto max-w-fit px-6 py-2.5 rounded-full flex items-center gap-6 font-headline font-semibold tracking-tighter text-sm transition-all duration-300 ${scrolled
-            ? "bg-surface-container-low/80 backdrop-blur-xl shadow-glow"
-            : "bg-surface/60 backdrop-blur-xl"
+          className={`mx-auto w-[calc(100%-2rem)] max-w-6xl px-4 sm:px-5 py-3 rounded-xl flex items-center gap-6 font-headline font-semibold tracking-tighter text-sm transition-all duration-300 ${scrolled
+            ? "bg-surface-container"
+            : "bg-surface-container-low"
             }`}
-          style={{ boxShadow: "0 0 48px rgba(112,213,223,0.06)" }}
         >
           {/* Brand */}
           <Link
@@ -77,9 +76,12 @@ export default function Navigation({ me, nav, socials }: NavigationProps) {
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden text-on-surface-variant hover:text-on-surface transition-colors ml-2"
+            type="button"
+            className="lg:hidden text-on-surface-variant hover:text-on-surface transition-colors ml-2 min-h-11 min-w-11 inline-flex items-center justify-center"
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation"
           >
             <Icon icon={mobileOpen ? "ion:close" : "ion:menu"} width={20} />
           </button>
@@ -87,7 +89,10 @@ export default function Navigation({ me, nav, socials }: NavigationProps) {
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <div className="lg:hidden mt-2 mx-4 rounded-xl bg-surface-container-low/95 backdrop-blur-xl p-4 shadow-glow-md">
+          <div
+            id="mobile-navigation"
+            className="lg:hidden mt-2 mx-4 rounded-xl bg-surface-container p-4"
+          >
             <div className="flex flex-col gap-1">
               {NAV_LINKS.map((link) => (
                 <a

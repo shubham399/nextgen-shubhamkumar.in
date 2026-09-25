@@ -13,54 +13,50 @@ export default function Certificates({ certificates }: CertificatesProps) {
     <section id="certificates" className="section-base">
       <SectionHeader
         label="Credentials"
-        title="Certifications"
-        description="Formal credentials that complement practical experience."
+        title="A few credentials"
+        description="Formal training that supports the practical work."
       />
 
-      <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {certificates.map((cert, idx) => (
-          <StaggerItem key={`${cert.title}-${idx}`}>
+      <StaggerContainer className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        {certificates.map((certificate, index) => (
+          <StaggerItem key={`${certificate.title}-${index}`}>
             <a
-              href={cert.link}
+              href={certificate.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col gap-4 bg-surface-container-low rounded-2xl p-6 inner-glow hover:bg-surface-container hover:shadow-glow transition-all duration-300 h-full"
+              className="group flex h-full items-start gap-4 rounded-2xl bg-surface-container-low p-5 transition-colors hover:bg-surface-container sm:p-6"
             >
-              {/* Issuer */}
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center flex-shrink-0 overflow-hidden p-1">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={cert.issuerIcon}
-                    alt={cert.issuer}
-                    width={28}
-                    height={28}
-                    className="object-contain"
-                  />
-                </div>
-                <div>
-                  <p className="font-headline font-semibold text-xs tracking-tight text-primary">
-                    {cert.issuer}
-                  </p>
-                  <p className="font-label text-xs text-on-surface-variant">
-                    {cert.issuedAt}
-                  </p>
-                </div>
-                <div className="ml-auto text-on-surface-variant group-hover:text-primary transition-colors">
-                  <Icon icon="ion:open-outline" width={14} />
-                </div>
+              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-surface-container-high p-1.5">
+                <Image
+                  src={certificate.issuerIcon}
+                  alt=""
+                  width={28}
+                  height={28}
+                  className="object-contain"
+                  unoptimized
+                />
               </div>
-
-              {/* Title */}
-              <p className="font-headline font-semibold text-sm tracking-tight text-on-surface leading-snug group-hover:text-primary transition-colors">
-                {cert.title}
-              </p>
-
-              {/* Verified badge */}
-              <div className="mt-auto flex items-center gap-1.5 text-xs font-label text-primary/70">
-                <Icon icon="ion:checkmark-circle-outline" width={14} />
-                Verified Certificate
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <p className="font-headline text-sm font-semibold text-primary">
+                    {certificate.issuer}
+                  </p>
+                  <p className="font-label text-xs text-content-muted">{certificate.issuedAt}</p>
+                </div>
+                <p className="mt-2 font-headline font-semibold leading-snug text-on-surface transition-colors group-hover:text-primary">
+                  {certificate.title}
+                </p>
+                <p className="mt-4 flex items-center gap-1.5 font-label text-xs text-tertiary">
+                  <Icon icon="ion:checkmark-circle-outline" width={14} aria-hidden="true" />
+                  Verified credential
+                </p>
               </div>
+              <Icon
+                icon="ion:open-outline"
+                width={16}
+                className="mt-1 flex-shrink-0 text-content-subtle transition-colors group-hover:text-primary"
+                aria-hidden="true"
+              />
             </a>
           </StaggerItem>
         ))}
