@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MotionConfig } from "framer-motion";
 import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next"
@@ -35,7 +36,7 @@ export async function generateMetadata(): Promise<Metadata> {
   } catch {
     data = {
       title: "Shubham Kumar",
-      description: "Associate Lead Engineer",
+      description: "Senior Engineer II",
     };
   }
 
@@ -80,7 +81,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  let me = { name: "Shubham Kumar", avatarUrl: "" };
+  let me: { name: string; avatarUrl: string; about: string } = {
+    name: "Shubham Kumar",
+    avatarUrl: "",
+    about: "Senior Engineer II",
+  };
   try {
     me = await getMe();
   } catch {}
@@ -90,7 +95,7 @@ export default async function RootLayout({
     "@type": "Person",
     name: "Shubham Kumar",
     url: "https://www.shubhkumar.in",
-    jobTitle: "Associate Lead Engineer",
+    jobTitle: me.about,
     sameAs: [
       "https://github.com/shubhamkumar",
       "https://linkedin.com/in/shubhamkumar",
@@ -111,13 +116,15 @@ export default async function RootLayout({
       </head>
       <body className="antialiased bg-surface text-on-surface font-body">
         <AnimatedBackground />
-        <div className="relative z-10">
-        {children}
-        <NewsletterFullscreen name={me.name} avatarUrl={me.avatarUrl} />
-        <Analytics />
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
-        <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "81cd3bc5c97945c4b8b57909f87a3926"}'></script>
-        </div>
+        <MotionConfig reducedMotion="user">
+          <div className="relative z-10">
+            {children}
+            <NewsletterFullscreen name={me.name} avatarUrl={me.avatarUrl} />
+            <Analytics />
+            <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
+            <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "81cd3bc5c97945c4b8b57909f87a3926"}'></script>
+          </div>
+        </MotionConfig>
       </body>
     </html>
   );

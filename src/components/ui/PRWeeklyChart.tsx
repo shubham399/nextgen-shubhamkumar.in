@@ -13,8 +13,8 @@ interface PRWeeklyChartProps {
   buckets: PRBucket[];
 }
 
-const COLOR_FULL = "#a5e7ff";
-const COLOR_PARTIAL = "#00d2ff";
+const COLOR_FULL = "#c4eef2";
+const COLOR_PARTIAL = "#f1b35c";
 
 export default function PRWeeklyChart({ buckets }: PRWeeklyChartProps) {
   const chartData = buckets.map((b) => ({

@@ -51,8 +51,8 @@ export default async function Home() {
     name: me.name,
     url: "https://www.shubhkumar.in",
     image: me.avatarUrl,
-    jobTitle: "Associate Lead Engineer",
-    description: me.about,
+    jobTitle: me.about,
+    description: me.summary,
     address: {
       "@type": "PostalAddress",
       addressLocality: me.location,

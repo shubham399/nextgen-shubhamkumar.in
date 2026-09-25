@@ -2,7 +2,6 @@ import { Icon } from "@iconify/react";
 import type { Me, Contact, Experience } from "@/types";
 import SectionHeader from "../ui/SectionHeader";
 import AnimateOnScroll from "../ui/AnimateOnScroll";
-import { StaggerContainer, StaggerItem } from "../ui/AnimateOnScroll";
 
 interface AboutProps {
   me: Me;
@@ -17,19 +16,28 @@ function getYearsOfExperience(experience: Experience[]): string {
   return `${years}+`;
 }
 
-function getCompaniesCount(experience: Experience[]): string {
-  const companies = new Set(experience.filter((e) => !e.skip).map((e) => e.company));
-  return `${companies.size}`;
-}
-
 export default function About({ me, contacts, experience }: AboutProps) {
-  const STATS = [
-    { value: getYearsOfExperience(experience), label: "Years Experience" },
-    { value: getCompaniesCount(experience), label: "Companies" },
-    { value: "90%", label: "Latency Reduction" },
-    { value: "75%+", label: "Captive Portal Launch Rate" },
-    { value: "99.999%", label: "SLA Services" },
+  const proof = [
+    {
+      value: getYearsOfExperience(experience),
+      label: "years shipping",
+      detail: "backend systems since 2018",
+      accent: "text-primary",
+    },
+    {
+      value: "90%",
+      label: "latency removed",
+      detail: "Juspay payout processing",
+      accent: "text-secondary",
+    },
+    {
+      value: "75%+",
+      label: "launch success",
+      detail: "AirFi captive portals",
+      accent: "text-tertiary",
+    },
   ];
+
   return (
     <section id="about" className="section-base">
       <SectionHeader
@@ -38,30 +46,35 @@ export default function About({ me, contacts, experience }: AboutProps) {
         description="A glimpse into the person behind the architecture."
       />
 
-      {/* Stats row */}
-      <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
-        {STATS.map((stat) => (
-          <StaggerItem key={stat.label}>
-            <div className="bg-surface-container-low rounded-xl p-4 inner-glow text-center">
-              <p className="font-headline font-bold text-2xl tracking-tighter gradient-text">
-                {stat.value}
+      <AnimateOnScroll className="mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-1 rounded-2xl bg-surface-container-low p-2 inner-glow">
+          {proof.map((item) => (
+            <div key={item.label} className="rounded-xl bg-surface-container p-5 sm:p-6">
+              <p className={`font-headline text-3xl font-bold tracking-tighter ${item.accent}`}>
+                {item.value}
               </p>
-              <p className="font-label text-xs text-on-surface-variant mt-1">
-                {stat.label}
+              <p className="font-headline text-sm font-semibold text-on-surface mt-2">
+                {item.label}
+              </p>
+              <p className="font-body text-xs text-on-surface-variant mt-1 leading-relaxed">
+                {item.detail}
               </p>
             </div>
-          </StaggerItem>
-        ))}
-      </StaggerContainer>
+          ))}
+        </div>
+      </AnimateOnScroll>
 
       <AnimateOnScroll className="grid grid-cols-1 lg:grid-cols-2 gap-6" delay={0.1}>
         {/* Bio card */}
         <div className="bg-surface-container-low rounded-2xl p-7 inner-glow">
+          <p className="font-label text-xs font-semibold tracking-widest uppercase text-secondary mb-3">
+            The through-line
+          </p>
           <h3 className="font-headline font-bold text-xl tracking-tighter text-on-surface mb-4">
-            Background
+            Make the system legible.
           </h3>
-          <p className="font-body text-sm leading-[1.8] text-on-surface-variant whitespace-pre-line">
-            {me.summary}
+          <p className="font-body text-sm leading-[1.8] text-on-surface-variant">
+            {me.about} My work spans the systems behind fast payments and in-flight connectivity, where latency, availability, and failure behavior matter more than novelty.
           </p>
         </div>
 

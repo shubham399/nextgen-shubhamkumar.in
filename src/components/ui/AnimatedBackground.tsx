@@ -22,7 +22,7 @@ function createOrb(width: number, height: number, i: number): Orb {
     vx: (Math.random() - 0.5) * 0.15,
     vy: (Math.random() - 0.5) * 0.1,
     radius: 200 + Math.random() * 250,
-    hue: 185 + Math.random() * 15,
+    hue: 168 + Math.random() * 18,
     saturation: 70 + Math.random() * 20,
     lightness: 50 + Math.random() * 15,
     alpha: 0.03 + Math.random() * 0.025,
@@ -63,7 +63,7 @@ function drawGrid(
   const spacing = 60;
   const lineAlpha = 0.035;
 
-  ctx.strokeStyle = `rgba(0, 210, 255, ${lineAlpha})`;
+  ctx.strokeStyle = `rgba(85, 198, 209, ${lineAlpha})`;
   ctx.lineWidth = 0.5;
 
   const yOff = offset % spacing;
@@ -126,7 +126,7 @@ function drawParticles(
     if (p.x > w + 10) p.x = -10;
 
     const currentAlpha = p.alpha * (0.5 + 0.5 * Math.sin(p.pulse));
-    ctx.fillStyle = `rgba(0, 210, 255, ${currentAlpha})`;
+    ctx.fillStyle = `rgba(241, 179, 92, ${currentAlpha})`;
     ctx.beginPath();
     ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
     ctx.fill();
@@ -135,7 +135,6 @@ function drawParticles(
 
 export default function AnimatedBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animRef = useRef<number>(0);
   const orbsRef = useRef<Orb[]>([]);
   const particlesRef = useRef<Particle[]>([]);
 
@@ -161,21 +160,15 @@ export default function AnimatedBackground() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     let w = window.innerWidth;
     let h = window.innerHeight;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-    canvas.width = w * dpr;
-    canvas.height = h * dpr;
-    canvas.style.width = `${w}px`;
-    canvas.style.height = `${h}px`;
-    ctx.scale(dpr, dpr);
-
-    init(w, h);
-
+    let frame = 0;
+    let running = false;
     let t = 0;
 
-    const resize = () => {
+    const resizeCanvas = () => {
       w = window.innerWidth;
       h = window.innerHeight;
       canvas.width = w * dpr;
@@ -186,9 +179,25 @@ export default function AnimatedBackground() {
       init(w, h);
     };
 
-    window.addEventListener("resize", resize);
+    const renderStatic = () => {
+      ctx.clearRect(0, 0, w, h);
+      drawOrbs(ctx, orbsRef.current);
+      drawGrid(ctx, w, h, 0);
+      drawParticles(ctx, particlesRef.current, w, h);
+    };
+
+    const stop = () => {
+      cancelAnimationFrame(frame);
+      running = false;
+    };
 
     const animate = () => {
+      if (motionQuery.matches) {
+        stop();
+        renderStatic();
+        return;
+      }
+
       t += 1;
       ctx.clearRect(0, 0, w, h);
 
@@ -205,15 +214,45 @@ export default function AnimatedBackground() {
       drawOrbs(ctx, orbsRef.current);
       drawGrid(ctx, w, h, t * 0.3);
       drawParticles(ctx, particlesRef.current, w, h);
-
-      animRef.current = requestAnimationFrame(animate);
+      frame = requestAnimationFrame(animate);
     };
 
-    animRef.current = requestAnimationFrame(animate);
+    const start = () => {
+      if (motionQuery.matches) {
+        stop();
+        renderStatic();
+        return;
+      }
+
+      if (!running) {
+        running = true;
+        frame = requestAnimationFrame(animate);
+      }
+    };
+
+    const handleMotionChange = () => {
+      if (motionQuery.matches) {
+        stop();
+        renderStatic();
+      } else {
+        start();
+      }
+    };
+
+    const resize = () => {
+      resizeCanvas();
+      if (motionQuery.matches) renderStatic();
+    };
+
+    resizeCanvas();
+    window.addEventListener("resize", resize);
+    motionQuery.addEventListener("change", handleMotionChange);
+    start();
 
     return () => {
-      cancelAnimationFrame(animRef.current);
+      stop();
       window.removeEventListener("resize", resize);
+      motionQuery.removeEventListener("change", handleMotionChange);
     };
   }, [init]);
 

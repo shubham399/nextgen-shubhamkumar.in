@@ -15,6 +15,11 @@
     @apply bg-surface-dim text-on-surface font-body;
   }
 
+  :focus-visible {
+    outline: 2px solid #c4eef2;
+    outline-offset: 3px;
+  }
+
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { @apply bg-surface-container-lowest; }
   ::-webkit-scrollbar-thumb {
@@ -102,6 +107,25 @@
 
 .animate-drift {
   animation: drift 20s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .animate-pulse-glow,
+  .animate-drift,
+  .animate-pulse {
+    animation: none !important;
+  }
 }
 
 .blog-content {

@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
   } catch {
     data = {
       title: "Shubham Kumar",
-      description: "Associate Lead Engineer",
+      description: "Senior Engineer II",
     };
   }
 

@@ -31,8 +31,9 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
       {/* Animated background glow — replaced static blob */}
       <div
         className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full opacity-[0.07] pointer-events-none animate-pulse-glow"
+        aria-hidden="true"
         style={{
-          background: "radial-gradient(circle, #00d2ff 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(85,198,209,0.16) 0%, rgba(241,179,92,0.06) 34%, transparent 70%)",
         }}
       />
       <FloatingShapes />
@@ -53,9 +54,9 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant text-xs font-label hover:text-primary transition-colors"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" aria-hidden="true" />
                 {me.location}
-                <Icon icon="ion:chevron-forward" width={12} />
+                <Icon icon="ion:chevron-forward" width={12} aria-hidden="true" />
               </a>
             </motion.div>
 
@@ -130,8 +131,10 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
                   key={social.name}
                   href={social.href}
                   aria-label={social.name}
+                  className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-on-surface-variant transition-colors hover:bg-surface-container hover:text-primary"
                 >
-                  <Icon icon={social.icon} width={18} />
+                  <Icon icon={social.icon} width={18} aria-hidden="true" />
+                  <span className="sr-only">{social.name}</span>
                 </UTMLink>
               ))}
             </motion.div>
@@ -149,7 +152,7 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
               <div
                 className="absolute inset-0 rounded-2xl opacity-30"
                 style={{
-                  background: "linear-gradient(135deg, #a5e7ff 0%, #00d2ff 100%)",
+                  background: "radial-gradient(circle at 35% 30%, rgba(85,198,209,0.28) 0%, rgba(241,179,92,0.12) 48%, transparent 72%)",
                   filter: "blur(32px)",
                   transform: "scale(1.08)",
                 }}
@@ -168,10 +171,10 @@ export default function Hero({ me, socials, nav, experience }: HeroProps) {
               {/* Floating badge — bolder */}
               <div
                 className="absolute -bottom-4 -left-4 px-5 py-3 rounded-xl glass-card inner-glow"
-                style={{ boxShadow: "0 0 40px rgba(71,214,255,0.12)" }}
+                style={{ boxShadow: "0 0 40px rgba(112,213,223,0.12)" }}
               >
-                <p className="font-headline font-bold text-base tracking-tight text-on-surface">
-                  {getYearsOfExperience(experience)}+ years
+                <p className="font-headline font-bold text-base tracking-tight text-secondary">
+                  {getYearsOfExperience(experience)} years
                 </p>
                 <p className="font-label text-xs text-on-surface-variant mt-0.5">
                   shipping at scale

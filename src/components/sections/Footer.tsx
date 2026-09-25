@@ -53,9 +53,10 @@ export default function Footer({ me, socials, nav }: FooterProps) {
                   key={social.name}
                   href={social.href}
                   aria-label={social.name}
-                  className="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-all duration-200"
+                  className="w-11 h-11 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-all duration-200"
                 >
-                  <Icon icon={social.icon} width={16} />
+                  <Icon icon={social.icon} width={16} aria-hidden="true" />
+                  <span className="sr-only">{social.name}</span>
                 </UTMLink>
               ))}
             </div>

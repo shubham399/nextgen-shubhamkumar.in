@@ -36,7 +36,7 @@ export default function Navigation({ me, nav, socials }: NavigationProps) {
             ? "bg-surface-container-low/80 backdrop-blur-xl shadow-glow"
             : "bg-surface/60 backdrop-blur-xl"
             }`}
-          style={{ boxShadow: "0 0 48px rgba(71,214,255,0.06)" }}
+          style={{ boxShadow: "0 0 48px rgba(112,213,223,0.06)" }}
         >
           {/* Brand */}
           <Link

@@ -98,14 +98,6 @@ export default async function NewsletterPage() {
           </AnimateOnScroll>
         </section>
 
-        {/* Divider */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
-        </div>
-
-
-
-        {/* Divider */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-px bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
         </div>
@@ -113,20 +105,11 @@ export default async function NewsletterPage() {
         {/* Final CTA */}
         <section className="section-base pb-24">
           <AnimateOnScroll>
-            <div
-              className="rounded-2xl p-8 md:p-12 text-center relative overflow-hidden"
-              style={{
-                background:
-                  "linear-gradient(135deg, rgba(165,231,255,0.07) 0%, rgba(0,210,255,0.07) 100%)",
-              }}
-            >
-              <div
-                className="absolute -top-8 -right-8 w-48 h-48 rounded-full opacity-10 pointer-events-none"
-                style={{
-                  background: "radial-gradient(circle, #00d2ff 0%, transparent 70%)",
-                }}
-              />
+            <div className="rounded-2xl p-8 md:p-12 text-center relative overflow-hidden bg-surface-container">
               <div className="relative">
+                <p className="font-label text-xs font-semibold tracking-widest uppercase text-secondary mb-4">
+                  One useful dispatch, every Friday
+                </p>
                 <h2 className="font-headline text-3xl sm:text-4xl font-bold tracking-tighter text-on-surface mb-4">
                   Join the list
                 </h2>

@@ -25,18 +25,13 @@ function getYearsOfExperience(experience: Experience[]): string {
   return `${years}+`;
 }
 
-function getCompanyCount(experience: Experience[]): string {
-  const companies = new Set(experience.filter((e) => !e.skip).map((e) => e.company));
-  return `${companies.size}`;
-}
-
 const CONSULTING_SERVICES = [
   {
     title: "System Architecture & Design",
     icon: "ion:layers-outline",
     description:
       "End-to-end system design for platforms processing millions of transactions. Architecture reviews, database modeling, API design, and scalability planning.",
-    gradient: "from-primary/10 to-primary-container/10",
+    gradient: "bg-primary-gradient-subtle",
     iconColor: "text-primary",
   },
   {
@@ -44,7 +39,7 @@ const CONSULTING_SERVICES = [
     icon: "ion:code-slash-outline",
     description:
       "Deep-dive code reviews focused on correctness, performance, and maintainability. TypeScript, React, Node.js, Go, Python, and Haskell codebases.",
-    gradient: "from-secondary/10 to-secondary-container/10",
+    gradient: "bg-secondary-gradient-subtle",
     iconColor: "text-secondary",
   },
   {
@@ -52,7 +47,7 @@ const CONSULTING_SERVICES = [
     icon: "ion:flash-outline",
     description:
       "Identify and eliminate bottlenecks. Database query optimization, caching strategies, CDN configuration, bundle size reduction, and rendering performance.",
-    gradient: "from-tertiary/10 to-tertiary-container/10",
+    gradient: "bg-tertiary-gradient-subtle",
     iconColor: "text-tertiary",
   },
   {
@@ -60,7 +55,7 @@ const CONSULTING_SERVICES = [
     icon: "ion:cloud-outline",
     description:
       "Kubernetes cluster setup, CI/CD pipeline design, Terraform infrastructure-as-code, monitoring & observability stacks, and incident response planning.",
-    gradient: "from-primary/10 to-primary-container/10",
+    gradient: "bg-primary-gradient-subtle",
     iconColor: "text-primary",
   },
   {
@@ -68,7 +63,7 @@ const CONSULTING_SERVICES = [
     icon: "ion:trending-up-outline",
     description:
       "Build growth loops, referral systems, SEO infrastructure, and product analytics. I've built systems that drove millions in revenue through engineering-led growth.",
-    gradient: "from-secondary/10 to-secondary-container/10",
+    gradient: "bg-secondary-gradient-subtle",
     iconColor: "text-secondary",
   },
   {
@@ -76,7 +71,7 @@ const CONSULTING_SERVICES = [
     icon: "ion:compass-outline",
     description:
       "Fractional CTO/tech advisor for early-stage startups. Technology selection, team structuring, sprint planning, and helping non-technical founders make informed decisions.",
-    gradient: "from-tertiary/10 to-tertiary-container/10",
+    gradient: "bg-tertiary-gradient-subtle",
     iconColor: "text-tertiary",
   },
 ];
@@ -159,6 +154,27 @@ export default async function ConsultingPage() {
     getContacts(),
   ]);
 
+  const proof = [
+    {
+      value: getYearsOfExperience(experience),
+      label: "years shipping",
+      detail: "backend systems since 2018",
+      accent: "text-primary",
+    },
+    {
+      value: "90%",
+      label: "latency removed",
+      detail: "Juspay payout processing",
+      accent: "text-secondary",
+    },
+    {
+      value: "75%+",
+      label: "launch success",
+      detail: "AirFi captive portals",
+      accent: "text-tertiary",
+    },
+  ];
+
   return (
     <>
       <Navigation me={me} nav={nav} socials={socials} />
@@ -175,8 +191,7 @@ export default async function ConsultingPage() {
               <span className="gradient-text">engineering guidance</span>
             </h1>
             <p className="font-body text-base sm:text-lg text-on-surface-variant leading-relaxed max-w-2xl mb-8">
-              {me.summary} I help startups and teams architect systems, review code,
-              and make technical decisions that scale — without the overhead of a full-time hire.
+              I help startups and teams make the architecture, code, and operating trade-offs that get expensive when they are deferred. The work is direct, practical, and sized for a team that needs leverage now.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
               <CTA btn={me.cal} className="btn-primary">
@@ -193,19 +208,19 @@ export default async function ConsultingPage() {
             </div>
           </AnimateOnScroll>
 
-          {/* Quick stats */}
           <AnimateOnScroll delay={0.15}>
-            <div className="mt-16 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-              {[
-                { value: getYearsOfExperience(experience), label: "Years Experience" },
-                { value: getCompanyCount(experience), label: "Companies" },
-                { value: "90%", label: "Latency Reduction" },
-                { value: "75%+", label: "Captive Portal Launch Rate" },
-                { value: "99.999%", label: "SLA Services" },
-              ].map((stat) => (
-                <div key={stat.label} className="bg-surface-container-low rounded-2xl p-5 inner-glow text-center">
-                  <p className="font-headline text-2xl font-bold gradient-text mb-1">{stat.value}</p>
-                  <p className="font-body text-xs text-on-surface-variant">{stat.label}</p>
+            <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-1 rounded-2xl bg-surface-container-low p-2 inner-glow">
+              {proof.map((item) => (
+                <div key={item.label} className="rounded-xl bg-surface-container p-5 sm:p-6">
+                  <p className={`font-headline text-3xl font-bold tracking-tighter ${item.accent}`}>
+                    {item.value}
+                  </p>
+                  <p className="font-headline text-sm font-semibold text-on-surface mt-2">
+                    {item.label}
+                  </p>
+                  <p className="font-body text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    {item.detail}
+                  </p>
                 </div>
               ))}
             </div>
@@ -229,7 +244,7 @@ export default async function ConsultingPage() {
               <StaggerItem key={service.title}>
                 <div className="relative h-full bg-surface-container-low rounded-2xl p-7 inner-glow hover:bg-surface-container hover:shadow-glow transition-all duration-300 group overflow-hidden">
                   <div
-                    className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl`}
+                    className={`absolute inset-0 ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl`}
                   />
                   <div
                     className={`relative w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center mb-6 ${service.iconColor}`}

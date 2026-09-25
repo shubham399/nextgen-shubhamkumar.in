@@ -17,7 +17,7 @@ export default function Contact({ contacts, me, socials }: ContactProps) {
       <SectionHeader
         label="Get In Touch"
         title="Let's build something"
-        description="Whether it's a new project, a technical challenge, or just a chat -  I'm always open to connecting."
+        description="Start with the bottleneck, the trade-off, or the idea you want to pressure-test."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
@@ -62,9 +62,9 @@ export default function Contact({ contacts, me, socials }: ContactProps) {
                   key={social.name}
                   href={social.href}
                   aria-label={social.name}
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-all duration-200 text-xs font-label"
+                  className="flex min-h-11 items-center gap-2 px-3 py-2 rounded-lg bg-surface-container text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-all duration-200 text-xs font-label"
                 >
-                  <Icon icon={social.icon} width={16} />
+                  <Icon icon={social.icon} width={16} aria-hidden="true" />
                   {social.name}
                 </UTMLink>
               ))}
@@ -74,23 +74,13 @@ export default function Contact({ contacts, me, socials }: ContactProps) {
 
         {/* CTA card -  3 cols */}
         <AnimateOnScroll className="lg:col-span-3" delay={0.1}>
-          <div
-            className="h-full rounded-2xl p-8 flex flex-col justify-between gap-8 relative overflow-hidden"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(165,231,255,0.07) 0%, rgba(0,210,255,0.07) 100%)",
-            }}
-          >
-            {/* Ambient glow */}
-            <div
-              className="absolute -top-8 -right-8 w-48 h-48 rounded-full opacity-10 pointer-events-none"
-              style={{
-                background: "radial-gradient(circle, #00d2ff 0%, transparent 70%)",
-              }}
-            />
-
+          <div className="h-full rounded-2xl p-8 flex flex-col justify-between gap-8 relative overflow-hidden bg-surface-container">
             <div className="relative">
-              <h3 className="font-headline font-bold text-2xl tracking-tighter text-on-surface mb-3">
+              <div className="inline-flex items-center gap-2 text-secondary font-label text-xs font-semibold tracking-widest uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary" aria-hidden="true" />
+                Open to focused collaborations
+              </div>
+              <h3 className="font-headline font-bold text-2xl tracking-tighter text-on-surface mt-5 mb-3">
                 Ready to collaborate?
               </h3>
               <p className="font-body text-sm text-on-surface-variant leading-relaxed">
@@ -103,14 +93,14 @@ export default function Contact({ contacts, me, socials }: ContactProps) {
                 btn={`${me.cal}`}
                 className="btn-primary justify-center"
               >
-                <Icon icon="ion:calendar-outline" width={16} />
+                <Icon icon="ion:calendar-outline" width={16} aria-hidden="true" />
                 Book a 15-min call
               </CTA>
               <a
-                href={`mailto:hello@shubhkumar.in`}
+                href="mailto:hello@shubhkumar.in"
                 className="btn-ghost justify-center"
               >
-                <Icon icon="ion:mail-outline" width={16} />
+                <Icon icon="ion:mail-outline" width={16} aria-hidden="true" />
                 Send an email
               </a>
             </div>

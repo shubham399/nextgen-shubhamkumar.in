@@ -88,14 +88,14 @@ function getWelcomeHtml() {
 
           <!-- Top accent bar -->
           <tr>
-            <td style="height:3px;background:linear-gradient(90deg,#7dcfff 0%,#7aa2f7 50%,#bb9af7 100%);"></td>
+            <td style="height:3px;background:linear-gradient(90deg,#70d5df 0%,#c4eef2 52%,#f1b35c 100%);"></td>
           </tr>
 
           <tr>
             <td style="padding:36px 36px 0;">
 
               <!-- Label -->
-              <p style="margin:0 0 20px;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#565f89;font-family:'Space Grotesk',sans-serif;">
+              <p style="margin:0 0 20px;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9aabad;font-family:'Space Grotesk',sans-serif;">
                 Signal acquired
               </p>
 
@@ -110,12 +110,12 @@ function getWelcomeHtml() {
               </p>
 
               <!-- Divider -->
-              <div style="height:1px;background:linear-gradient(to right,transparent,rgba(165,231,255,0.15),transparent);margin:0 0 28px;"></div>
+              <div style="height:1px;background:linear-gradient(to right,transparent,rgba(196,238,242,0.18),transparent);margin:0 0 28px;"></div>
 
               <!-- CTA button -->
               <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
                 <tr>
-                  <td style="border-radius:8px;background:linear-gradient(135deg,#7dcfff 0%,#7aa2f7 100%);">
+                  <td style="border-radius:8px;background:linear-gradient(100deg,#c4eef2 0%,#55c6d1 100%);">
                     <a href="https://shubhkumar.in" style="display:inline-block;padding:11px 26px;font-family:'Space Grotesk',Arial,sans-serif;font-size:14px;font-weight:600;color:#131313;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
                       See what I'm building →
                     </a>
@@ -129,9 +129,9 @@ function getWelcomeHtml() {
           <!-- Footer -->
           <tr>
             <td style="padding:20px 36px 28px;">
-              <div style="height:1px;background:rgba(86,95,137,0.2);margin:0 0 20px;"></div>
-              <p style="margin:0;font-size:11px;color:#565f89;line-height:1.6;">
-                Shubham · <a href="https://shubhkumar.in" style="color:#565f89;text-decoration:none;">shubhkumar.in</a>
+              <div style="height:1px;background:rgba(154,171,173,0.2);margin:0 0 20px;"></div>
+              <p style="margin:0;font-size:11px;color:#9aabad;line-height:1.6;">
+                Shubham · <a href="https://shubhkumar.in" style="color:#9aabad;text-decoration:none;">shubhkumar.in</a>
                 <br />
                 You're receiving this because you subscribed to my newsletter.
               </p>

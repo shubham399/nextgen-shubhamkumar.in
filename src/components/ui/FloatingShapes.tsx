@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 const shapes = [
   { type: "hexagon" as const, x: "8%", y: "15%", size: 48, rotate: 15, duration: 28, delay: 0 },
@@ -23,7 +23,7 @@ function Hexagon({ size }: { size: number }) {
       <polygon
         points={points}
         fill="none"
-        stroke="rgba(0, 210, 255, 0.06)"
+        stroke="rgba(196, 238, 242, 0.08)"
         strokeWidth="1"
       />
     </svg>
@@ -36,7 +36,7 @@ function Cube({ size }: { size: number }) {
 
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-      <g stroke="rgba(0, 210, 255, 0.06)" strokeWidth="1" fill="none">
+      <g stroke="rgba(196, 238, 242, 0.08)" strokeWidth="1" fill="none">
         <rect x={o} y={o} width={s} height={s} />
         <rect x={o + s * 0.3} y={o - s * 0.3} width={s} height={s} />
         <line x1={o} y1={o} x2={o + s * 0.3} y2={o - s * 0.3} />
@@ -53,6 +53,8 @@ function Cube({ size }: { size: number }) {
 }
 
 export default function FloatingShapes() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
       {shapes.map((shape, i) => (
@@ -60,25 +62,29 @@ export default function FloatingShapes() {
           key={i}
           className="absolute"
           style={{ left: shape.x, top: shape.y }}
-          initial={{ opacity: 0, rotate: shape.rotate }}
-          animate={{
-            opacity: 1,
-            rotate: [shape.rotate, shape.rotate + 360],
-            y: [0, -15, 0, 10, 0],
-          }}
-          transition={{
-            opacity: { duration: 1.5, delay: shape.delay * 0.3 },
-            rotate: {
-              duration: shape.duration,
-              repeat: Infinity,
-              ease: "linear",
-            },
-            y: {
-              duration: shape.duration * 0.6,
-              repeat: Infinity,
-              ease: "easeInOut",
-            },
-          }}
+          initial={reduceMotion ? false : { opacity: 0, rotate: shape.rotate }}
+          animate={reduceMotion
+            ? { opacity: 1, rotate: shape.rotate, y: 0 }
+            : {
+                opacity: 1,
+                rotate: [shape.rotate, shape.rotate + 360],
+                y: [0, -15, 0, 10, 0],
+              }}
+          transition={reduceMotion
+            ? { duration: 0 }
+            : {
+                opacity: { duration: 1.5, delay: shape.delay * 0.3 },
+                rotate: {
+                  duration: shape.duration,
+                  repeat: Infinity,
+                  ease: "linear",
+                },
+                y: {
+                  duration: shape.duration * 0.6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                },
+              }}
         >
           {shape.type === "hexagon" ? (
             <Hexagon size={shape.size} />

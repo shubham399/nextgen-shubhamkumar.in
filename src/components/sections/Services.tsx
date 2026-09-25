@@ -19,15 +19,18 @@ function isValidIconifyName(name: string): boolean {
 
 const SERVICE_ACCENTS = [
   {
-    tile: "from-primary/20 to-primary-container/10",
+    tile: "bg-primary-gradient-subtle",
+    icon: "bg-primary/10",
     text: "text-primary",
   },
   {
-    tile: "from-secondary/20 to-secondary-container/10",
+    tile: "bg-secondary-gradient-subtle",
+    icon: "bg-secondary/10",
     text: "text-secondary",
   },
   {
-    tile: "from-tertiary/20 to-tertiary-container/10",
+    tile: "bg-tertiary-gradient-subtle",
+    icon: "bg-tertiary/10",
     text: "text-tertiary",
   },
 ];
@@ -52,7 +55,7 @@ export default function Services({ services }: ServicesProps) {
               <div className="relative h-full bg-surface-container-low rounded-2xl p-7 inner-glow hover:bg-surface-container hover:shadow-glow hover:-translate-y-1 transition-all duration-300 group overflow-hidden">
                 {/* Background gradient wash */}
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${accent.tile} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl`}
+                  className={`absolute inset-0 ${accent.tile} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl`}
                 />
 
                 {/* Index */}
@@ -62,7 +65,7 @@ export default function Services({ services }: ServicesProps) {
 
                 {/* Icon */}
                 <div
-                  className={`relative w-12 h-12 rounded-xl bg-gradient-to-br ${accent.tile} inner-glow flex items-center justify-center mb-6 ${accent.text} transition-transform duration-300 group-hover:scale-105`}
+                  className={`relative w-12 h-12 rounded-xl ${accent.icon} inner-glow flex items-center justify-center mb-6 ${accent.text} transition-transform duration-300 group-hover:scale-105`}
                 >
                   <Icon icon={icon} width={22} />
                 </div>

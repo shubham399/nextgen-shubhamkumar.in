@@ -32,7 +32,7 @@ export default function NotFound() {
       <div
         className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.04] pointer-events-none"
         style={{
-          background: "radial-gradient(circle, #00d2ff 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(85,198,209,0.14) 0%, rgba(241,179,92,0.05) 34%, transparent 70%)",
         }}
       />
 

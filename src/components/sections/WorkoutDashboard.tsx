@@ -51,10 +51,10 @@ const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "Ju
 const DAY_HEADERS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 
 const TYPE_COLORS: Record<string, string> = {
-  gym: "#a5e7ff",
-  cardio: "#73daca",
-  calisthenics: "#bb9af7",
-  rest: "#6fd4ee",
+  gym: "#c4eef2",
+  cardio: "#b8d6a3",
+  calisthenics: "#f1b35c",
+  rest: "#70d5df",
 };
 
 function getTypeColor(type: string): string {
