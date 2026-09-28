@@ -20,8 +20,6 @@ function isValidIconifyName(name: string): boolean {
 }
 
 export default function Services({ services }: ServicesProps) {
-  const leadSpansFullRow = services.length <= 3;
-
   return (
     <section id="services" className="section-base">
       <SectionHeader
@@ -30,55 +28,52 @@ export default function Services({ services }: ServicesProps) {
         description="Architecture, code review, and performance work for teams shipping critical paths."
       />
 
-      <StaggerContainer className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+      <StaggerContainer className="flex flex-col gap-3">
         {services.map((service, index) => {
           const accent = SERVICE_ACCENTS[index % SERVICE_ACCENTS.length];
           const icon = isValidIconifyName(service.icon)
             ? service.icon
             : FALLBACK_ICONS[index % FALLBACK_ICONS.length];
-          const layoutClass = index === 0
-            ? leadSpansFullRow
-              ? "lg:col-span-3"
-              : "lg:col-span-2"
-            : "lg:col-span-1";
+          const isLead = index === 0;
 
           return (
-            <StaggerItem key={service.title} className={layoutClass}>
-              <div
-                className={`relative flex h-full flex-col rounded-2xl p-6 sm:p-7 ${
-                  index === 0
-                    ? "bg-surface-container"
-                    : "bg-surface-container-low"
+            <StaggerItem key={service.title}>
+              <article
+                className={`grid gap-x-6 gap-y-4 rounded-2xl p-6 transition-colors duration-150 ease-out sm:p-7 lg:grid-cols-[2.75rem_minmax(0,22rem)_minmax(0,1fr)] lg:items-start ${
+                  isLead ? "bg-surface-container" : "bg-surface-container-low hover:bg-surface-container"
                 }`}
               >
-                <div className="relative flex items-start justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <span className={`flex h-10 w-10 items-center justify-center rounded-lg ${accent.icon} ${accent.text}`}>
-                      <Icon icon={icon} width={20} aria-hidden="true" />
-                    </span>
-                    <h3 className={`font-headline font-bold tracking-tight text-on-surface ${
-                      index === 0 ? "text-2xl" : "text-lg"
-                    }`}>
-                      {service.title}
-                    </h3>
-                  </div>
-                  <span className="font-label text-xs tracking-widest text-content-subtle">
-                    {String(index + 1).padStart(2, "0")}
+                <span className={`font-label text-xs font-semibold tracking-[0.18em] ${accent.text}`}>
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                <div className="flex items-start gap-3">
+                  <span
+                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${accent.icon} ${accent.text}`}
+                  >
+                    <Icon icon={icon} width={20} aria-hidden="true" />
                   </span>
+                  <h3
+                    className={`text-balance font-headline font-bold tracking-tight text-on-surface ${
+                      isLead ? "text-2xl" : "text-xl"
+                    }`}
+                  >
+                    {service.title}
+                  </h3>
                 </div>
 
-                <p className={`mt-6 font-body text-sm leading-relaxed text-on-surface-variant ${index === 0 ? "max-w-xl" : "max-w-sm"}`}>
-                  {service.description}
-                </p>
+                <div className="lg:col-start-3">
+                  <p className="font-body text-sm leading-relaxed text-on-surface-variant">
+                    {service.description}
+                  </p>
 
-                {index === 0 && (
-                  <div className="mt-auto pt-10">
-                    <p className="font-label text-xs uppercase tracking-[0.18em] text-secondary">
+                  {isLead && (
+                    <p className="mt-5 font-label text-xs uppercase tracking-[0.18em] text-secondary">
                       Start with the bottleneck
                     </p>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
+              </article>
             </StaggerItem>
           );
         })}

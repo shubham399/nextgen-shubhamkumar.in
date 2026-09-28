@@ -2,6 +2,10 @@
 
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
+import { colorGroups } from "@/lib/theme";
+
+const C = colorGroups;
+
 interface DailyViewsChartProps {
   days: { date: string; views: number }[];
 }
@@ -29,32 +33,32 @@ export default function DailyViewsChart({ days }: DailyViewsChartProps) {
       <BarChart data={chartData} margin={{ top: 4, right: 4, left: -16, bottom: 0 }}>
         <XAxis
           dataKey="label"
-          tick={{ fontSize: 10, fill: "#bbc9cf" }}
+          tick={{ fontSize: 10, fill: C.content["content-muted"] }}
           axisLine={false}
           tickLine={false}
         />
         <YAxis
-          tick={{ fontSize: 10, fill: "#bbc9cf" }}
+          tick={{ fontSize: 10, fill: C.content["content-muted"] }}
           axisLine={false}
           tickLine={false}
           allowDecimals={false}
         />
         <Tooltip
-          cursor={{ fill: "rgba(196, 238, 242, 0.1)" }}
+          cursor={{ fill: `${C.primary.primary}1a` }}
           contentStyle={{
-            background: "#2a2a2a",
+            background: C.surface["surface-overlay"],
             border: "none",
             borderRadius: 8,
             fontSize: 12,
-            color: "#e5e2e1",
+            color: C.content["on-surface"],
           }}
           formatter={(value) => [Number(value).toLocaleString(), "views"]}
           labelFormatter={(label) => label}
         />
         <Bar
           dataKey="views"
-          fill="#c4eef2"
-          activeBar={{ fill: "#f1b35c" }}
+          fill={C.primary.primary}
+          activeBar={{ fill: C.state.warning }}
           radius={[4, 4, 0, 0]}
           maxBarSize={32}
         />

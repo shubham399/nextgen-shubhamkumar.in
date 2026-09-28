@@ -16,11 +16,12 @@ import { wisp } from "@/lib/wisp";
 
 // ─── ANSI ────────────────────────────────────────────────
 
+// ANSI roles mirror the web palette in src/lib/theme.ts: signal lime for
+// structure, gold for signals, plain white for body. No blue, no magenta.
 const C = {
   r: "\x1b[0m", b: "\x1b[1m", d: "\x1b[2m", i: "\x1b[3m",
-  cyan: "\x1b[36m", grn: "\x1b[32m", yel: "\x1b[33m", mag: "\x1b[35m",
-  blu: "\x1b[34m", wht: "\x1b[37m",
-  bCyan: "\x1b[96m", bGrn: "\x1b[92m", bYel: "\x1b[93m", bMag: "\x1b[95m",
+  str: "\x1b[33m", sig: "\x1b[94m", txt: "\x1b[37m",
+  strB: "\x1b[93m", sigB: "\x1b[96m",
 };
 
 const W = 64;
@@ -28,12 +29,12 @@ const hr = (ch = "\u2500", n = W) => ch.repeat(n);
 
 function hdr(text: string) {
   const p = W - text.length - 4;
-  return `\n${C.cyan}\u250c${hr()}\u2510${C.r}\n${C.cyan}\u2502${C.r}  ${C.b}${C.bCyan}${text}${C.r}${" ".repeat(Math.max(0, p - 2))}${C.cyan}\u2502${C.r}\n${C.cyan}\u2514${hr()}\u2518${C.r}`;
+  return `\n${C.str}\u250c${hr()}\u2510${C.r}\n${C.str}\u2502${C.r}  ${C.b}${C.strB}${text}${C.r}${" ".repeat(Math.max(0, p - 2))}${C.str}\u2502${C.r}\n${C.str}\u2514${hr()}\u2518${C.r}`;
 }
 
 function sub(text: string) {
   const p = W - text.length - 2;
-  return `${C.cyan}\u251c${hr("\u2500", W - 2)}\u2524${C.r}\n${C.cyan}\u2502${C.r} ${C.b}${text}${C.r}${" ".repeat(Math.max(0, p))}${C.cyan}\u2502${C.r}\n${C.cyan}\u2514${hr("\u2500", W - 2)}\u2518${C.r}`;
+  return `${C.str}\u251c${hr("\u2500", W - 2)}\u2524${C.r}\n${C.str}\u2502${C.r} ${C.b}${text}${C.r}${" ".repeat(Math.max(0, p))}${C.str}\u2502${C.r}\n${C.str}\u2514${hr("\u2500", W - 2)}\u2518${C.r}`;
 }
 
 function wrap(pfx: string, text: string, max = W) {
@@ -47,12 +48,12 @@ function sep() { return `${C.d}${hr("\u2500")}${C.r}`; }
 function banner() {
   return [
     "",
-    `${C.b}${C.bCyan} ________ ___ ___  ____ _____________  ___ ___    _____      _____   ${C.r}`,
-    `${C.b}${C.bCyan} /   _____//   |   \\|    |   \\______   \\/   |   \\  /  _  \\    /     \\  ${C.r}`,
-    `${C.b}${C.bCyan} \\_____  \\/    ~    \\    |   /|    |  _/    ~    \\/  /_\\  \\  /  \\ /  \\ ${C.r}`,
-    `${C.b}${C.bCyan} /        \\    Y    /    |  / |    |   \\    Y    /    |    \\/    Y    \\${C.r}`,
-    `${C.b}${C.bCyan}/_______  /\\___|_  /|______/  |______  /\\___|_  /\\____|__  /\\____|__  /${C.r}`,
-    `${C.b}${C.bCyan}        \\/       \\/                  \\/       \\/         \\/         \\/  ${C.r}`,
+    `${C.b}${C.strB} ________ ___ ___  ____ _____________  ___ ___    _____      _____   ${C.r}`,
+    `${C.b}${C.strB} /   _____//   |   \\|    |   \\______   \\/   |   \\  /  _  \\    /     \\  ${C.r}`,
+    `${C.b}${C.strB} \\_____  \\/    ~    \\    |   /|    |  _/    ~    \\/  /_\\  \\  /  \\ /  \\ ${C.r}`,
+    `${C.b}${C.strB} /        \\    Y    /    |  / |    |   \\    Y    /    |    \\/    Y    \\${C.r}`,
+    `${C.b}${C.strB}/_______  /\\___|_  /|______/  |______  /\\___|_  /\\____|__  /\\____|__  /${C.r}`,
+    `${C.b}${C.strB}        \\/       \\/                  \\/       \\/         \\/         \\/  ${C.r}`,
     "",
   ].join("\n");
 }
@@ -76,31 +77,31 @@ async function tuiHome() {
   const [me, socials, contacts, nav, experience, skills, services, testimonials, certificates] =
     await Promise.all([getMe(), getSocials(), getContacts(), getNav(), getExperience(), getSkills(), getServices(), getTestimonials(), getCertificates()]);
   const L: string[] = [banner(), `  ${C.d}${me.location}${C.r}`, ""];
-  L.push(hdr("ABOUT"), "", `  ${C.b}${C.wht}${me.name}${C.r}`, "", ...wrap("  ", me.summary), "", ...wrap("  ", me.about), "");
+  L.push(hdr("ABOUT"), "", `  ${C.b}${C.txt}${me.name}${C.r}`, "", ...wrap("  ", me.summary), "", ...wrap("  ", me.about), "");
   L.push(hdr("EXPERIENCE"), "");
   for (const e of experience.filter((x) => !x.skip)) {
-    L.push(`  ${C.b}${C.bCyan}${e.title}${C.r}`, `  ${C.grn}${e.company}${C.r} ${C.d}| ${e.start} \u2013 ${e.end ?? "Present"}${C.r}`, `  ${C.d}${e.location}${C.r}`);
-    for (const d of e.description) L.push(`  ${C.wht}\u2022 ${d}${C.r}`);
+    L.push(`  ${C.b}${C.strB}${e.title}${C.r}`, `  ${C.sig}${e.company}${C.r} ${C.d}| ${e.start} \u2013 ${e.end ?? "Present"}${C.r}`, `  ${C.d}${e.location}${C.r}`);
+    for (const d of e.description) L.push(`  ${C.txt}\u2022 ${d}${C.r}`);
     L.push("");
   }
   L.push(hdr("SKILLS"), "");
   const by: Record<string, string[]> = {}; for (const s of skills) (by[s.category] ??= []).push(s.skill);
-  for (const [c, items] of Object.entries(by)) { L.push(`  ${C.b}${C.bYel}${c}${C.r}`, `  ${C.d}${items.join(" \u2022 ")}${C.r}`, ""); }
+  for (const [c, items] of Object.entries(by)) { L.push(`  ${C.b}${C.sigB}${c}${C.r}`, `  ${C.d}${items.join(" \u2022 ")}${C.r}`, ""); }
   L.push(hdr("SERVICES"), "");
-  for (const s of services) L.push(`  ${C.b}${C.bMag}${s.title}${C.r}`, `  ${C.wht}${s.description}${C.r}`, "");
+  for (const s of services) L.push(`  ${C.b}${C.sigB}${s.title}${C.r}`, `  ${C.txt}${s.description}${C.r}`, "");
   L.push(hdr("TESTIMONIALS"), "");
   for (const t of testimonials) {
-    L.push(`  ${C.b}${C.bGrn}${t.name}${C.r} ${C.d}(${t.destination})${C.r}`, `  ${C.d}${t.date}${C.r}`);
-    L.push(...wrap('  \u201c', t.text, 56).map(l => `${C.wht}${l}${C.r}`));
-    if (t.link) L.push(`  ${C.blu}${t.link}${C.r}`);
+    L.push(`  ${C.b}${C.sigB}${t.name}${C.r} ${C.d}(${t.destination})${C.r}`, `  ${C.d}${t.date}${C.r}`);
+    L.push(...wrap('  \u201c', t.text, 56).map(l => `${C.txt}${l}${C.r}`));
+    if (t.link) L.push(`  ${C.strB}${t.link}${C.r}`);
     L.push("");
   }
   L.push(hdr("CERTIFICATES"), "");
-  for (const c of certificates) { L.push(`  ${C.b}${C.bCyan}${c.title}${C.r}`, `  ${C.grn}${c.issuer}${C.r} ${C.d}| ${c.issuedAt}${C.r}`); if (c.link) L.push(`  ${C.blu}${c.link}${C.r}`); L.push(""); }
+  for (const c of certificates) { L.push(`  ${C.b}${C.strB}${c.title}${C.r}`, `  ${C.sig}${c.issuer}${C.r} ${C.d}| ${c.issuedAt}${C.r}`); if (c.link) L.push(`  ${C.strB}${c.link}${C.r}`); L.push(""); }
   L.push(hdr("CONTACT"), "");
-  for (const c of contacts) L.push(`  ${C.b}${C.bCyan}${c.title}${C.r} ${C.wht}${c.text}${C.r}`);
+  for (const c of contacts) L.push(`  ${C.b}${C.strB}${c.title}${C.r} ${C.txt}${c.text}${C.r}`);
   L.push("", hdr("SOCIALS"), "");
-  for (const s of socials) L.push(`  ${C.grn}${s.name}${C.r} ${C.d}${s.username ?? ""}${C.r}`, `  ${C.blu}${s.href}${C.r}`);
+  for (const s of socials) L.push(`  ${C.sig}${s.name}${C.r} ${C.d}${s.username ?? ""}${C.r}`, `  ${C.strB}${s.href}${C.r}`);
   L.push("", blogNav(), "", footer(me, nav));
   return L.join("\n");
 }
@@ -111,9 +112,9 @@ async function tuiBlogList() {
   if (!posts.posts?.length) L.push(`  ${C.d}No posts yet.${C.r}`);
   else for (const p of posts.posts) {
     const d = p.publishedAt ? new Date(p.publishedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "";
-    L.push(`  ${C.b}${C.bCyan}${p.title}${C.r}`, `  ${C.d}${d}${C.r}`);
+    L.push(`  ${C.b}${C.strB}${p.title}${C.r}`, `  ${C.d}${d}${C.r}`);
     if (p.description) L.push(...wrap("  ", p.description, 56));
-    L.push(`  ${C.blu}/blogs/${p.slug}${C.r}`, "");
+    L.push(`  ${C.strB}/blogs/${p.slug}${C.r}`, "");
   }
   L.push(sep(), `  ${C.d}Total: ${posts.pagination?.totalPosts ?? 0} posts${C.r}`, sep(), "", footer(me, nav));
   return L.join("\n");
@@ -139,13 +140,13 @@ async function tuiDashboard() {
   let workouts: any[] = [], summary: any = null;
   try { [workouts, summary] = await Promise.all([getWorkouts(), getWorkoutSummary()]); } catch {}
   const L: string[] = [banner(), hdr("DASHBOARD"), ""];
-  L.push(sub("SOCIAL"), "", `  ${C.b}${C.bGrn}Blog Posts${C.r}    ${posts.pagination?.totalPosts ?? 0}`, `  ${C.b}${C.bGrn}GitHub${C.r}        ${gh?.followers ?? "?"} followers \u2022 ${gh?.public_repos ?? "?"} repos`, `  ${C.b}${C.bGrn}Twitter${C.r}       @shubhkumar01`, "");
+  L.push(sub("SOCIAL"), "", `  ${C.b}${C.sigB}Blog Posts${C.r}    ${posts.pagination?.totalPosts ?? 0}`, `  ${C.b}${C.sigB}GitHub${C.r}        ${gh?.followers ?? "?"} followers \u2022 ${gh?.public_repos ?? "?"} repos`, `  ${C.b}${C.sigB}Twitter${C.r}       @shubhkumar01`, "");
   if (summary) {
-    L.push(sub("WORKOUTS"), "", `  ${C.b}${C.bYel}Total Workouts${C.r}   ${summary.totalWorkouts}`, `  ${C.b}${C.bYel}Total Duration${C.r}   ${Math.round(summary.totalDurationMinutes / 60)}h ${summary.totalDurationMinutes % 60}m`, `  ${C.b}${C.bYel}Total Volume${C.r}     ${summary.totalVolumeKg} kg`, `  ${C.b}${C.bYel}Streak${C.r}           ${summary.streakWeeks} weeks`, `  ${C.b}${C.bYel}Last Workout${C.r}     ${summary.lastWorkout?.daysAgo ?? "?"} days ago (${summary.lastWorkout?.type ?? ""})`, "");
-    if (workouts.length) { L.push(`  ${C.d}Recent:${C.r}`); for (const w of workouts.slice(0, 10)) { const dd = new Date(w.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" }); L.push(`    ${C.wht}\u2022 ${dd} ${C.bCyan}${w.workout}${C.r} ${C.d}${w.durationMinutes}m${C.r}`); } L.push(""); }
+    L.push(sub("WORKOUTS"), "", `  ${C.b}${C.sigB}Total Workouts${C.r}   ${summary.totalWorkouts}`, `  ${C.b}${C.sigB}Total Duration${C.r}   ${Math.round(summary.totalDurationMinutes / 60)}h ${summary.totalDurationMinutes % 60}m`, `  ${C.b}${C.sigB}Total Volume${C.r}     ${summary.totalVolumeKg} kg`, `  ${C.b}${C.sigB}Streak${C.r}           ${summary.streakWeeks} weeks`, `  ${C.b}${C.sigB}Last Workout${C.r}     ${summary.lastWorkout?.daysAgo ?? "?"} days ago (${summary.lastWorkout?.type ?? ""})`, "");
+    if (workouts.length) { L.push(`  ${C.d}Recent:${C.r}`); for (const w of workouts.slice(0, 10)) { const dd = new Date(w.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" }); L.push(`    ${C.txt}\u2022 ${dd} ${C.strB}${w.workout}${C.r} ${C.d}${w.durationMinutes}m${C.r}`); } L.push(""); }
   }
   L.push(hdr("BLOG VIEWS"), "");
-  if (posts.posts?.length) for (const p of posts.posts) L.push(`  ${C.wht}\u2022 ${p.title}${C.r}`);
+  if (posts.posts?.length) for (const p of posts.posts) L.push(`  ${C.txt}\u2022 ${p.title}${C.r}`);
   L.push("", sep(), `  ${C.d}Resume: ${nav.resume}${C.r}`, sep(), "");
   return L.join("\n");
 }
@@ -155,8 +156,8 @@ async function tuiHealth() {
   const L: string[] = [banner(), hdr("HEALTH"), ""];
   if (!summary) L.push(`  ${C.d}No workout data available.${C.r}`);
   else {
-    L.push(sub("SUMMARY"), "", `  ${C.b}${C.bGrn}Total Workouts${C.r}     ${summary.totalWorkouts}`, `  ${C.b}${C.bGrn}Total Duration${C.r}     ${Math.round(summary.totalDurationMinutes / 60)}h ${summary.totalDurationMinutes % 60}m`, `  ${C.b}${C.bGrn}Total Volume${C.r}       ${summary.totalVolumeKg} kg`, `  ${C.b}${C.bGrn}Total Sets${C.r}         ${summary.totalSets}`, `  ${C.b}${C.bGrn}Streak${C.r}             ${summary.streakWeeks} weeks`, `  ${C.b}${C.bGrn}Preferred Time${C.r}     ${summary.preferredTimeOfDay}`, `  ${C.b}${C.bGrn}Last Workout${C.r}       ${summary.lastWorkout?.daysAgo ?? "?"} days ago (${summary.lastWorkout?.type ?? ""})`, `  ${C.b}${C.bGrn}Active Days${C.r}        ${Object.values(summary.calendar ?? {}).filter(Boolean).length}%`, "");
-    if (workouts.length) { L.push(sub("RECENT SESSIONS"), ""); for (const w of workouts.slice(0, 20)) { const d = new Date(w.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" }); L.push(`  ${C.wht}${d}  ${C.bCyan}${w.workout}${C.r}  ${C.d}${w.type} \u2022 ${w.durationMinutes}m${C.r}`); } L.push(""); }
+    L.push(sub("SUMMARY"), "", `  ${C.b}${C.sigB}Total Workouts${C.r}     ${summary.totalWorkouts}`, `  ${C.b}${C.sigB}Total Duration${C.r}     ${Math.round(summary.totalDurationMinutes / 60)}h ${summary.totalDurationMinutes % 60}m`, `  ${C.b}${C.sigB}Total Volume${C.r}       ${summary.totalVolumeKg} kg`, `  ${C.b}${C.sigB}Total Sets${C.r}         ${summary.totalSets}`, `  ${C.b}${C.sigB}Streak${C.r}             ${summary.streakWeeks} weeks`, `  ${C.b}${C.sigB}Preferred Time${C.r}     ${summary.preferredTimeOfDay}`, `  ${C.b}${C.sigB}Last Workout${C.r}       ${summary.lastWorkout?.daysAgo ?? "?"} days ago (${summary.lastWorkout?.type ?? ""})`, `  ${C.b}${C.sigB}Active Days${C.r}        ${Object.values(summary.calendar ?? {}).filter(Boolean).length}%`, "");
+    if (workouts.length) { L.push(sub("RECENT SESSIONS"), ""); for (const w of workouts.slice(0, 20)) { const d = new Date(w.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" }); L.push(`  ${C.txt}${d}  ${C.strB}${w.workout}${C.r}  ${C.d}${w.type} \u2022 ${w.durationMinutes}m${C.r}`); } L.push(""); }
   }
   L.push(sep(), "");
   return L.join("\n");
@@ -165,16 +166,16 @@ async function tuiHealth() {
 async function tuiConsulting() {
   const me = await getMe();
   const L: string[] = [banner(), hdr("CONSULTING"), ""];
-  L.push(`  ${C.wht}Ship faster with expert engineering guidance.${C.r}`, "");
-  L.push(`  ${C.b}${C.bCyan}Book a call:${C.r} ${me.cal}`, "");
+  L.push(`  ${C.txt}Ship faster with expert engineering guidance.${C.r}`, "");
+  L.push(`  ${C.b}${C.strB}Book a call:${C.r} ${me.cal}`, "");
   L.push(sub("SERVICES"), "");
   for (const s of ["System Architecture & Design", "Code Reviews & Quality", "Performance Optimization", "Cloud Infrastructure & DevOps", "Growth & Product Engineering", "Technical Strategy & Advisory"])
-    L.push(`  ${C.wht}\u2022 ${s}${C.r}`);
+    L.push(`  ${C.txt}\u2022 ${s}${C.r}`);
   L.push("");
   L.push(sub("PRICING"), "");
-  L.push(`  ${C.b}${C.bYel}Short Term${C.r}    $30/hr`);
-  L.push(`  ${C.b}${C.bYel}Discounted${C.r}    $25/hr (repeat clients)`);
-  L.push(`  ${C.b}${C.bYel}Enterprise${C.r}    Let's discuss`, "");
+  L.push(`  ${C.b}${C.sigB}Short Term${C.r}    $30/hr`);
+  L.push(`  ${C.b}${C.sigB}Discounted${C.r}    $25/hr (repeat clients)`);
+  L.push(`  ${C.b}${C.sigB}Enterprise${C.r}    Let's discuss`, "");
   L.push(`  ${C.d}1st hour free for all tiers${C.r}`, "");
   L.push(sep(), `  ${C.d}Resume: ${me.cal}${C.r}`, sep(), "");
   return L.join("\n");

@@ -1,4 +1,5 @@
 import type { Workout, WorkoutSummary } from "@/types";
+import { colorGroups } from "@/lib/theme";
 import AnimateOnScroll from "../ui/AnimateOnScroll";
 import { Icon } from "@iconify/react";
 
@@ -51,10 +52,10 @@ const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "Ju
 const DAY_HEADERS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 
 const TYPE_COLORS: Record<string, string> = {
-  gym: "#c4eef2",
-  cardio: "#b8d6a3",
-  calisthenics: "#f1b35c",
-  rest: "#70d5df",
+  gym: colorGroups.dataViz["data-1"],
+  cardio: colorGroups.dataViz["data-2"],
+  calisthenics: colorGroups.dataViz["data-4"],
+  rest: colorGroups.dataViz["data-3"],
 };
 
 function getTypeColor(type: string): string {
@@ -125,8 +126,8 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
                     <span
                       className="flex items-center justify-center w-7 h-7 text-xs font-label transition-all duration-200 rounded-full"
                       style={{
-                        backgroundColor: cell.skipped ? "#f8717120" : cell.type ? `${getTypeColor(cell.type)}20` : "transparent",
-                        color: cell.skipped ? "#f87171" : cell.type ? getTypeColor(cell.type) : "#bbc9cf",
+                        backgroundColor: cell.skipped ? `${colorGroups.state.error}20` : cell.type ? `${getTypeColor(cell.type)}20` : "transparent",
+                        color: cell.skipped ? colorGroups.state.error : cell.type ? getTypeColor(cell.type) : colorGroups.content["content-muted"],
                         opacity: cell.skipped || cell.type ? 1 : 0.2,
                       }}
                     >

@@ -13,8 +13,10 @@ interface PRWeeklyChartProps {
   buckets: PRBucket[];
 }
 
-const COLOR_FULL = "#c4eef2";
-const COLOR_PARTIAL = "#f1b35c";
+import { colorGroups } from "@/lib/theme";
+
+const COLOR_FULL = colorGroups.primary.primary;
+const COLOR_PARTIAL = colorGroups.state.warning;
 
 export default function PRWeeklyChart({ buckets }: PRWeeklyChartProps) {
   const chartData = buckets.map((b) => ({
@@ -31,19 +33,19 @@ export default function PRWeeklyChart({ buckets }: PRWeeklyChartProps) {
       <BarChart data={chartData} margin={{ top: 20, right: 4, left: -16, bottom: 0 }}>
         <XAxis
           dataKey="name"
-          tick={{ fontSize: 10, fill: "#bbc9cf" }}
+          tick={{ fontSize: 10, fill: colorGroups.content["content-muted"] }}
           axisLine={false}
           tickLine={false}
           interval={1}
         />
         <YAxis
-          tick={{ fontSize: 10, fill: "#bbc9cf" }}
+          tick={{ fontSize: 10, fill: colorGroups.content["content-muted"] }}
           axisLine={false}
           tickLine={false}
           allowDecimals={false}
         />
 
-        <Bar dataKey="count" radius={[4, 4, 0, 0]} maxBarSize={40} label={{ position: "top", fontSize: 10, fill: "#bbc9cf", offset: 4 }}>
+        <Bar dataKey="count" radius={[4, 4, 0, 0]} maxBarSize={40} label={{ position: "top", fontSize: 10, fill: colorGroups.content["content-muted"], offset: 4 }}>
           {chartData.map((entry, i) => (
             <Cell key={i} fill={entry.full ? COLOR_FULL : COLOR_PARTIAL} />
           ))}

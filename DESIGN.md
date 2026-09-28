@@ -13,18 +13,39 @@ The organizing ideas are:
 
 ## 2. Color and Surfaces
 
-The base is `surface` (`#131313`), with no pure black. Use the following darkest-to-lightest hierarchy:
+`src/lib/theme.ts` is the single source of truth. `tailwind.config.ts` imports it, chart components import it, and the newsletter email interpolates from it. Change a hex there and the whole product follows. No colour literal belongs anywhere else.
 
-1. `surface-container-lowest` (`#0e0e0e`) for the deepest canvas.
-2. `surface-container-low` (`#1c1b1b`) for large content blocks.
-3. `surface-container` (`#201f1f`) for interactive or nested surfaces.
-4. `surface-container-high` (`#2a2a2a`) for hover and selected states.
-5. `surface-container-highest` (`#353534`) for rare emphasis.
-6. `surface-overlay` (`#252424`) for menus and transient panels.
+The palette is **Ember**: a warm signal on cool graphite ink. The base is `surface` (`#0d1314`), with no pure black. Darkest-to-lightest hierarchy:
 
-Use `primary` (`#c4eef2`) for structural emphasis and links, `secondary` (`#f1b35c`) for signals and metadata, and `tertiary` (`#b8d6a3`) for supporting status. Use `content-muted` and `content-subtle` instead of stacking opacity utilities for secondary text.
+1. `surface-container-lowest` (`#070c0e`) for the deepest canvas.
+2. `surface-container-low` (`#131a1b`) for large content blocks.
+3. `surface-container` (`#1b2325`) for interactive or nested surfaces.
+4. `surface-container-high` (`#262e30`) for hover and selected states.
+5. `surface-container-highest` (`#2f383b`) for rare emphasis.
+6. `surface-overlay` (`#222a2d`) for menus and transient panels.
 
-Boundaries should normally come from a tonal shift. If a semantic divider is needed, use `divider` or spacing. Avoid decorative borders, glass blur, and repeated inner glows.
+All neutrals sit on hue `215` with chroma `0.010` to `0.013`. That faint cool cast is load-bearing: it makes the gray feel authored, and it is what lets a warm accent separate cleanly. Do not return to warm neutral grays, and do not add a second neutral hue.
+
+Text roles, lightest first: `on-surface` (`#edf1f2`), `on-surface-variant` (`#c8cfd1`), `content-muted` (`#b6c0c2`), `content-subtle` (`#8f999b`).
+
+Chromatic roles, each with exactly one job:
+
+| Role | Hex | Job |
+|---|---|---|
+| `primary` | `#ff9c5e` | Ember. Structure: links, primary action, focus ring, selection |
+| `secondary` | `#8bbee3` | Azure. Signals: section markers, metadata accents |
+| `tertiary` | `#c1ad9d` | Warm ash. Supporting status, near-neutral so it recedes |
+| `success` | `#50d2a7` | Jade. Nominal, available, passing |
+| `warning` | `#f0d94f` | Yellow. Caution |
+| `error` | `#fd617f` | Rose. Failure, destructive, invalid |
+
+The chromatic roles separate by hue **and** descending lightness (`primary` `.800`, `warning` `.880`, `secondary` `.780`, `success` `.780`, `tertiary` `.760`, `error` `.700`), so the palette survives grayscale and deuteranopia, where ember and error both collapse toward yellow. Never let two roles compete in one block: one accent per view region.
+
+Use `content-muted` and `content-subtle` instead of stacking opacity utilities for secondary text.
+
+Boundaries normally come from a tonal shift. `divider` (`#4c5658`) and `outline-variant` (`#475053`) clear APCA Lc 32, which is why the `gap-px` grid technique stays readable. Avoid decorative borders, glass blur, and repeated inner glows.
+
+Chart series use a separate `dataViz` set in the same file. A categorical series needs hues far apart from each other, which is the opposite of what UI accents need, so the two sets are kept separate on purpose.
 
 ## 3. Typography
 
@@ -65,7 +86,10 @@ Avoid uniform grids of icon-topper cards when a list, split panel, or timeline c
 ## 7. Avoid
 
 - Pure black (`#000000`).
-- Generic cyan-only palettes.
+- Generic cyan-only palettes, and any return to the old pale-ice `#c4eef2` primary.
+- Warm neutral grays on the surface ladder; the ink cast is load-bearing.
+- Ember and azure used as competing accents in the same block.
+- A second neutral hue, or a colour literal outside `src/lib/theme.ts`.
 - Repeated `135deg` gradients, gradient text, glass panels, or decorative blur.
 - Stat monuments, icon toppers, and equal-card repetition without a content reason.
 - Low-opacity text as a substitute for semantic hierarchy.

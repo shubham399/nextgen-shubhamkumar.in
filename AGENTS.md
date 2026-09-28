@@ -47,9 +47,10 @@ npm run lint       # ESLint
 Follow `DESIGN.md`: the Editorial Engineering system.
 
 **Key rules:**
-- No pure black — use `surface` (`#131313`) or `surface-container-lowest` (`#0e0e0e`)
+- All colours live in `src/lib/theme.ts`; `tailwind.config.ts` imports it. Never write a colour literal anywhere else
+- No pure black — use `surface` (`#0d1314`) or `surface-container-lowest` (`#070c0e`)
 - Use tonal surface shifts instead of decorative borders or glass blur
-- Use ice/teal for structure, amber for signals, and sage for supporting status
+- Use ember for structure, azure for signals, and warm ash for supporting status
 - Keep gradients limited to functional cases; avoid generic `135deg` decoration
 - Use `content-muted` and `content-subtle` for secondary text
 - Respect `prefers-reduced-motion` for CSS, Framer Motion, canvas, parallax, and auto-rotation

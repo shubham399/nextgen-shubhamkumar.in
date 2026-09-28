@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { colorGroups } from "@/lib/theme";
 import { Resend } from "resend";
 
 function getResend() {
@@ -71,6 +72,7 @@ export async function POST(req: NextRequest) {
 }
 
 function getWelcomeHtml() {
+  const c = colorGroups;
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,45 +80,45 @@ function getWelcomeHtml() {
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>You're in.</title>
 </head>
-<body style="margin:0;padding:0;background-color:#131313;font-family:Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#131313;">
+<body style="margin:0;padding:0;${c.surface.surface}font-family:Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${c.surface.surface};">
     <tr>
       <td align="center" style="padding:48px 20px;">
 
         <!-- Card -->
-        <table role="presentation" width="480" cellpadding="0" cellspacing="0" style="max-width:480px;width:100%;background:#1c1b1b;border-radius:16px;overflow:hidden;">
+        <table role="presentation" width="480" cellpadding="0" cellspacing="0" style="max-width:480px;width:100%;${c.surface['surface-container-low']}border-radius:16px;overflow:hidden;">
 
           <!-- Top accent bar -->
           <tr>
-            <td style="height:3px;background:linear-gradient(90deg,#70d5df 0%,#c4eef2 52%,#f1b35c 100%);"></td>
+            <td style="height:3px;background:${c.primary.primary};"></td>
           </tr>
 
           <tr>
             <td style="padding:36px 36px 0;">
 
               <!-- Label -->
-              <p style="margin:0 0 20px;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9aabad;font-family:'Space Grotesk',sans-serif;">
+              <p style="margin:0 0 20px;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:${c.content['content-muted']};font-family:'Space Grotesk',sans-serif;">
                 Signal acquired
               </p>
 
               <!-- Title -->
-              <h1 style="margin:0 0 14px;font-size:22px;font-weight:700;line-height:1.3;letter-spacing:-0.03em;color:#e5e2e1;font-family:'Space Grotesk',Arial,sans-serif;">
+              <h1 style="margin:0 0 14px;font-size:22px;font-weight:700;line-height:1.3;letter-spacing:-0.03em;color:${c.content['on-surface']};font-family:'Space Grotesk',Arial,sans-serif;">
                 You're wired in.
               </h1>
 
               <!-- Description -->
-              <p style="margin:0 0 28px;font-size:14px;line-height:1.75;color:#bbc9cf;">
+              <p style="margin:0 0 28px;font-size:14px;line-height:1.75;color:${c.content['on-surface-variant']};">
                 I write when I have something worth saying -  new posts, projects, and thoughts on building things. You'll get it before anyone else. No spam. No noise.
               </p>
 
               <!-- Divider -->
-              <div style="height:1px;background:linear-gradient(to right,transparent,rgba(196,238,242,0.18),transparent);margin:0 0 28px;"></div>
+              <div style="height:1px;background:${c.boundary.divider};margin:0 0 28px;"></div>
 
               <!-- CTA button -->
               <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
                 <tr>
-                  <td style="border-radius:8px;background:linear-gradient(100deg,#c4eef2 0%,#55c6d1 100%);">
-                    <a href="https://shubhkumar.in" style="display:inline-block;padding:11px 26px;font-family:'Space Grotesk',Arial,sans-serif;font-size:14px;font-weight:600;color:#131313;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
+                  <td style="border-radius:8px;background:${c.primary.primary};">
+                    <a href="https://shubhkumar.in" style="display:inline-block;padding:11px 26px;font-family:'Space Grotesk',Arial,sans-serif;font-size:14px;font-weight:600;color:${c.primary['on-primary']};text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
                       See what I'm building →
                     </a>
                   </td>
@@ -129,9 +131,9 @@ function getWelcomeHtml() {
           <!-- Footer -->
           <tr>
             <td style="padding:20px 36px 28px;">
-              <div style="height:1px;background:rgba(154,171,173,0.2);margin:0 0 20px;"></div>
-              <p style="margin:0;font-size:11px;color:#9aabad;line-height:1.6;">
-                Shubham · <a href="https://shubhkumar.in" style="color:#9aabad;text-decoration:none;">shubhkumar.in</a>
+              <div style="height:1px;background:${c.boundary.divider};margin:0 0 20px;"></div>
+              <p style="margin:0;font-size:11px;color:${c.content['content-subtle']};line-height:1.6;">
+                Shubham · <a href="https://shubhkumar.in" style="color:${c.content['content-muted']};text-decoration:none;">shubhkumar.in</a>
                 <br />
                 You're receiving this because you subscribed to my newsletter.
               </p>

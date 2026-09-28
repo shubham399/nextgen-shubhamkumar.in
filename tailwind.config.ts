@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
 
+import { theme } from "./src/lib/theme";
+
 const config: Config = {
   darkMode: "class",
   content: [
@@ -9,60 +11,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: {
-        "surface-tint": "#70d5df",
-        "surface-container-highest": "#353534",
-        "surface-container-high": "#2a2a2a",
-        "surface-container": "#201f1f",
-        "surface-container-low": "#1c1b1b",
-        "surface-container-lowest": "#0e0e0e",
-        "surface-overlay": "#252424",
-        "surface-variant": "#353534",
-        "surface-bright": "#3a3939",
-        "surface-dim": "#131313",
-        surface: "#131313",
-        background: "#131313",
-        "on-surface": "#e5e2e1",
-        "on-surface-variant": "#bbc9cf",
-        "content-muted": "#aab9bd",
-        "content-subtle": "#819095",
-        "on-background": "#e5e2e1",
-        "primary-fixed": "#e1f8f8",
-        "primary-fixed-dim": "#70d5df",
-        primary: "#c4eef2",
-        "primary-container": "#55c6d1",
-        "on-primary": "#06272b",
-        "on-primary-fixed": "#0b3438",
-        "on-primary-fixed-variant": "#245b61",
-        "on-primary-container": "#063c42",
-        "inverse-primary": "#3b8991",
-        "secondary-fixed": "#ffd793",
-        "secondary-fixed-dim": "#f1b35c",
-        secondary: "#f1b35c",
-        "secondary-container": "#6c4a1c",
-        "on-secondary": "#2b1b04",
-        "on-secondary-fixed": "#271800",
-        "on-secondary-fixed-variant": "#5a3b0a",
-        "on-secondary-container": "#ffe1a6",
-        "tertiary-fixed": "#d9efc8",
-        "tertiary-fixed-dim": "#b8d6a3",
-        tertiary: "#b8d6a3",
-        "tertiary-container": "#35553a",
-        "on-tertiary": "#102312",
-        "on-tertiary-fixed": "#142a15",
-        "on-tertiary-fixed-variant": "#2c4b2d",
-        "on-tertiary-container": "#d1e8be",
-        error: "#ffb4ab",
-        "error-container": "#93000a",
-        "on-error": "#690005",
-        "on-error-container": "#ffdad6",
-        outline: "#9aabad",
-        "outline-variant": "#3c494e",
-        divider: "#303b3f",
-        "focus-ring": "#c4eef2",
-        "inverse-surface": "#e5e2e1",
-        "inverse-on-surface": "#313030",
-      },
+      // Every colour comes from src/lib/theme.ts. Nothing here holds a
+      // colour literal, so re-keying the product is a one-file edit.
+      colors: theme.colors,
       fontFamily: {
         headline: ["var(--font-space-grotesk)", "sans-serif"],
         body: ["var(--font-inter)", "sans-serif"],
