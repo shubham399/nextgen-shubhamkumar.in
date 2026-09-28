@@ -27,9 +27,15 @@ function FeaturedTestimonial({ testimonial }: { testimonial: Testimonial }) {
           &ldquo;
         </span>
       </div>
-      <blockquote className="min-h-0 max-h-80 max-w-3xl flex-1 overflow-y-auto overscroll-contain pr-2 font-headline text-2xl leading-[1.3] tracking-tight text-on-surface sm:text-3xl">
-        {testimonial.text.replace(/—/g, "-")}
-      </blockquote>
+      <div className="relative min-h-0 flex-1">
+        <blockquote className="h-full max-w-3xl overflow-y-auto overscroll-contain pr-2 font-headline text-xl leading-[1.4] tracking-tight text-on-surface lg:text-2xl">
+          {testimonial.text.replace(/—/g, "-")}
+        </blockquote>
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-surface-container-low via-surface-container-low/70 to-transparent"
+          aria-hidden="true"
+        />
+      </div>
       <div className="mt-auto flex flex-shrink-0 items-center gap-3">
         <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full bg-surface-container-high">
           <Image
@@ -103,7 +109,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
       {!activeTestimonial ? (
         <p className="font-body text-sm text-on-surface-variant">New references are on the way.</p>
       ) : (
-        <div className="grid grid-cols-1 gap-6 lg:min-h-[24rem] lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-6 lg:h-[30rem] lg:grid-cols-12 lg:grid-rows-1">
           <div className="min-h-0 lg:col-span-7">
             <motion.div style={{ y: noteY }} className="h-full min-h-0">
               <AnimatePresence mode="wait">
@@ -137,14 +143,14 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                 </button>
               )}
             </div>
-            <div className="relative flex min-h-0 flex-1 flex-col gap-2 pr-1">
+            <div className="relative flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pr-1">
               {testimonials.map((testimonial, index) => (
                 <button
                   key={testimonial.name}
                   type="button"
                   aria-pressed={index === activeIdx}
                   onClick={() => setActiveIdx(index)}
-                  className={`interactive-surface group flex min-h-16 w-full flex-1 items-center gap-3 rounded-xl px-3 py-3 text-left ${
+                  className={`interactive-surface group flex min-h-14 w-full flex-shrink-0 items-center gap-3 rounded-xl px-3 py-3 text-left ${
                     index === activeIdx
                       ? "bg-surface-container"
                       : "bg-surface-container-low hover:bg-surface-container"
