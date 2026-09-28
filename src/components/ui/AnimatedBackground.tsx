@@ -2,6 +2,13 @@
 
 import { useEffect, useRef, useCallback } from "react";
 
+import { themeRgba } from "@/lib/theme";
+
+// The canvas cannot hold a CSS reference, so these resolve the active palette's
+// roles to rgba() and stay in step with the theme switch. Grid is the cool
+// signal, particles are the warm primary, which is the same division the
+// rest of the surface uses.
+
 function drawGrid(
   ctx: CanvasRenderingContext2D,
   w: number,
@@ -11,7 +18,7 @@ function drawGrid(
   const spacing = 72;
   const lineAlpha = 0.025;
 
-  ctx.strokeStyle = `rgba(85, 198, 209, ${lineAlpha})`;
+  ctx.strokeStyle = themeRgba("secondary", lineAlpha);
   ctx.lineWidth = 0.5;
 
   const yOff = offset % spacing;
@@ -74,7 +81,7 @@ function drawParticles(
     if (p.x > w + 10) p.x = -10;
 
     const currentAlpha = p.alpha * (0.5 + 0.5 * Math.sin(p.pulse));
-    ctx.fillStyle = `rgba(241, 179, 92, ${currentAlpha})`;
+    ctx.fillStyle = themeRgba("primary", currentAlpha);
     ctx.beginPath();
     ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
     ctx.fill();

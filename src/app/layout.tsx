@@ -7,6 +7,20 @@ import NewsletterFullscreen from "@/components/sections/NewsletterFullscreen";
 import AnimatedBackground from "@/components/ui/AnimatedBackground";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { getMe } from "@/lib/api";
+import { defaultPalette, themeCss } from "@/lib/theme";
+import { allPaletteCss, allPaletteInitScript } from "@/lib/palette-candidates";
+import ThemePicker from "@/components/ui/ThemePicker";
+
+/**
+ * A theme is only switchable in local dev. `NODE_ENV` is inlined at build time,
+ * so a production build ships the shipped palette and nothing else: the
+ * candidates never reach the CSS, the restore script is not emitted, and
+ * `ThemePicker` renders null. Not hidden behind a media query or a CSS
+ * `display: none`, simply not there.
+ */
+const isDev = process.env.NODE_ENV !== "production";
+const paletteCss = isDev ? allPaletteCss() : themeCss({ ember: defaultPalette });
+const restoreScript = isDev ? allPaletteInitScript() : "";
 
 
 const spaceGrotesk = Space_Grotesk({
@@ -107,8 +121,11 @@ export default async function RootLayout({
     <html
       lang="en"
       className={`dark ${spaceGrotesk.variable} ${inter.variable}`}
+      suppressHydrationWarning
     >
       <head>
+        <style id="theme-vars" dangerouslySetInnerHTML={{ __html: paletteCss }} />
+        {restoreScript ? <script dangerouslySetInnerHTML={{ __html: restoreScript }} /> : null}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -120,6 +137,7 @@ export default async function RootLayout({
           <div className="relative z-10">
             {children}
             <NewsletterFullscreen name={me.name} avatarUrl={me.avatarUrl} />
+            <ThemePicker />
             <Analytics />
             <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
             <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "81cd3bc5c97945c4b8b57909f87a3926"}'></script>

@@ -47,7 +47,9 @@ npm run lint       # ESLint
 Follow `DESIGN.md`: the Editorial Engineering system.
 
 **Key rules:**
-- All colours live in `src/lib/theme.ts`; `tailwind.config.ts` imports it. Never write a colour literal anywhere else
+- All colours live in `src/lib/theme.ts`; `tailwind.config.ts` imports `cssVarColors` from it. Never write a colour literal anywhere else
+- Colours reach the page as `--role` custom properties emitted by `themeCss()`, so Tailwind resolves `rgb(var(--primary) / <alpha-value>)`. For non-Tailwind consumers use `themeVar` / `themeVarAlpha` (CSS, SVG, inline styles) or `themeRgba` (the 2D canvas, which cannot hold a `var()`); for a third-party document such as an iframe, import the role's hex
+- Five candidate palettes live in `src/lib/palette-candidates.ts` for local comparison. `ember` is the only one that ships, and `NODE_ENV` inlining keeps the candidates out of production CSS, markup, and JS
 - No pure black — use `surface` (`#0d1314`) or `surface-container-lowest` (`#070c0e`)
 - Use tonal surface shifts instead of decorative borders or glass blur
 - Use ember for structure, azure for signals, and warm ash for supporting status

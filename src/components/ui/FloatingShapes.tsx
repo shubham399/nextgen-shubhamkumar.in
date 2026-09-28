@@ -2,6 +2,8 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 
+import { themeVarAlpha } from "@/lib/theme";
+
 const shapes = [
   { type: "hexagon" as const, x: "8%", y: "15%", size: 48, rotate: 15, duration: 28, delay: 0 },
   { type: "cube" as const, x: "85%", y: "20%", size: 36, rotate: -20, duration: 34, delay: 2 },
@@ -23,7 +25,7 @@ function Hexagon({ size }: { size: number }) {
       <polygon
         points={points}
         fill="none"
-        stroke="rgba(196, 238, 242, 0.08)"
+        stroke={themeVarAlpha("secondary", 0.08)}
         strokeWidth="1"
       />
     </svg>
@@ -36,7 +38,7 @@ function Cube({ size }: { size: number }) {
 
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-      <g stroke="rgba(196, 238, 242, 0.08)" strokeWidth="1" fill="none">
+      <g stroke={themeVarAlpha("secondary", 0.08)} strokeWidth="1" fill="none">
         <rect x={o} y={o} width={s} height={s} />
         <rect x={o + s * 0.3} y={o - s * 0.3} width={s} height={s} />
         <line x1={o} y1={o} x2={o + s * 0.3} y2={o - s * 0.3} />

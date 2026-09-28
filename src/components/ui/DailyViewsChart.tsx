@@ -2,9 +2,19 @@
 
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
-import { colorGroups } from "@/lib/theme";
+import { themeVar, themeVarAlpha } from "@/lib/theme";
 
-const C = colorGroups;
+// Live role references rather than hexes, so the series follows the active
+// palette. var() resolves in SVG presentation attributes and in inline styles,
+// which is everything recharts writes.
+const C = {
+  muted: themeVar("content-muted"),
+  onSurface: themeVar("on-surface"),
+  overlay: themeVar("surface-overlay"),
+  primary: themeVar("primary"),
+  warning: themeVar("warning"),
+  primaryWash: themeVarAlpha("primary", 0.1),
+};
 
 interface DailyViewsChartProps {
   days: { date: string; views: number }[];
@@ -33,32 +43,32 @@ export default function DailyViewsChart({ days }: DailyViewsChartProps) {
       <BarChart data={chartData} margin={{ top: 4, right: 4, left: -16, bottom: 0 }}>
         <XAxis
           dataKey="label"
-          tick={{ fontSize: 10, fill: C.content["content-muted"] }}
+          tick={{ fontSize: 10, fill: C.muted }}
           axisLine={false}
           tickLine={false}
         />
         <YAxis
-          tick={{ fontSize: 10, fill: C.content["content-muted"] }}
+          tick={{ fontSize: 10, fill: C.muted }}
           axisLine={false}
           tickLine={false}
           allowDecimals={false}
         />
         <Tooltip
-          cursor={{ fill: `${C.primary.primary}1a` }}
+          cursor={{ fill: C.primaryWash }}
           contentStyle={{
-            background: C.surface["surface-overlay"],
+            background: C.overlay,
             border: "none",
             borderRadius: 8,
             fontSize: 12,
-            color: C.content["on-surface"],
+            color: C.onSurface,
           }}
           formatter={(value) => [Number(value).toLocaleString(), "views"]}
           labelFormatter={(label) => label}
         />
         <Bar
           dataKey="views"
-          fill={C.primary.primary}
-          activeBar={{ fill: C.state.warning }}
+          fill={C.primary}
+          activeBar={{ fill: C.warning }}
           radius={[4, 4, 0, 0]}
           maxBarSize={32}
         />

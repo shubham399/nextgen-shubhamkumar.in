@@ -1,5 +1,5 @@
 import type { Workout, WorkoutSummary } from "@/types";
-import { colorGroups } from "@/lib/theme";
+import { themeVar, themeVarAlpha } from "@/lib/theme";
 import AnimateOnScroll from "../ui/AnimateOnScroll";
 import { Icon } from "@iconify/react";
 
@@ -51,15 +51,23 @@ function getMonthGrid(calendar: Record<string, string>, workouts: Workout[]) {
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const DAY_HEADERS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 
-const TYPE_COLORS: Record<string, string> = {
-  gym: colorGroups.dataViz["data-1"],
-  cardio: colorGroups.dataViz["data-2"],
-  calisthenics: colorGroups.dataViz["data-4"],
-  rest: colorGroups.dataViz["data-3"],
+// Live role references rather than hexes, so the calendar grid re-themes with
+// the rest of the page. Keyed by role name, not by colour string, because each
+// cell needs the same role twice: once solid for the label, once washed for the
+// background. A role name is the only thing that can carry both.
+const TYPE_ROLES: Record<string, string> = {
+  gym: "data-1",
+  cardio: "data-2",
+  calisthenics: "data-4",
+  rest: "data-3",
 };
 
+function getTypeRole(type: string): string {
+  return TYPE_ROLES[type.toLowerCase()] ?? TYPE_ROLES.gym;
+}
+
 function getTypeColor(type: string): string {
-  return TYPE_COLORS[type.toLowerCase()] ?? TYPE_COLORS.gym;
+  return themeVar(getTypeRole(type));
 }
 
 export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboardProps) {
@@ -126,8 +134,16 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
                     <span
                       className="flex items-center justify-center w-7 h-7 text-xs font-label transition-all duration-200 rounded-full"
                       style={{
-                        backgroundColor: cell.skipped ? `${colorGroups.state.error}20` : cell.type ? `${getTypeColor(cell.type)}20` : "transparent",
-                        color: cell.skipped ? colorGroups.state.error : cell.type ? getTypeColor(cell.type) : colorGroups.content["content-muted"],
+                        backgroundColor: cell.skipped
+                          ? themeVarAlpha("error", 0.125)
+                          : cell.type
+                            ? themeVarAlpha(getTypeRole(cell.type), 0.125)
+                            : "transparent",
+                        color: cell.skipped
+                          ? themeVar("error")
+                          : cell.type
+                            ? getTypeColor(cell.type)
+                            : themeVar("content-muted"),
                         opacity: cell.skipped || cell.type ? 1 : 0.2,
                       }}
                     >
@@ -140,9 +156,9 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
 
             <div className="flex items-center gap-4 mt-4 pt-4">
               <span className="font-label text-xs font-medium text-content-subtle">Legend</span>
-              {Object.entries(TYPE_COLORS).map(([type, color]) => (
+              {Object.entries(TYPE_ROLES).map(([type, role]) => (
                 <div key={type} className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: themeVar(role) }} />
                   <span className="font-label text-xs capitalize text-content-subtle">{type}</span>
                 </div>
               ))}

@@ -47,6 +47,12 @@ Boundaries normally come from a tonal shift. `divider` (`#4c5658`) and `outline-
 
 Chart series use a separate `dataViz` set in the same file. A categorical series needs hues far apart from each other, which is the opposite of what UI accents need, so the two sets are kept separate on purpose.
 
+### Runtime palettes
+
+Colours reach the page as CSS custom properties, not compiled hex. `theme.ts` exports `cssVarColors` (`rgb(var(--primary) / <alpha-value>)`) for Tailwind and `themeCss()` for the matching `--role` channel triples, and the root layout emits them on `:root`. That is what makes a palette switchable at runtime as a single `data-theme` attribute, and it keeps `bg-primary/10` real alpha rather than a hardcoded eight-digit hex.
+
+`ember` is the palette that ships. Five candidates live in `src/lib/palette-candidates.ts` — `cobalt`, `noir`, `jade`, `orchid`, `lapis` — and are reachable only through the dev-only `ThemePicker`. `NODE_ENV` is inlined at build time, so a production build contains no candidate palette in its CSS, its markup, or its JavaScript. When judging a candidate, hold it to the shipped palette's thresholds: body text `Lc 75`, labels and links 60, boundaries 30. All six currently clear 25 measured pairs each.
+
 ## 3. Typography
 
 - **Space Grotesk** (`font-headline`) carries names, section titles, metrics, and compact labels.
@@ -90,6 +96,12 @@ Avoid uniform grids of icon-topper cards when a list, split panel, or timeline c
 - Warm neutral grays on the surface ladder; the ink cast is load-bearing.
 - Ember and azure used as competing accents in the same block.
 - A second neutral hue, or a colour literal outside `src/lib/theme.ts`.
+- A colour literal that duplicates a role, such as a canvas `strokeStyle` or an
+  iframe brand colour. Use `themeVar` for CSS consumers, `themeRgba` for the
+  canvas, and the role's hex for anything crossing into a third-party document.
+- Promoting a candidate palette to shipping without re-running the contrast
+  table. `success` and `error` are fixed semantic hues in all six palettes and
+  sit at deltaE 4.3 under deuteranopia; that is a known open item, not a licence.
 - Repeated `135deg` gradients, gradient text, glass panels, or decorative blur.
 - Stat monuments, icon toppers, and equal-card repetition without a content reason.
 - Low-opacity text as a substitute for semantic hierarchy.

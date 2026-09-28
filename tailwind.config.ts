@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-import { theme } from "./src/lib/theme";
+import { cssVarColors } from "./src/lib/theme";
 
 const config: Config = {
   darkMode: "class",
@@ -11,9 +11,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      // Every colour comes from src/lib/theme.ts. Nothing here holds a
-      // colour literal, so re-keying the product is a one-file edit.
-      colors: theme.colors,
+      // Every colour comes from src/lib/theme.ts, resolved through the
+      // `--role` custom properties that layout.tsx emits. Nothing here holds a
+      // colour literal, so re-keying the product is a one-file edit and
+      // switching palettes at runtime is one attribute on <html>.
+      colors: cssVarColors,
       fontFamily: {
         headline: ["var(--font-space-grotesk)", "sans-serif"],
         body: ["var(--font-inter)", "sans-serif"],
