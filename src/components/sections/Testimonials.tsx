@@ -20,17 +20,17 @@ function formatDate(dateStr: string) {
 
 function FeaturedTestimonial({ testimonial }: { testimonial: Testimonial }) {
   return (
-    <article className="surface-card flex h-full flex-col gap-7 p-7 sm:p-10">
-      <div className="flex min-h-11 items-center justify-between gap-4">
+    <article className="surface-card flex h-full min-h-0 flex-col gap-7 p-7 sm:p-10">
+      <div className="flex min-h-11 flex-shrink-0 items-center justify-between gap-4">
         <p className="signal-label">Selected note</p>
         <span className="font-headline text-4xl leading-none text-primary/50" aria-hidden="true">
           &ldquo;
         </span>
       </div>
-      <blockquote className="max-h-96 max-w-3xl overflow-y-auto overscroll-contain pr-2 font-headline text-2xl leading-[1.3] tracking-tight text-on-surface sm:text-3xl">
+      <blockquote className="min-h-0 max-h-80 max-w-3xl flex-1 overflow-y-auto overscroll-contain pr-2 font-headline text-2xl leading-[1.3] tracking-tight text-on-surface sm:text-3xl">
         {testimonial.text.replace(/—/g, "-")}
       </blockquote>
-      <div className="mt-auto flex items-center gap-3">
+      <div className="mt-auto flex flex-shrink-0 items-center gap-3">
         <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full bg-surface-container-high">
           <Image
             src={testimonial.avatar}
@@ -65,8 +65,6 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
   const [isManuallyPaused, setIsManuallyPaused] = useState(false);
   const isPaused = isInteracting || isManuallyPaused;
   const sectionRef = useRef<HTMLElement>(null);
-  const notesListRef = useRef<HTMLDivElement>(null);
-  const activeButtonRef = useRef<HTMLButtonElement>(null);
   const shouldReduceMotion = useReducedMotion() ?? false;
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -85,24 +83,6 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
 
     return () => window.clearInterval(timer);
   }, [isPaused, shouldReduceMotion, testimonials.length]);
-
-  useEffect(() => {
-    const list = notesListRef.current;
-    const activeButton = activeButtonRef.current;
-    if (!list || !activeButton) return;
-
-    const itemTop = activeButton.offsetTop;
-    const itemBottom = itemTop + activeButton.offsetHeight;
-    const visibleTop = list.scrollTop;
-    const visibleBottom = visibleTop + list.clientHeight;
-    const behavior: ScrollBehavior = shouldReduceMotion ? "auto" : "smooth";
-
-    if (itemTop < visibleTop) {
-      list.scrollTo({ top: itemTop, behavior });
-    } else if (itemBottom > visibleBottom) {
-      list.scrollTo({ top: itemBottom - list.clientHeight, behavior });
-    }
-  }, [activeIdx, shouldReduceMotion]);
 
   return (
     <section
@@ -124,8 +104,8 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
         <p className="font-body text-sm text-on-surface-variant">New references are on the way.</p>
       ) : (
         <div className="grid grid-cols-1 gap-6 lg:min-h-[24rem] lg:grid-cols-12">
-          <div className="lg:col-span-7">
-            <motion.div style={{ y: noteY }} className="h-full">
+          <div className="min-h-0 lg:col-span-7">
+            <motion.div style={{ y: noteY }} className="h-full min-h-0">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTestimonial.name}
@@ -133,7 +113,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: shouldReduceMotion ? 0 : 0.25, ease: [0.16, 1, 0.3, 1] }}
-                  className="h-full"
+                  className="h-full min-h-0"
                 >
                   <FeaturedTestimonial testimonial={activeTestimonial} />
                 </motion.div>
@@ -157,15 +137,14 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                 </button>
               )}
             </div>
-            <div ref={notesListRef} className="relative flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pr-1">
+            <div className="relative flex min-h-0 flex-1 flex-col gap-2 pr-1">
               {testimonials.map((testimonial, index) => (
                 <button
                   key={testimonial.name}
-                  ref={index === activeIdx ? activeButtonRef : undefined}
                   type="button"
                   aria-pressed={index === activeIdx}
                   onClick={() => setActiveIdx(index)}
-                  className={`interactive-surface group flex min-h-16 w-full items-center gap-3 rounded-xl px-3 py-3 text-left ${
+                  className={`interactive-surface group flex min-h-16 w-full flex-1 items-center gap-3 rounded-xl px-3 py-3 text-left ${
                     index === activeIdx
                       ? "bg-surface-container"
                       : "bg-surface-container-low hover:bg-surface-container"
