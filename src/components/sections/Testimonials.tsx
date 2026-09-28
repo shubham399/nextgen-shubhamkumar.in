@@ -21,7 +21,7 @@ function formatDate(dateStr: string) {
 function FeaturedTestimonial({ testimonial }: { testimonial: Testimonial }) {
   return (
     <article className="surface-card flex h-full flex-col gap-7 p-7 sm:p-10">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex min-h-11 items-center justify-between gap-4">
         <p className="signal-label">Selected note</p>
         <span className="font-headline text-4xl leading-none text-primary/50" aria-hidden="true">
           &ldquo;
@@ -123,7 +123,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
       {!activeTestimonial ? (
         <p className="font-body text-sm text-on-surface-variant">New references are on the way.</p>
       ) : (
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-6 lg:min-h-[24rem] lg:grid-cols-12">
           <div className="lg:col-span-7">
             <motion.div style={{ y: noteY }} className="h-full">
               <AnimatePresence mode="wait">
@@ -141,8 +141,8 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
             </motion.div>
           </div>
 
-          <motion.div style={{ y: listY }} className="lg:col-span-5">
-            <div className="mb-4 flex items-center justify-between gap-3">
+          <motion.div style={{ y: listY }} className="flex h-full flex-col lg:col-span-5">
+            <div className="mb-4 flex min-h-11 flex-shrink-0 items-center justify-between gap-3">
               <p className="signal-label">More notes</p>
               {!shouldReduceMotion && (
                 <button
@@ -157,7 +157,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                 </button>
               )}
             </div>
-            <div ref={notesListRef} className="relative flex max-h-[22rem] flex-col gap-2 overflow-y-auto pr-1">
+            <div ref={notesListRef} className="relative flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pr-1">
               {testimonials.map((testimonial, index) => (
                 <button
                   key={testimonial.name}
