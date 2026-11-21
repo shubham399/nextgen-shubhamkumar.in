@@ -225,6 +225,14 @@
 .blog-content table {
   @apply w-full my-6 border-collapse;
 }
+.blog-content .blog-table {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.blog-content .blog-table table {
+  width: max-content;
+  min-width: 100%;
+}
 .blog-content th {
   @apply font-headline font-semibold text-sm text-on-surface bg-surface-container px-4 py-2.5 text-left border-b border-outline-variant/10;
 }

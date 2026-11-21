@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { wisp, getCachedPost, GetCtasResult } from "@/lib/wisp";
 import { getMe, getSocials, getNav } from "@/lib/api";
-import { removeSynscribeAttribution } from "@/lib/utils";
+import { normalizeBlogContent } from "@/lib/blog-content";
 import { generateTableOfContents } from "@wisp-cms/table-of-content";
 import Image from "next/image";
 import Link from "next/link";
@@ -79,7 +79,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   if (!post) notFound();
 
   const { title, publishedAt, createdAt, content, tags } = post;
-  const cleanedContent = removeSynscribeAttribution(content);
+  const cleanedContent = normalizeBlogContent(content, title);
   const { modifiedHtml, tableOfContents } = generateTableOfContents(cleanedContent);
 
   const jsonLd = {
@@ -115,21 +115,21 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Navigation me={me} nav={nav} socials={socials} />
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <article className="section-base pt-36">
           <Link
             href="/blogs"
             className="inline-flex items-center gap-1.5 font-body text-sm text-content-muted hover:text-primary transition-colors mb-8"
           >
-            <Icon icon="ion:arrow-back" width={14} />
+            <Icon icon="ion:arrow-back" width={14} aria-hidden="true" />
             Back to thoughts and insights
           </Link>
 
           <header className="mb-10">
-            <h1 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter text-on-surface leading-[1.1] mb-4">
+            <h1 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tighter text-on-surface leading-[1.1] mb-4 text-balance break-words">
               {title.replace(/—/g, '-')}
             </h1>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-wrap justify-between items-center gap-2">
               <span className="font-label text-xs text-content-muted">
                 About {getReadTime(content)} min read
               </span>
