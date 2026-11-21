@@ -4,6 +4,7 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
+import { usePathname } from "next/navigation";
 
 const LS_SUBSCRIBED = "nl-subscribed";
 const LS_SEEN_AT = "nl-fullscreen-seen-at";
@@ -40,8 +41,13 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
   const emailId = useId();
   const errorId = useId();
   const shouldReduceMotion = useReducedMotion() ?? false;
+  const pathname = usePathname();
 
   useEffect(() => {
+    if (pathname !== "/") {
+      setStage("hidden");
+      return;
+    }
     if (readStorage(LS_SUBSCRIBED)) return;
     const seenAt = readStorage(LS_SEEN_AT);
     if (seenAt) {
@@ -50,14 +56,14 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
     }
     const timer = window.setTimeout(() => setStage("visible"), 2000);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [pathname]);
 
   const dismiss = useCallback(() => {
     writeStorage(LS_SEEN_AT, String(Date.now()));
     setStage("hidden");
   }, []);
 
-  const isOpen = stage === "visible" || stage === "loading" || stage === "success" || stage === "error";
+  const isOpen = pathname === "/" && (stage === "visible" || stage === "loading" || stage === "success" || stage === "error");
 
   useEffect(() => {
     if (!isOpen) return;
@@ -133,13 +139,15 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
           exit={{ opacity: 0 }}
           transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
         >
-          <motion.div
-            className="absolute inset-0 bg-surface-container-lowest/95"
+          <motion.button
+            type="button"
+            tabIndex={-1}
+            aria-label="Close newsletter signup"
+            className="absolute inset-0 cursor-default bg-surface-container-lowest/95"
             initial={shouldReduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={dismiss}
-            aria-hidden="true"
           />
 
           <motion.div
@@ -180,14 +188,7 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
             ) : (
               <div className="text-center">
                 <div className="relative mx-auto mb-5 h-20 w-20 overflow-hidden rounded-full ring-2 ring-primary/20 ring-offset-2 ring-offset-surface-container-lowest">
-                  <Image
-                    src={avatarUrl}
-                    alt=""
-                    fill
-                    className="object-cover"
-                    sizes="80px"
-                    unoptimized
-                  />
+                  {avatarUrl ? <Image src={avatarUrl} alt="" fill className="object-cover" sizes="80px" unoptimized /> : null}
                 </div>
 
                 <p className="mb-1 font-headline text-sm font-semibold tracking-tight text-on-surface">{name}</p>
@@ -216,10 +217,13 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
                   <label htmlFor={emailId} className="sr-only">Email address</label>
                   <input
                     id={emailId}
+                    name="email"
                     type="email"
+                    autoComplete="email"
+                    spellCheck={false}
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
-                    placeholder="your@email.com"
+                    placeholder="you@example.com…"
                     required
                     disabled={stage === "loading"}
                     aria-invalid={stage === "error"}
@@ -231,11 +235,7 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
                     disabled={stage === "loading"}
                     className="btn-primary flex-shrink-0"
                   >
-                    {stage === "loading" ? (
-                      <Icon icon="ion:loader" width={14} className="animate-spin" aria-label="Subscribing" />
-                    ) : (
-                      "Subscribe"
-                    )}
+                    {stage === "loading" ? "Subscribing…" : "Subscribe"}
                   </button>
                 </form>
 

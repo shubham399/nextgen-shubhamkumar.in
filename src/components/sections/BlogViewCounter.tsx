@@ -77,7 +77,7 @@ export default function BlogViewCounter({ slug }: BlogViewCounterProps) {
     <span className="inline-flex items-center gap-1 font-label text-xs text-content-muted">
       <Icon icon="ion:eye-outline" width={13} />
       <span className="tabular-nums">
-        <span ref={totalRef}><span className="animate-pulse">...</span></span>
+        <span ref={totalRef}><span className="animate-pulse">…</span></span>
       </span>
     </span>
   );

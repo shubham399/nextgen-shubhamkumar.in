@@ -92,9 +92,9 @@ export default function About({ me, contacts, experience }: AboutProps) {
         </div>
 
         <div className="surface-card p-7">
-          <h4 className="mb-5 font-headline text-sm font-semibold tracking-tight text-on-surface">
+          <h3 className="mb-5 font-headline text-sm font-semibold tracking-tight text-on-surface">
             Contact details
-          </h4>
+          </h3>
           <div className="flex flex-col gap-4">
             {contacts.map((contact) => (
               <div key={contact.title} className="flex items-center gap-3">

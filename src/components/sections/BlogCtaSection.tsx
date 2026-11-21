@@ -83,10 +83,13 @@ export default function BlogCtaSection({ cta }: Props) {
               <div className="flex flex-col gap-2 sm:flex-row">
                 <input
                   id={emailId}
+                  name="email"
                   type="email"
+                  autoComplete="email"
+                  spellCheck={false}
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
-                  placeholder="your@email.com"
+                  placeholder="you@example.com…"
                   required
                   disabled={stage === "loading"}
                   aria-invalid={stage === "error"}
@@ -99,7 +102,7 @@ export default function BlogCtaSection({ cta }: Props) {
                   ) : (
                     <Icon icon="ion:arrow-forward" width={16} aria-hidden="true" />
                   )}
-                  Subscribe
+                  {stage === "loading" ? "Subscribing…" : "Subscribe"}
                 </button>
               </div>
               {stage === "error" && (

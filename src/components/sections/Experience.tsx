@@ -12,7 +12,7 @@ interface ExperienceProps {
 const LIGHT_MODE_LOGOS = new Set(["AirFi", "Alaan"]);
 
 function logoContainerClass(company: string) {
-  return LIGHT_MODE_LOGOS.has(company) ? "bg-white" : "bg-surface-container-low";
+  return LIGHT_MODE_LOGOS.has(company) ? "bg-on-surface" : "bg-surface-container-low";
 }
 
 export default function ExperienceSection({ experiences }: ExperienceProps) {

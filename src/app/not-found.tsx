@@ -1,17 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Icon } from "@iconify/react";
 
 const QUICK_LINKS = [
   { label: "Home", href: "/", icon: "ion:home-outline", desc: "Back to the start" },
-  { label: "About", href: "/#about", icon: "ion:person-outline", desc: "Who I am" },
-  { label: "Experience", href: "/#experience", icon: "ion:briefcase-outline", desc: "My journey" },
-  { label: "Skills", href: "/#skills", icon: "ion:code-outline", desc: "Tech stack" },
-  { label: "Services", href: "/#services", icon: "ion:settings-outline", desc: "What I offer" },
-  { label: "Testimonials", href: "/#testimonials", icon: "ion:chatbubbles-outline", desc: "Kind words" },
   { label: "Blog", href: "/blogs", icon: "ion:newspaper-outline", desc: "Latest posts" },
+  { label: "Consulting", href: "/consulting", icon: "ion:briefcase-outline", desc: "Work together" },
   { label: "Contact", href: "/#contact", icon: "ion:mail-outline", desc: "Get in touch" },
 ];
 
@@ -26,25 +22,28 @@ const itemVariants = {
 };
 
 export default function NotFound() {
+  const shouldReduceMotion = useReducedMotion() ?? false;
   return (
-    <main id="main-content" className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <>
+      <a href="#main-content" className="skip-link">Skip to main content</a>
+      <main id="main-content" tabIndex={-1} className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-3xl mx-auto w-full text-center">
         {/* 404 */}
         <motion.p
           aria-hidden="true"
-          initial={{ opacity: 0, y: 24 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="font-headline font-bold text-[8rem] sm:text-[10rem] lg:text-[12rem] leading-none text-primary"
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
+          className="font-headline font-bold text-[6rem] sm:text-[10rem] lg:text-[12rem] leading-none text-primary"
         >
           404
         </motion.p>
 
         {/* Subtitle */}
         <motion.h1
-          initial={{ opacity: 0, y: 16 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.15 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.5, delay: shouldReduceMotion ? 0 : 0.15 }}
           className="mt-4 font-headline text-xl font-semibold tracking-tight text-on-surface sm:text-2xl"
         >
           Page not found
@@ -52,9 +51,9 @@ export default function NotFound() {
 
         {/* Description */}
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.25 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.5, delay: shouldReduceMotion ? 0 : 0.25 }}
           className="font-body text-sm sm:text-base text-on-surface-variant leading-relaxed max-w-md mx-auto mt-3"
         >
           This page doesn&apos;t exist or was moved. Pick a destination below.
@@ -63,9 +62,9 @@ export default function NotFound() {
         {/* Quick links grid */}
         <motion.div
           variants={containerVariants}
-          initial="hidden"
+          initial={shouldReduceMotion ? false : "hidden"}
           animate="visible"
-          className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-12"
+          className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8 sm:mt-12"
         >
           {QUICK_LINKS.map((link) => (
             <motion.div key={link.href} variants={itemVariants}>
@@ -89,19 +88,8 @@ export default function NotFound() {
           ))}
         </motion.div>
 
-        {/* Primary CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-          className="mt-10"
-        >
-          <Link href="/" className="btn-primary">
-            <Icon icon="ion:arrow-back" width={16} />
-            Go home
-          </Link>
-        </motion.div>
       </div>
-    </main>
+      </main>
+    </>
   );
 }

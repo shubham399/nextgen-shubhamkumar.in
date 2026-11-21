@@ -39,8 +39,17 @@ export default function DailyViewsChart({ days }: DailyViewsChartProps) {
   }
 
   return (
-    <ResponsiveContainer width="100%" height={180}>
-      <BarChart data={chartData} margin={{ top: 4, right: 4, left: -16, bottom: 0 }}>
+    <>
+      <table className="sr-only">
+        <caption>Blog views for the last 7 days</caption>
+        <thead><tr><th scope="col">Date</th><th scope="col">Views</th></tr></thead>
+        <tbody>
+          {days.map((day) => <tr key={day.date}><th scope="row">{day.date}</th><td>{day.views}</td></tr>)}
+        </tbody>
+      </table>
+      <div aria-hidden="true">
+        <ResponsiveContainer width="100%" height={180}>
+          <BarChart data={chartData} margin={{ top: 4, right: 4, left: -16, bottom: 0 }}>
         <XAxis
           dataKey="label"
           tick={{ fontSize: 10, fill: C.muted }}
@@ -72,7 +81,9 @@ export default function DailyViewsChart({ days }: DailyViewsChartProps) {
           radius={[4, 4, 0, 0]}
           maxBarSize={32}
         />
-      </BarChart>
-    </ResponsiveContainer>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </>
   );
 }

@@ -7,6 +7,7 @@ type Stage = "idle" | "loading" | "success" | "error";
 
 export default function NewsletterSubscribe() {
   const emailId = useId();
+  const errorId = useId();
   const [stage, setStage] = useState<Stage>("idle");
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -65,13 +66,17 @@ export default function NewsletterSubscribe() {
         </label>
         <input
           id={emailId}
+          name="email"
           type="email"
+          autoComplete="email"
+          spellCheck={false}
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          placeholder="your@email.com"
+          placeholder="you@example.com…"
           required
           disabled={stage === "loading"}
           aria-invalid={stage === "error"}
+          aria-describedby={stage === "error" ? errorId : undefined}
           className="form-control min-h-11 flex-1 rounded-lg px-4 py-3 text-base sm:text-sm disabled:opacity-50"
         />
         <button
@@ -84,11 +89,11 @@ export default function NewsletterSubscribe() {
           ) : (
             <Icon icon="ion:arrow-forward" width={16} aria-hidden="true" />
           )}
-          Subscribe
+          {stage === "loading" ? "Subscribing…" : "Subscribe"}
         </button>
       </form>
       {stage === "error" && (
-        <p className="mt-2 text-center font-body text-xs text-error" role="alert">
+        <p id={errorId} className="mt-2 text-center font-body text-xs text-error" role="alert">
           {errMsg}
         </p>
       )}

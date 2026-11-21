@@ -29,7 +29,7 @@ export default function BlogToc({ items }: { items: TableOfContentsItem[] }) {
   if (items.length === 0) return null;
 
   return (
-    <nav className="lg:sticky lg:top-32">
+    <nav aria-label="On this page" className="lg:sticky lg:top-32">
       <h3 className="mb-4 font-headline text-sm font-semibold tracking-tight text-on-surface">
         On this page
       </h3>
@@ -38,7 +38,8 @@ export default function BlogToc({ items }: { items: TableOfContentsItem[] }) {
           <a
             key={item.id}
             href={`#${item.id}`}
-            className={`block font-body text-sm transition-all duration-200 py-0.5 ${
+            aria-current={activeId === item.id ? "location" : undefined}
+            className={`block break-words font-body text-sm transition-colors duration-200 py-1 ${
               activeId === item.id
                 ? "text-primary border-l -ml-4 pl-[calc(1rem-1px)] border-primary"
                 : "text-content-subtle hover:text-on-surface-variant"

@@ -15,7 +15,7 @@ import Contact from "@/components/sections/Contact";
 const LIGHT_MODE_LOGOS = new Set(["AirFi", "Alaan"]);
 
 function logoContainerClass(company: string) {
-  return LIGHT_MODE_LOGOS.has(company) ? "bg-white" : "bg-surface-container";
+  return LIGHT_MODE_LOGOS.has(company) ? "bg-on-surface" : "bg-surface-container";
 }
 
 function getYearsOfExperience(experience: Experience[]): string {
@@ -460,7 +460,7 @@ export default async function ConsultingPage() {
             description="A quick overview of my journey and what qualifies me to advise your team."
           />
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <AnimateOnScroll className="lg:col-span-1" direction="left">
+            <AnimateOnScroll className="lg:col-span-1">
               <div className="bg-surface-container-low rounded-2xl p-6 text-center h-full">
                 <div className="relative w-24 h-24 rounded-full bg-surface-container mx-auto mb-4 overflow-hidden">
                   {me.avatarUrl ? (
@@ -490,7 +490,7 @@ export default async function ConsultingPage() {
                       key={social.name}
                       href={social.href}
                       aria-label={social.name}
-                      className="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-content-muted hover:text-primary hover:bg-surface-container-high transition-all duration-200"
+                      className="flex min-h-11 min-w-11 items-center justify-center rounded-lg bg-surface-container text-content-muted transition-colors duration-200 hover:bg-surface-container-high hover:text-primary"
                     >
                       <Icon icon={social.icon} width={16} />
                     </UTMLink>
@@ -499,14 +499,14 @@ export default async function ConsultingPage() {
               </div>
             </AnimateOnScroll>
 
-            <AnimateOnScroll className="lg:col-span-2" delay={0.1} direction="right">
+            <AnimateOnScroll className="lg:col-span-2" delay={0.1}>
               <div className="bg-surface-container-low rounded-2xl p-7 h-full">
                 <p className="font-body text-sm text-content-muted leading-relaxed mb-6 whitespace-pre-line">
                   {me.about}
                 </p>
-                <h4 className="font-headline font-semibold text-sm tracking-tight text-on-surface mb-4">
+                <h3 className="font-headline font-semibold text-sm tracking-tight text-on-surface mb-4">
                   Past experience
-                </h4>
+                </h3>
                 <div className="space-y-4">
                   {experience.filter((e) => !e.skip).slice(0, 4).map((exp) => (
                     <div key={exp.company + exp.title + exp.start} className="flex items-start gap-3">

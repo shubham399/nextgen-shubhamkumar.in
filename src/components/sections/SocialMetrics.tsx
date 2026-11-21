@@ -4,21 +4,21 @@ import { Icon } from "@iconify/react";
 
 interface SocialMetricsProps {
   socials: Social[];
-  blogCount: number;
-  totalViews: number;
-  twitterFollowers: number;
+  blogCount: number | null;
+  totalViews: number | null;
+  twitterFollowers: number | null;
   github: { followers: number; publicRepos: number } | null;
-  subscribers: number;
+  subscribers: number | null;
 }
 
 export default function SocialMetrics({ socials, blogCount, totalViews, twitterFollowers, github, subscribers }: SocialMetricsProps) {
   const socialLinks = socials.filter((s) => s.name !== "Email" && s.name !== "GitHub" && s.name !== "Twitter" && s.name !== "LinkedIn" && s.name !== "Instagram");
 
   const stats = [
-    { icon: "ion:document-text-outline", label: "Total blogs", value: blogCount.toString(), sub: "to date" },
-    { icon: "ion:eye-outline", label: "Total blog views", value: totalViews.toLocaleString(), sub: "all time" },
-    { icon: "ion:logo-twitter", label: "Twitter followers", value: twitterFollowers.toString(), sub: "friends" },
-    { icon: "ion:mail-outline", label: "Newsletter subscribers", value: subscribers.toString(), sub: "readers" },
+    ...(blogCount !== null ? [{ icon: "ion:document-text-outline", label: "Total blogs", value: blogCount.toLocaleString(), sub: "to date" }] : []),
+    ...(totalViews !== null ? [{ icon: "ion:eye-outline", label: "Total blog views", value: totalViews.toLocaleString(), sub: "all time" }] : []),
+    ...(twitterFollowers !== null ? [{ icon: "ion:logo-twitter", label: "Twitter followers", value: twitterFollowers.toLocaleString(), sub: "friends" }] : []),
+    ...(subscribers !== null ? [{ icon: "ion:mail-outline", label: "Newsletter subscribers", value: subscribers.toLocaleString(), sub: "readers" }] : []),
     ...(github ? [
       { icon: "ion:logo-github", label: "GitHub repositories", value: github.publicRepos.toString(), sub: "public repositories" },
       { icon: "ion:people-outline", label: "GitHub followers", value: github.followers.toString(), sub: "friends" },

@@ -35,7 +35,7 @@ function getIconSrc(icon: Skill["icon"]): string | null {
   if (typeof icon === "string") {
     return isValidIconSrc(icon) ? icon : null;
   }
-  const src = icon.dark || icon.light || "";
+  const src = icon.dark || "";
   return isValidIconSrc(src) ? src : null;
 }
 
@@ -103,6 +103,8 @@ export default function Skills({ skills }: SkillsProps) {
                         alt=""
                         width={16}
                         height={16}
+                        loading="lazy"
+                        decoding="async"
                         className="flex-shrink-0 object-contain"
                       />
                     )}

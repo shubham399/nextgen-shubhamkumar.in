@@ -147,6 +147,10 @@
     animation: none !important;
   }
 
+  .animate-spin {
+    animation: none !important;
+  }
+
   .interactive-surface:active,
   .btn-primary:active,
   .btn-ghost:active {

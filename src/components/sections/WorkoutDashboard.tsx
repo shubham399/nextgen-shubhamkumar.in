@@ -71,8 +71,33 @@ function getTypeColor(type: string): string {
 }
 
 export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboardProps) {
-  if (!summary) return null;
+  const intro = (
+    <AnimateOnScroll className="mb-8">
+      <div className="flex items-center gap-2 mb-1">
+        <Icon icon="ion:fitness-outline" width={16} className="text-primary" aria-hidden="true" />
+        <p className="signal-label">Open dashboard</p>
+      </div>
+      <h1 className="font-headline text-2xl sm:text-3xl font-bold tracking-tighter text-on-surface mb-2">
+        Workout tracker
+      </h1>
+      <p className="font-body text-sm text-content-muted">
+        A private record of training sessions, streaks, and health metrics.
+      </p>
+    </AnimateOnScroll>
+  );
+
+  if (!summary) {
+    return (
+      <section className="section-base pt-24 pb-16 md:pt-32 md:pb-20">
+        {intro}
+        <p className="surface-card p-6 font-body text-sm text-on-surface-variant">
+          Workout data is unavailable right now. Try again later.
+        </p>
+      </section>
+    );
+  }
   const { year, month, cells } = getMonthGrid(summary.calendar, workouts);
+  const weeks = Array.from({ length: Math.ceil(cells.length / 7) }, (_, index) => cells.slice(index * 7, index * 7 + 7));
   const monthWorkouts = workouts.filter(w => {
     if (!w.createdAt) return false;
     const d = new Date(w.createdAt);
@@ -97,18 +122,7 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
 
   return (
     <section className="section-base pt-24 pb-16 md:pt-32 md:pb-20">
-      <AnimateOnScroll className="mb-8">
-        <div className="flex items-center gap-2 mb-1">
-          <Icon icon="ion:fitness-outline" width={16} className="text-primary" />
-          <p className="signal-label">Open dashboard</p>
-        </div>
-        <h1 className="font-headline text-2xl sm:text-3xl font-bold tracking-tighter text-on-surface mb-2">
-          Workout tracker
-        </h1>
-        <p className="font-body text-sm text-content-muted">
-          A private record of training sessions, streaks, and health metrics.
-        </p>
-      </AnimateOnScroll>
+      {intro}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <AnimateOnScroll>
@@ -122,39 +136,58 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
               )}
             </div>
 
-            <div className="grid grid-cols-7 gap-1">
-              {DAY_HEADERS.map((d) => (
-                <div key={d} className="pb-2 text-center font-label text-xs font-semibold uppercase text-content-subtle">
-                  {d}
-                </div>
-              ))}
-              {cells.map((cell, i) => (
-                <div key={i} className="aspect-square flex items-center justify-center">
-                  {cell.day > 0 && (
-                    <span
-                      className="flex items-center justify-center w-7 h-7 text-xs font-label transition-all duration-200 rounded-full"
-                      style={{
-                        backgroundColor: cell.skipped
-                          ? themeVarAlpha("error", 0.125)
-                          : cell.type
-                            ? themeVarAlpha(getTypeRole(cell.type), 0.125)
-                            : "transparent",
-                        color: cell.skipped
-                          ? themeVar("error")
-                          : cell.type
-                            ? getTypeColor(cell.type)
-                            : themeVar("content-muted"),
-                        opacity: cell.skipped || cell.type ? 1 : 0.2,
-                      }}
-                    >
-                      {cell.day}
-                    </span>
-                  )}
-                </div>
-              ))}
-            </div>
+            {weeks.length ? (
+              <table className="w-full table-fixed border-separate border-spacing-1 tabular-nums">
+                <caption className="sr-only">{MONTH_NAMES[month - 1]} {year} workout calendar</caption>
+                <thead>
+                  <tr>
+                    {DAY_HEADERS.map((day) => (
+                      <th key={day} scope="col" className="pb-2 text-center font-label text-xs font-semibold uppercase text-content-subtle">
+                        {day}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {weeks.map((week, weekIndex) => (
+                    <tr key={weekIndex}>
+                      {Array.from({ length: 7 }, (_, dayIndex) => {
+                        const cell = week[dayIndex];
+                        if (!cell?.day) return <td key={dayIndex} />;
+                        const status = cell.type ?? (cell.skipped ? "No workout logged" : "No entry");
+                        return (
+                          <td key={dayIndex} className="py-0.5 text-center">
+                            <span
+                              className="mx-auto flex h-7 w-7 items-center justify-center rounded-full font-label text-xs"
+                              title={`${MONTH_NAMES[month - 1]} ${cell.day}: ${status}`}
+                              style={{
+                                backgroundColor: cell.skipped
+                                  ? themeVarAlpha("error", 0.125)
+                                  : cell.type
+                                    ? themeVarAlpha(getTypeRole(cell.type), 0.125)
+                                    : "transparent",
+                                color: cell.skipped
+                                  ? themeVar("error")
+                                  : cell.type
+                                    ? getTypeColor(cell.type)
+                                    : themeVar("content-subtle"),
+                              }}
+                            >
+                              <span aria-hidden="true">{cell.day}</span>
+                              <span className="sr-only">{MONTH_NAMES[month - 1]} {cell.day}: {status}</span>
+                            </span>
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p className="py-8 text-center font-body text-sm text-content-muted">No workout sessions to show yet.</p>
+            )}
 
-            <div className="flex items-center gap-4 mt-4 pt-4">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-4 pt-4">
               <span className="font-label text-xs font-medium text-content-subtle">Legend</span>
               {Object.entries(TYPE_ROLES).map(([type, role]) => (
                 <div key={type} className="flex items-center gap-1.5">
@@ -162,6 +195,10 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
                   <span className="font-label text-xs capitalize text-content-subtle">{type}</span>
                 </div>
               ))}
+              <div className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-error" aria-hidden="true" />
+                <span className="font-label text-xs text-content-subtle">No workout</span>
+              </div>
             </div>
           </div>
         </AnimateOnScroll>
@@ -173,7 +210,7 @@ export default function WorkoutDashboard({ workouts, summary }: WorkoutDashboard
                 <p className="mb-1.5 font-label text-xs font-medium text-content-subtle">
                   {stat.label}
                 </p>
-                <p className="mb-0.5 font-headline text-xl font-bold tracking-tight text-on-surface sm:text-2xl">
+                <p className="mb-0.5 font-headline text-xl font-bold tracking-tight text-on-surface tabular-nums sm:text-2xl">
                   {stat.value}
                 </p>
                 <p className="font-label text-xs text-content-subtle">{stat.sub}</p>

@@ -31,38 +31,38 @@ async function getGitHubStats() {
   }
 }
 
-async function getTwitterFollowers(): Promise<number> {
+async function getTwitterFollowers(): Promise<number | null> {
   try {
     const res = await fetch("https://api.vxtwitter.com/shubhkumar01", {
       next: { revalidate: 3600 },
     });
-    if (!res.ok) return 0;
+    if (!res.ok) return null;
     const data = await res.json();
-    return data.followers_count ?? 0;
+    return data.followers_count ?? null;
   } catch {
-    return 0;
+    return null;
   }
 }
 
-async function getSubscriberCount(): Promise<number> {
+async function getSubscriberCount(): Promise<number | null> {
   try {
     const key = process.env.RESEND_KEY;
-    if (!key) return 0;
+    if (!key) return null;
     const resend = new Resend(key);
     const segmentId = process.env.RESEND_SEGMENT_ID;
     const { data, error } = await resend.contacts.list({
       ...(segmentId ? { segmentId } : {}),
       limit: 100,
     });
-    if (error || !data) return 0;
+    if (error || !data) return null;
     return data.data.length;
   } catch {
-    return 0;
+    return null;
   }
 }
 
 export default async function Dashboard() {
-  let allPosts: GetPostsResult = { posts: [], pagination: { page: 1, limit: 100, totalPages: 0, totalPosts: 0, nextPage: null, prevPage: null } };
+  let allPosts: GetPostsResult | null = null;
   try {
     allPosts = await wisp.getPosts({ limit: 100 });
   } catch {}
@@ -76,7 +76,7 @@ export default async function Dashboard() {
     getGitHubStats(),
     getTwitterFollowers(),
     getSubscriberCount(),
-    getBlogViewsSummary().catch(() => ({ total: 0, daily: {} })),
+    getBlogViewsSummary().catch(() => null),
     getGitHubCommits().catch(() => null),
   ]);
 
@@ -98,8 +98,8 @@ export default async function Dashboard() {
         </div>
         <SocialMetrics
           socials={socials ?? []}
-          blogCount={allPosts.pagination.totalPosts}
-          totalViews={blogViews.total}
+          blogCount={allPosts?.pagination.totalPosts ?? null}
+          totalViews={blogViews?.total ?? null}
           github={github}
           twitterFollowers={twitterFollowers}
           subscribers={subscribers}

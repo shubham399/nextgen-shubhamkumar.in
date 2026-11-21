@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import { wisp, GetPostsResult } from "@/lib/wisp";
 import { getMe, getSocials, getNav } from "@/lib/api";
-import { Icon } from "@iconify/react";
 
 import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
 import SectionHeader from "@/components/ui/SectionHeader";
-import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 import BlogListClient from "@/components/sections/BlogListClient";
 import BlogCtaSection from "@/components/sections/BlogCtaSection";
 
@@ -54,6 +52,7 @@ export default async function BlogListing() {
 
   let result = { posts: [], pagination: { page: 1, limit: 6, totalPages: 0, totalPosts: 0, nextPage: null, prevPage: null } } as GetPostsResult;
   let publishedTags: { id: string; name: string; description: string | null }[] = [];
+  let initialLoadFailed = false;
   try {
     result = await wisp.getPosts({ page: 1, limit: 6 });
     const allPublished = await wisp.getPosts({ limit: "all" });
@@ -64,7 +63,9 @@ export default async function BlogListing() {
       }
     }
     publishedTags = Array.from(tagMap.values());
-  } catch {}
+  } catch {
+    initialLoadFailed = true;
+  }
 
   return (
     <>
@@ -80,20 +81,12 @@ export default async function BlogListing() {
 
           <div className="h-px bg-divider mb-14" />
 
-          {result.posts.length === 0 ? (
-            <AnimateOnScroll>
-              <div className="text-center py-20">
-                <Icon icon="ion:document-text-outline" width={48} className="mx-auto text-content-subtle mb-4" />
-                <p className="font-body text-content-muted">No posts yet. Check back soon.</p>
-              </div>
-            </AnimateOnScroll>
-          ) : (
-            <BlogListClient
-              initialPosts={result.posts}
-              initialPagination={result.pagination}
-              allTags={publishedTags}
-            />
-          )}
+          <BlogListClient
+            initialPosts={result.posts}
+            initialPagination={result.pagination}
+            allTags={publishedTags}
+            initialLoadFailed={initialLoadFailed}
+          />
         </section>
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

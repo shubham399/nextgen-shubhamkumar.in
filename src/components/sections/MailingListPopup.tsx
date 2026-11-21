@@ -148,10 +148,13 @@ export default function MailingListPopup({ cta }: Props) {
                       <label htmlFor={emailId} className="sr-only">Email address</label>
                       <input
                         id={emailId}
+                        name="email"
                         type="email"
+                        autoComplete="email"
+                        spellCheck={false}
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
-                        placeholder="your@email.com"
+                        placeholder="you@example.com…"
                         disabled={stage === "loading"}
                         aria-invalid={stage === "error"}
                         aria-describedby={stage === "error" ? errorId : undefined}
@@ -163,7 +166,7 @@ export default function MailingListPopup({ cta }: Props) {
                         ) : (
                           <Icon icon="ion:arrow-forward" width={14} />
                         )}
-                        Join
+                        {stage === "loading" ? "Subscribing…" : "Join"}
                       </button>
                     </div>
                     {stage === "error" && errMsg && <span id={errorId} className="sr-only">{errMsg}</span>}

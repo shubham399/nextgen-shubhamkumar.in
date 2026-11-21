@@ -33,8 +33,23 @@ export default function PRWeeklyChart({ buckets }: PRWeeklyChartProps) {
   }));
 
   return (
-    <ResponsiveContainer width="100%" height={220}>
-      <BarChart data={chartData} margin={{ top: 20, right: 4, left: -16, bottom: 0 }}>
+    <>
+      <table className="sr-only">
+        <caption>Commits per week</caption>
+        <thead><tr><th scope="col">Week</th><th scope="col">Commits</th><th scope="col">Period</th></tr></thead>
+        <tbody>
+          {buckets.map((bucket) => (
+            <tr key={bucket.label}>
+              <th scope="row">{bucket.label}</th>
+              <td>{bucket.count}</td>
+              <td>{bucket.full ? "Full week" : `Partial week, ${bucket.days} days`}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div aria-hidden="true">
+        <ResponsiveContainer width="100%" height={220}>
+          <BarChart data={chartData} margin={{ top: 20, right: 4, left: -16, bottom: 0 }}>
         <XAxis
           dataKey="name"
           tick={{ fontSize: 10, fill: COLOR_TICK }}
@@ -54,7 +69,9 @@ export default function PRWeeklyChart({ buckets }: PRWeeklyChartProps) {
             <Cell key={i} fill={entry.full ? COLOR_FULL : COLOR_PARTIAL} />
           ))}
         </Bar>
-      </BarChart>
-    </ResponsiveContainer>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </>
   );
 }

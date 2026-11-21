@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { Icon } from "@iconify/react";
 import AnimateOnScroll from "../ui/AnimateOnScroll";
 import type { GetCommentsResult } from "@/lib/wisp";
@@ -16,6 +16,10 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [fieldError, setFieldError] = useState<"author" | "email" | "content" | null>(null);
+  const authorRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const contentRef = useRef<HTMLTextAreaElement>(null);
 
   const [author, setAuthor] = useState("");
   const [email, setEmail] = useState("");
@@ -28,14 +32,23 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
+    setFieldError(null);
 
-    if (!author.trim() || !email.trim() || !content.trim()) {
-      setError("Please fill in all required fields.");
+    if (!author.trim()) {
+      setFieldError("author");
+      authorRef.current?.focus();
       return;
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError("Please enter a valid email address.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setFieldError("email");
+      emailRef.current?.focus();
+      return;
+    }
+
+    if (!content.trim()) {
+      setFieldError("content");
+      contentRef.current?.focus();
       return;
     }
 
@@ -66,7 +79,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
       setContent("");
       setAllowEmailUsage(true);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to post comment.");
+      setError(e instanceof Error ? `${e.message} Try again.` : "Could not post your comment. Try again.");
     } finally {
       setSubmitting(false);
     }
@@ -166,6 +179,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                     Name <span className="text-error">*</span>
                   </label>
                   <input
+                    ref={authorRef}
                     id="comment-author"
                     type="text"
                     name="name"
@@ -173,15 +187,19 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                     required
                     value={author}
                     onChange={(e) => setAuthor(e.target.value)}
-                    placeholder="Your name"
+                    placeholder="Your name…"
+                    aria-invalid={fieldError === "author"}
+                    aria-describedby={fieldError === "author" ? "comment-author-error" : undefined}
                     className="form-control"
                   />
+                  {fieldError === "author" && <p id="comment-author-error" className="mt-1 text-xs text-error">Enter your name.</p>}
                 </div>
                 <div>
                   <label htmlFor="comment-email" className="font-label text-xs text-content-muted mb-1.5 block">
                     Email <span className="text-error">*</span>
                   </label>
                   <input
+                    ref={emailRef}
                     id="comment-email"
                     type="email"
                     name="email"
@@ -190,9 +208,12 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com"
+                    placeholder="you@example.com…"
+                    aria-invalid={fieldError === "email"}
+                    aria-describedby={fieldError === "email" ? "comment-email-error" : undefined}
                     className="form-control"
                   />
+                  {fieldError === "email" && <p id="comment-email-error" className="mt-1 text-xs text-error">Enter a valid email address.</p>}
                 </div>
               </div>
 
@@ -208,7 +229,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                     autoComplete="url"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
-                    placeholder="https://example.com"
+                    placeholder="https://example.com…"
                     className="form-control"
                   />
                 </div>
@@ -219,21 +240,26 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                   Comment <span className="text-error">*</span>
                 </label>
                 <textarea
+                  ref={contentRef}
                   id="comment-content"
                   name="comment"
                   required
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder="Share your thoughts..."
+                  placeholder="Share your thoughts…"
+                  aria-invalid={fieldError === "content"}
+                  aria-describedby={fieldError === "content" ? "comment-content-error" : undefined}
                   rows={4}
                   className="form-control min-h-[100px] resize-y"
                 />
+                {fieldError === "content" && <p id="comment-content-error" className="mt-1 text-xs text-error">Write a comment before publishing.</p>}
               </div>
 
               {config.signUpMessage && (
                 <label className="flex items-start gap-3 cursor-pointer group">
                   <input
                     type="checkbox"
+                    name="allowEmailUsage"
                     checked={allowEmailUsage}
                     onChange={(e) => setAllowEmailUsage(e.target.checked)}
                     className="mt-0.5 w-4 h-4 rounded border-outline-variant/40 bg-surface-container text-primary focus:ring-primary/50 focus:ring-offset-0"
@@ -259,7 +285,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                 {submitting ? (
                   <>
                     <div className="w-3.5 h-3.5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
-                    Posting...
+                    Posting…
                   </>
                 ) : (
                   <>
