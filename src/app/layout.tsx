@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { MotionConfig } from "framer-motion";
 import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
@@ -7,7 +7,7 @@ import NewsletterFullscreen from "@/components/sections/NewsletterFullscreen";
 import AnimatedBackground from "@/components/ui/AnimatedBackground";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { getMe } from "@/lib/api";
-import { defaultPalette, themeCss } from "@/lib/theme";
+import { defaultPalette, theme, themeCss } from "@/lib/theme";
 import { allPaletteCss, allPaletteInitScript } from "@/lib/palette-candidates";
 import ThemePicker from "@/components/ui/ThemePicker";
 
@@ -34,6 +34,11 @@ const inter = Inter({
   variable: "--font-inter",
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  themeColor: theme.colors.surface,
+  colorScheme: "dark",
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   let data;
@@ -124,6 +129,11 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <link rel="dns-prefetch" href="https://avatars.githubusercontent.com" />
+        <link rel="dns-prefetch" href="https://cdn.prod.website-files.com" />
+        <link rel="dns-prefetch" href="https://portal.airfi.aero" />
+        <link rel="dns-prefetch" href="https://sandbox.picasso.juspay.in" />
+        <link rel="dns-prefetch" href="https://utfs.io" />
         <style id="theme-vars" dangerouslySetInnerHTML={{ __html: paletteCss }} />
         {restoreScript ? <script dangerouslySetInnerHTML={{ __html: restoreScript }} /> : null}
         <script

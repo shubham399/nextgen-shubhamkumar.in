@@ -7,5 +7,12 @@ export default async function Health() {
     getWorkoutSummary(),
   ]);
 
-  return <WorkoutDashboard workouts={workouts} summary={summary} />;
+  return (
+    <>
+      <a href="#main-content" className="skip-link">Skip to main content</a>
+      <main id="main-content" tabIndex={-1}>
+        <WorkoutDashboard workouts={workouts} summary={summary} />
+      </main>
+    </>
+  );
 }

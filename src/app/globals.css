@@ -5,6 +5,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 7rem;
+    color-scheme: dark;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -162,6 +164,7 @@
 
 .blog-content {
   @apply font-body text-base leading-relaxed text-on-surface;
+  overflow-wrap: anywhere;
 }
 .blog-content h1,
 .blog-content h2,
@@ -198,7 +201,7 @@
   @apply border-outline-variant/20 my-10;
 }
 .blog-content img {
-  @apply rounded-xl my-8 w-full;
+  @apply rounded-xl my-8 w-full h-auto;
 }
 .blog-content figure {
   @apply my-8;
