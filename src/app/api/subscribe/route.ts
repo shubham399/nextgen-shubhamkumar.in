@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { colorGroups } from "@/lib/theme";
 import { Resend } from "resend";
+import { verifyTurnstile } from "@/lib/turnstile";
 
 function getResend() {
   const key = process.env.RESEND_KEY;
@@ -8,9 +9,33 @@ function getResend() {
   return new Resend(key);
 }
 
+const TRACKED = ["signup_page", "landing_page", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"] as const;
+const MIN_FILL_MS = 1500;
+
 export async function POST(req: NextRequest) {
   try {
-    const { email } = await req.json();
+    const origin = req.headers.get("origin");
+    if (origin && new URL(origin).host !== req.headers.get("host")) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    const body = await req.json();
+    const { email, company, elapsed } = body;
+
+    // Bot: honeypot filled, or form sent faster than a person can type. Fake success so it does not retry.
+    if (company || typeof elapsed !== "number" || elapsed < MIN_FILL_MS) {
+      console.warn("[subscribe] bot rejected", { company: Boolean(company), elapsed });
+      return NextResponse.json({ success: true });
+    }
+
+    if (!(await verifyTurnstile(body.turnstileToken, "newsletter", req))) {
+      return NextResponse.json({ error: "Verification failed. Refresh and try again." }, { status: 403 });
+    }
+
+    const properties = Object.fromEntries(
+      TRACKED.flatMap((k) => (typeof body[k] === "string" && body[k] ? [[k, body[k].slice(0, 200)]] : []))
+    );
+
 
     if (!email || typeof email !== "string") {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
@@ -42,6 +67,7 @@ export async function POST(req: NextRequest) {
 
     const { error: createErr } = await resend.contacts.create({
       email,
+      properties,
       ...(segmentId ? { segments: [{ id: segmentId }] } : {}),
     });
     if (createErr) {

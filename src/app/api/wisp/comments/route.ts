@@ -1,9 +1,14 @@
 import { wisp } from "@/lib/wisp";
 import { NextRequest, NextResponse } from "next/server";
+import { verifyTurnstile } from "@/lib/turnstile";
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
+  const { turnstileToken, ...body } = await request.json();
   const { slug, author, email } = body;
+
+  if (!(await verifyTurnstile(turnstileToken, "comment", request))) {
+    return NextResponse.json({ success: false, error: "Verification failed. Refresh and try again." }, { status: 403 });
+  }
 
   console.log("[comments] POST received", { slug, author, email });
 

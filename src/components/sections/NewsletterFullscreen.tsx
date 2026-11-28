@@ -4,6 +4,8 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
+import { subscribeEmail } from "@/lib/subscribe";
+import Turnstile from "@/components/ui/Turnstile";
 import { usePathname } from "next/navigation";
 
 const LS_SUBSCRIBED = "nl-subscribed";
@@ -102,7 +104,7 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
     };
   }, [dismiss, isOpen]);
 
-  const subscribe = async () => {
+  const subscribe = async (form: HTMLFormElement) => {
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setErrMsg("Enter a valid email address.");
       setStage("error");
@@ -111,11 +113,7 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
     setStage("loading");
     setErrMsg("");
     try {
-      const res = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+      const res = await subscribeEmail(email, form);
       if (res.status === 409 || res.ok) {
         writeStorage(LS_SUBSCRIBED, "1");
         setStage("success");
@@ -211,9 +209,11 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
                   className="mx-auto flex max-w-sm flex-col gap-2 sm:flex-row"
                   onSubmit={(event) => {
                     event.preventDefault();
-                    void subscribe();
+                    void subscribe(event.currentTarget);
                   }}
                 >
+                  <input name="company" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
+                  <Turnstile action="newsletter" />
                   <label htmlFor={emailId} className="sr-only">Email address</label>
                   <input
                     id={emailId}

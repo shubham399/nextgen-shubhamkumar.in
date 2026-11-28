@@ -3,6 +3,8 @@
 import { useEffect, useId, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Icon } from "@iconify/react";
+import { subscribeEmail } from "@/lib/subscribe";
+import Turnstile from "@/components/ui/Turnstile";
 import { usePathname } from "next/navigation";
 import type { GetCtasResult } from "@/lib/wisp";
 
@@ -66,11 +68,7 @@ export default function MailingListPopup({ cta }: Props) {
     setStage("loading");
     setErrMsg("");
     try {
-      const res = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+      const res = await subscribeEmail(email, event.currentTarget);
       if (res.status === 409) {
         writeStorage(localStorage, LS_SUBSCRIBED, "1");
         setStage("success");
@@ -145,6 +143,8 @@ export default function MailingListPopup({ cta }: Props) {
                       </div>
                     </div>
                     <div className="flex w-full flex-shrink-0 gap-1.5 sm:w-auto">
+                      <input name="company" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
+                      <Turnstile action="newsletter" />
                       <label htmlFor={emailId} className="sr-only">Email address</label>
                       <input
                         id={emailId}

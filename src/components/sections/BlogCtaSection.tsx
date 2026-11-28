@@ -2,6 +2,8 @@
 
 import { useId, useState } from "react";
 import { Icon } from "@iconify/react";
+import { subscribeEmail } from "@/lib/subscribe";
+import Turnstile from "@/components/ui/Turnstile";
 import { GetCtasResult } from "@/lib/wisp";
 
 type Stage = "idle" | "loading" | "success" | "error";
@@ -17,7 +19,7 @@ export default function BlogCtaSection({ cta }: Props) {
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
-  const subscribe = async () => {
+  const subscribe = async (form: HTMLFormElement) => {
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setErrMsg("Enter a valid email address.");
       setStage("error");
@@ -26,11 +28,7 @@ export default function BlogCtaSection({ cta }: Props) {
     setStage("loading");
     setErrMsg("");
     try {
-      const res = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+      const res = await subscribeEmail(email, form);
       if (res.status === 409 || res.ok) {
         setStage("success");
         return;
@@ -76,9 +74,11 @@ export default function BlogCtaSection({ cta }: Props) {
               className="w-full"
               onSubmit={(event) => {
                 event.preventDefault();
-                void subscribe();
+                void subscribe(event.currentTarget);
               }}
             >
+              <input name="company" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
+              <Turnstile action="newsletter" />
               <label htmlFor={emailId} className="sr-only">Email address</label>
               <div className="flex flex-col gap-2 sm:flex-row">
                 <input

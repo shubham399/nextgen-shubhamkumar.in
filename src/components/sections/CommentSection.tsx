@@ -3,6 +3,7 @@
 import { useRef, useState, type FormEvent } from "react";
 import { Icon } from "@iconify/react";
 import AnimateOnScroll from "../ui/AnimateOnScroll";
+import Turnstile, { resetTurnstile } from "../ui/Turnstile";
 import type { GetCommentsResult } from "@/lib/wisp";
 
 interface CommentSectionProps {
@@ -29,8 +30,9 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
 
   if (!config.enabled) return null;
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
     setError("");
     setFieldError(null);
 
@@ -63,6 +65,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
           email: email.trim(),
           content: content.trim(),
           allowEmailUsage,
+          turnstileToken: new FormData(form).get("cf-turnstile-response") ?? "",
           ...(config.allowUrls && url.trim() ? { url: url.trim() } : {}),
         }),
       });
@@ -81,6 +84,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
     } catch (e) {
       setError(e instanceof Error ? `${e.message} Try again.` : "Could not post your comment. Try again.");
     } finally {
+      resetTurnstile(form);
       setSubmitting(false);
     }
   };
@@ -169,6 +173,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
+              <Turnstile action="comment" />
               <h3 className="font-headline text-lg font-bold tracking-tight text-on-surface">
                 Join the conversation
               </h3>
