@@ -132,7 +132,7 @@ export default function MailingListPopup({ cta }: Props) {
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={subscribe} className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <form onSubmit={subscribe} className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                     <div className="flex min-w-0 flex-1 items-center gap-2.5">
                       <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
                         <Icon icon="ion:mail-unread" width={16} className="text-primary" />
@@ -144,7 +144,6 @@ export default function MailingListPopup({ cta }: Props) {
                     </div>
                     <div className="flex w-full flex-shrink-0 gap-1.5 sm:w-auto">
                       <input name="company" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
-                      <Turnstile action="newsletter" />
                       <label htmlFor={emailId} className="sr-only">Email address</label>
                       <input
                         id={emailId}
@@ -169,6 +168,7 @@ export default function MailingListPopup({ cta }: Props) {
                         {stage === "loading" ? "Subscribing…" : "Join"}
                       </button>
                     </div>
+                    <Turnstile action="newsletter" className="basis-full" />
                     {stage === "error" && errMsg && <span id={errorId} className="sr-only">{errMsg}</span>}
                   </form>
                 )}

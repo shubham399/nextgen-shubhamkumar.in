@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Script from "next/script";
 
 type TurnstileApi = {
@@ -19,8 +19,16 @@ const SITE_KEY =
 
 // Cloudflare Turnstile. Puts a hidden `cf-turnstile-response` input inside the parent form.
 // Stays invisible unless Cloudflare wants the visitor to click.
-export default function Turnstile({ action }: { action: string }) {
+// Place it outside flex rows: when the challenge shows it stretches to the full form width.
+export default function Turnstile({
+  action,
+  className = "",
+}: {
+  action: string;
+  className?: string;
+}) {
   const ref = useRef<HTMLDivElement>(null);
+  const [interactive, setInteractive] = useState(false);
 
   return (
     <>
@@ -34,11 +42,20 @@ export default function Turnstile({ action }: { action: string }) {
               action,
               theme: "dark",
               appearance: "interaction-only",
+              size: "flexible",
+              "before-interactive-callback": () => setInteractive(true),
+              "after-interactive-callback": () => setInteractive(false),
             });
           }
         }}
       />
-      <div ref={ref} data-turnstile />
+      <div
+        ref={ref}
+        data-turnstile
+        className={
+          `${interactive ? "mt-3" : ""} ${className}`.trim() || undefined
+        }
+      />
     </>
   );
 }

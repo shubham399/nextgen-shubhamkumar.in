@@ -33,7 +33,10 @@ function writeStorage(key: string, value: string) {
   } catch {}
 }
 
-export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFullscreenProps) {
+export default function NewsletterFullscreen({
+  name,
+  avatarUrl,
+}: NewsletterFullscreenProps) {
   const [stage, setStage] = useState<Stage>("hidden");
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -65,7 +68,12 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
     setStage("hidden");
   }, []);
 
-  const isOpen = pathname === "/" && (stage === "visible" || stage === "loading" || stage === "success" || stage === "error");
+  const isOpen =
+    pathname === "/" &&
+    (stage === "visible" ||
+      stage === "loading" ||
+      stage === "success" ||
+      stage === "error");
 
   useEffect(() => {
     if (!isOpen) return;
@@ -82,7 +90,7 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
       }
       if (event.key !== "Tab") return;
       const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
-        "button:not([disabled]), input:not([disabled]), a[href]"
+        "button:not([disabled]), input:not([disabled]), a[href]",
       );
       if (!focusable?.length) return;
       const first = focusable[0];
@@ -122,7 +130,9 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
       const data = await res.json();
       throw new Error(data.error || "Subscription failed. Try again.");
     } catch (err) {
-      setErrMsg(err instanceof Error ? err.message : "Subscription failed. Try again.");
+      setErrMsg(
+        err instanceof Error ? err.message : "Subscription failed. Try again.",
+      );
       setStage("error");
     }
   };
@@ -155,10 +165,15 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
             aria-label={stage === "success" ? "Newsletter signup" : undefined}
             aria-labelledby={stage === "success" ? undefined : titleId}
             className="relative w-full max-w-md"
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 16, scale: 0.98 }}
+            initial={
+              shouldReduceMotion ? false : { opacity: 0, y: 16, scale: 0.98 }
+            }
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.25, ease: [0.16, 1, 0.3, 1] }}
+            transition={{
+              duration: shouldReduceMotion ? 0 : 0.25,
+              ease: [0.16, 1, 0.3, 1],
+            }}
           >
             <button
               ref={closeButtonRef}
@@ -173,70 +188,114 @@ export default function NewsletterFullscreen({ name, avatarUrl }: NewsletterFull
             {stage === "success" ? (
               <div className="py-8 text-center">
                 <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-                  <Icon icon="ion:checkmark-done" width={28} className="text-primary" aria-hidden="true" />
+                  <Icon
+                    icon="ion:checkmark-done"
+                    width={28}
+                    className="text-primary"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h2 className="mb-2 font-headline text-2xl font-bold tracking-tighter text-on-surface">
                   You&apos;re subscribed
                 </h2>
-                <p className="mb-6 font-body text-sm text-on-surface-variant">Check your inbox for a welcome note.</p>
-                <button type="button" onClick={dismiss} className="btn-ghost text-sm">
+                <p className="mb-6 font-body text-sm text-on-surface-variant">
+                  Check your inbox for a welcome note.
+                </p>
+                <button
+                  type="button"
+                  onClick={dismiss}
+                  className="btn-ghost text-sm"
+                >
                   Continue to site
                 </button>
               </div>
             ) : (
               <div className="text-center">
                 <div className="relative mx-auto mb-5 h-20 w-20 overflow-hidden rounded-full ring-2 ring-primary/20 ring-offset-2 ring-offset-surface-container-lowest">
-                  {avatarUrl ? <Image src={avatarUrl} alt="" fill className="object-cover" sizes="80px" unoptimized /> : null}
+                  {avatarUrl ? (
+                    <Image
+                      src={avatarUrl}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="80px"
+                      unoptimized
+                    />
+                  ) : null}
                 </div>
 
-                <p className="mb-1 font-headline text-sm font-semibold tracking-tight text-on-surface">{name}</p>
-                <p className="mb-6 font-label text-xs text-content-muted">writes about backend systems</p>
+                <p className="mb-1 font-headline text-sm font-semibold tracking-tight text-on-surface">
+                  {name}
+                </p>
+                <p className="mb-6 font-label text-xs text-content-muted">
+                  writes about backend systems
+                </p>
 
-                <h2 id={titleId} className="mb-3 font-headline text-2xl font-bold leading-[1.15] tracking-tighter text-on-surface sm:text-3xl">
-                  Lessons from systems that stay up<span className="text-secondary">.</span>
+                <h2
+                  id={titleId}
+                  className="mb-3 font-headline text-2xl font-bold leading-[1.15] tracking-tighter text-on-surface sm:text-3xl"
+                >
+                  Lessons from systems that stay up
+                  <span className="text-secondary">.</span>
                 </h2>
                 <p className="mx-auto mb-8 max-w-sm font-body text-sm leading-relaxed text-on-surface-variant">
-                  Fintech, distributed systems, and production engineering. One useful dispatch at a time.
+                  Fintech, distributed systems, and production engineering. One
+                  useful dispatch at a time.
                 </p>
 
                 {stage === "error" && errMsg && (
-                  <p id={errorId} role="alert" className="mb-4 font-body text-sm text-error">
+                  <p
+                    id={errorId}
+                    role="alert"
+                    className="mb-4 font-body text-sm text-error"
+                  >
                     {errMsg}
                   </p>
                 )}
 
                 <form
-                  className="mx-auto flex max-w-sm flex-col gap-2 sm:flex-row"
+                  className="mx-auto max-w-sm"
                   onSubmit={(event) => {
                     event.preventDefault();
                     void subscribe(event.currentTarget);
                   }}
                 >
-                  <input name="company" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
-                  <Turnstile action="newsletter" />
-                  <label htmlFor={emailId} className="sr-only">Email address</label>
                   <input
-                    id={emailId}
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    spellCheck={false}
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    placeholder="you@example.com…"
-                    required
-                    disabled={stage === "loading"}
-                    aria-invalid={stage === "error"}
-                    aria-describedby={stage === "error" ? errorId : undefined}
-                    className="form-control min-w-0 flex-1"
+                    name="company"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="hidden"
                   />
-                  <button
-                    type="submit"
-                    disabled={stage === "loading"}
-                    className="btn-primary flex-shrink-0"
-                  >
-                    {stage === "loading" ? "Subscribing…" : "Subscribe"}
-                  </button>
+                  <label htmlFor={emailId} className="sr-only">
+                    Email address
+                  </label>
+                  <div className="flex flex-col gap-2 sm:flex-row">
+                    <input
+                      id={emailId}
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      spellCheck={false}
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      placeholder="you@example.com…"
+                      required
+                      disabled={stage === "loading"}
+                      aria-invalid={stage === "error"}
+                      aria-describedby={stage === "error" ? errorId : undefined}
+                      className="form-control min-w-0 flex-1"
+                    />
+                    <button
+                      type="submit"
+                      disabled={stage === "loading"}
+                      className="btn-primary flex-shrink-0"
+                    >
+                      {stage === "loading" ? "Subscribing…" : "Subscribe"}
+                    </button>
+                  </div>
+                  <Turnstile action="newsletter" />
                 </form>
 
                 <button

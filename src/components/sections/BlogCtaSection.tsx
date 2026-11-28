@@ -78,7 +78,6 @@ export default function BlogCtaSection({ cta }: Props) {
               }}
             >
               <input name="company" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
-              <Turnstile action="newsletter" />
               <label htmlFor={emailId} className="sr-only">Email address</label>
               <div className="flex flex-col gap-2 sm:flex-row">
                 <input
@@ -94,7 +93,7 @@ export default function BlogCtaSection({ cta }: Props) {
                   disabled={stage === "loading"}
                   aria-invalid={stage === "error"}
                   aria-describedby={stage === "error" ? errorId : undefined}
-                  className="form-control min-h-11 min-w-0 flex-1 rounded-lg px-4 py-3 text-base sm:text-sm disabled:opacity-50"
+                  className="form-control min-h-11 min-w-0 flex-1 rounded-lg bg-surface-container-high px-4 py-3 text-base sm:text-sm disabled:opacity-50"
                 />
                 <button type="submit" disabled={stage === "loading"} className="btn-primary min-h-11 flex-shrink-0 justify-center disabled:opacity-50">
                   {stage === "loading" ? (
@@ -105,6 +104,7 @@ export default function BlogCtaSection({ cta }: Props) {
                   {stage === "loading" ? "Subscribing…" : "Subscribe"}
                 </button>
               </div>
+              <Turnstile action="newsletter" />
               {stage === "error" && (
                 <p id={errorId} role="alert" className="mt-2 font-body text-xs text-error">{errMsg}</p>
               )}
