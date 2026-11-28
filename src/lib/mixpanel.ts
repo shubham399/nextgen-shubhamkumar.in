@@ -40,5 +40,7 @@ export function initMixpanel() {
 
 // Events fired before the probe finishes wait for it instead of being dropped.
 export function track(event: string, props?: Record<string, unknown>) {
+  // Child effects (e.g. BlogViewCounter) run before <MixpanelInit /> in the layout.
+  initMixpanel();
   void ready?.then(() => mixpanel.track(event, props));
 }
