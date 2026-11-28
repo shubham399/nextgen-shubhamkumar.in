@@ -33,6 +33,8 @@ export function initMixpanel() {
       ...host,
       autocapture: { pageview: "url-with-path", capture_text_content: true },
       persistence: "localStorage",
+      // Without this, browsers with Do Not Track on (Safari, Brave, many Firefox setups) send nothing.
+      ignore_dnt: true,
       debug: process.env.NODE_ENV !== "production",
     });
   });
