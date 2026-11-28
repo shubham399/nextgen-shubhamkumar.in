@@ -173,7 +173,6 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
-              <Turnstile action="comment" />
               <h3 className="font-headline text-lg font-bold tracking-tight text-on-surface">
                 Join the conversation
               </h3>
@@ -258,6 +257,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
                   className="form-control min-h-[100px] resize-y"
                 />
                 {fieldError === "content" && <p id="comment-content-error" className="mt-1 text-xs text-error">Write a comment before publishing.</p>}
+                <Turnstile action="comment" />
               </div>
 
               {config.signUpMessage && (
