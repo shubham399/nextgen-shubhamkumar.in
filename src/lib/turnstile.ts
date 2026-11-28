@@ -62,6 +62,8 @@ export async function verifyTurnstile(
       hostnames.has(data.hostname ?? "");
     if (!ok)
       console.warn("[turnstile] rejected", {
+        success: data.success,
+        allowedHostnames: [...hostnames],
         codes: data["error-codes"],
         action: data.action,
         hostname: data.hostname,
