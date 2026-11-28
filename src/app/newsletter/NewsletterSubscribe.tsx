@@ -24,7 +24,7 @@ export default function NewsletterSubscribe() {
     setErrMsg("");
     try {
       const res = await subscribeEmail(email, form);
-      if (res.status === 409 || res.ok) {
+      if (res.ok) {
         setStage("success");
         return;
       }

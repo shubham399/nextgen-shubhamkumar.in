@@ -30,24 +30,28 @@ export default function Turnstile({
   const ref = useRef<HTMLDivElement>(null);
   const [interactive, setInteractive] = useState(false);
 
+  const render = () => {
+    const el = ref.current;
+    if (el && window.turnstile && !el.hasChildNodes()) {
+      window.turnstile.render(el, {
+        sitekey: SITE_KEY,
+        action,
+        theme: "dark",
+        appearance: "interaction-only",
+        size: "flexible",
+        "before-interactive-callback": () => setInteractive(true),
+        "after-interactive-callback": () => setInteractive(false),
+      });
+    }
+  };
+
+  // Both: with two widgets on a page, next/script gives the second only onLoad while the script is still loading.
   return (
     <>
       <Script
         src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
-        onReady={() => {
-          const el = ref.current;
-          if (el && window.turnstile && !el.hasChildNodes()) {
-            window.turnstile.render(el, {
-              sitekey: SITE_KEY,
-              action,
-              theme: "dark",
-              appearance: "interaction-only",
-              size: "flexible",
-              "before-interactive-callback": () => setInteractive(true),
-              "after-interactive-callback": () => setInteractive(false),
-            });
-          }
-        }}
+        onLoad={render}
+        onReady={render}
       />
       <div
         ref={ref}

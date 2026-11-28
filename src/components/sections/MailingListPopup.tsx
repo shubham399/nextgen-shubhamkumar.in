@@ -69,11 +69,6 @@ export default function MailingListPopup({ cta }: Props) {
     setErrMsg("");
     try {
       const res = await subscribeEmail(email, event.currentTarget);
-      if (res.status === 409) {
-        writeStorage(localStorage, LS_SUBSCRIBED, "1");
-        setStage("success");
-        return;
-      }
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error || "Failed to subscribe");

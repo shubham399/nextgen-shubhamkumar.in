@@ -56,11 +56,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Same reply as a new signup, so the form cannot be used to check who is on the list.
     if (existing) {
-      return NextResponse.json(
-        { error: "Email already subscribed" },
-        { status: 409 }
-      );
+      return NextResponse.json({ success: true });
     }
 
     const segmentId = process.env.RESEND_SEGMENT_ID;

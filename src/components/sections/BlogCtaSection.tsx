@@ -29,7 +29,7 @@ export default function BlogCtaSection({ cta }: Props) {
     setErrMsg("");
     try {
       const res = await subscribeEmail(email, form);
-      if (res.status === 409 || res.ok) {
+      if (res.ok) {
         setStage("success");
         return;
       }

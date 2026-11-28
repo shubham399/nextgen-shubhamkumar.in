@@ -122,7 +122,7 @@ export default function NewsletterFullscreen({
     setErrMsg("");
     try {
       const res = await subscribeEmail(email, form);
-      if (res.status === 409 || res.ok) {
+      if (res.ok) {
         writeStorage(LS_SUBSCRIBED, "1");
         setStage("success");
         return;
