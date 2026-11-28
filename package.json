@@ -17,6 +17,7 @@
     "@wisp-cms/client": "^0.0.23",
     "@wisp-cms/table-of-content": "^0.0.1",
     "framer-motion": "^11.18.0",
+    "mixpanel-browser": "^2.86.0",
     "next": "^15.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -25,6 +26,7 @@
     "rss": "^1.2.2"
   },
   "devDependencies": {
+    "@types/mixpanel-browser": "^2.60.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

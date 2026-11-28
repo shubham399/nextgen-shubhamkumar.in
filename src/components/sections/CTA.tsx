@@ -1,6 +1,7 @@
 'use client';
 import { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
+import { track } from "@/lib/mixpanel";
 
 import { colorGroups } from "@/lib/theme";
 
@@ -9,6 +10,9 @@ export interface ICta {
   className: string;
   children: React.ReactNode;
 }
+// Several CTAs can share a page; register the Cal listener once.
+let calListening = false;
+
 const CTA = ({ btn, children, className }: ICta) => {
   useEffect(() => {
     (async function () {
@@ -17,10 +21,14 @@ const CTA = ({ btn, children, className }: ICta) => {
       // our custom properties exist. Pinned to the default palette rather than
       // re-keyed: the modal is a different product on a different surface.
       cal("ui", { "theme": "dark", "styles": { "branding": { "brandColor": colorGroups.surface.surface } }, "hideEventTypeDetails": false, "layout": "month_view" });
+      if (!calListening) {
+        calListening = true;
+        cal("on", { action: "bookingSuccessfulV2", callback: () => track("Booking Completed") });
+      }
     })();
   }, [])
   return (
-    <button type="button" aria-haspopup="dialog" className={className} data-cal-config='{"layout":"month_view"}' data-cal-link={btn}>
+    <button type="button" aria-haspopup="dialog" onClick={() => track("Booking Opened", { cal_link: btn })} className={className} data-cal-config='{"layout":"month_view"}' data-cal-link={btn}>
       {children}
     </button>
   )

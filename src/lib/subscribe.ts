@@ -1,4 +1,5 @@
 import { resetTurnstile } from "@/components/ui/Turnstile";
+import { track } from "@/lib/mixpanel";
 
 const UTM_KEYS = [
   "utm_source",
@@ -27,7 +28,7 @@ if (typeof window !== "undefined") {
   } catch {}
 }
 
-export async function subscribeEmail(email: string, form: HTMLFormElement) {
+export async function subscribeEmail(email: string, form: HTMLFormElement, source: string) {
   let utm: Record<string, string> = {};
   try {
     utm = JSON.parse(sessionStorage.getItem(SS_UTM) || "{}");
@@ -48,5 +49,9 @@ export async function subscribeEmail(email: string, form: HTMLFormElement) {
     }),
   });
   resetTurnstile(form);
+  track(res.ok ? "Newsletter Subscribed" : "Newsletter Subscribe Failed", {
+    source,
+    status: res.status,
+  });
   return res;
 }

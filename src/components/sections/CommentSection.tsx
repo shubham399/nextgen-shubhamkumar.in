@@ -1,4 +1,5 @@
 "use client";
+import { track } from "@/lib/mixpanel";
 
 import { useRef, useState, type FormEvent } from "react";
 import { Icon } from "@iconify/react";
@@ -75,6 +76,7 @@ export default function CommentSection({ slug, initialData }: CommentSectionProp
         throw new Error(data.error || data.message || `Request failed (${res.status})`);
       }
 
+      track("Comment Posted", { slug });
       setSubmitted(true);
       setAuthor("");
       setEmail("");

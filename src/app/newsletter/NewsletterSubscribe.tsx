@@ -23,7 +23,7 @@ export default function NewsletterSubscribe() {
     setStage("loading");
     setErrMsg("");
     try {
-      const res = await subscribeEmail(email, form);
+      const res = await subscribeEmail(email, form, "newsletter_page");
       if (res.ok) {
         setStage("success");
         return;

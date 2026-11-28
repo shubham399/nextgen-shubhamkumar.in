@@ -4,6 +4,7 @@ import { useEffect, useId, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { subscribeEmail } from "@/lib/subscribe";
+import { track } from "@/lib/mixpanel";
 import Turnstile from "@/components/ui/Turnstile";
 import { usePathname } from "next/navigation";
 import type { GetCtasResult } from "@/lib/wisp";
@@ -49,7 +50,10 @@ export default function MailingListPopup({ cta }: Props) {
       return;
     }
     setStage("idle");
-    const timer = window.setTimeout(() => setStage("visible"), 5000);
+    const timer = window.setTimeout(() => {
+      setStage("visible");
+      track("Newsletter Prompt Shown", { source: "popup" });
+    }, 5000);
     return () => window.clearTimeout(timer);
   }, [pathname]);
 
@@ -68,7 +72,7 @@ export default function MailingListPopup({ cta }: Props) {
     setStage("loading");
     setErrMsg("");
     try {
-      const res = await subscribeEmail(email, event.currentTarget);
+      const res = await subscribeEmail(email, event.currentTarget, "popup");
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error || "Failed to subscribe");

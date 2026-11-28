@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { subscribeEmail } from "@/lib/subscribe";
+import { track } from "@/lib/mixpanel";
 import Turnstile from "@/components/ui/Turnstile";
 import { usePathname } from "next/navigation";
 
@@ -59,7 +60,10 @@ export default function NewsletterFullscreen({
       const elapsed = Date.now() - Number(seenAt);
       if (elapsed < ONE_MONTH_MS) return;
     }
-    const timer = window.setTimeout(() => setStage("visible"), 2000);
+    const timer = window.setTimeout(() => {
+      setStage("visible");
+      track("Newsletter Prompt Shown", { source: "fullscreen" });
+    }, 2000);
     return () => window.clearTimeout(timer);
   }, [pathname]);
 
@@ -121,7 +125,7 @@ export default function NewsletterFullscreen({
     setStage("loading");
     setErrMsg("");
     try {
-      const res = await subscribeEmail(email, form);
+      const res = await subscribeEmail(email, form, "fullscreen");
       if (res.ok) {
         writeStorage(LS_SUBSCRIBED, "1");
         setStage("success");

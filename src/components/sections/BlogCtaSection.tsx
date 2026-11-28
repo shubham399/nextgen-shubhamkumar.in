@@ -28,7 +28,7 @@ export default function BlogCtaSection({ cta }: Props) {
     setStage("loading");
     setErrMsg("");
     try {
-      const res = await subscribeEmail(email, form);
+      const res = await subscribeEmail(email, form, "blog_cta");
       if (res.ok) {
         setStage("success");
         return;

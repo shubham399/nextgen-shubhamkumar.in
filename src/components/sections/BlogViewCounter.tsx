@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { Icon } from "@iconify/react";
 import { hasViewed, markViewed } from "@/lib/cookies";
+import { track } from "@/lib/mixpanel";
 
 interface BlogViewCounterProps {
   slug: string;
@@ -46,6 +47,7 @@ export default function BlogViewCounter({ slug }: BlogViewCounterProps) {
 
     async function updateViewCount() {
       const alreadyViewed = hasViewed(slug);
+      track("Blog Post Viewed", { slug, first_view: !alreadyViewed });
       const url = alreadyViewed ? `/api/hit/${slug}?readonly=true` : `/api/hit/${slug}`;
 
       try {

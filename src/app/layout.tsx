@@ -10,6 +10,7 @@ import { getMe } from "@/lib/api";
 import { defaultPalette, theme, themeCss } from "@/lib/theme";
 import { allPaletteCss, allPaletteInitScript } from "@/lib/palette-candidates";
 import ThemePicker from "@/components/ui/ThemePicker";
+import MixpanelInit from "@/components/ui/MixpanelInit";
 
 /**
  * A theme is only switchable in local dev. `NODE_ENV` is inlined at build time,
@@ -149,6 +150,7 @@ export default async function RootLayout({
             <NewsletterFullscreen name={me.name} avatarUrl={me.avatarUrl} />
             <ThemePicker />
             <Analytics />
+            <MixpanelInit />
             <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
             <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "81cd3bc5c97945c4b8b57909f87a3926"}'></script>
           </div>
