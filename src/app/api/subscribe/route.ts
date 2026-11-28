@@ -63,11 +63,13 @@ export async function POST(req: NextRequest) {
 
     const segmentId = process.env.RESEND_SEGMENT_ID;
 
-    const { error: createErr } = await resend.contacts.create({
-      email,
-      properties,
-      ...(segmentId ? { segments: [{ id: segmentId }] } : {}),
-    });
+    const segments = segmentId ? { segments: [{ id: segmentId }] } : {};
+    let { error: createErr } = await resend.contacts.create({ email, properties, ...segments });
+    // A tracking property missing in Resend must not lose the signup: retry without properties.
+    if (createErr?.statusCode === 422) {
+      console.error("[subscribe] properties rejected, retrying without:", createErr);
+      ({ error: createErr } = await resend.contacts.create({ email, ...segments }));
+    }
     if (createErr) {
       console.error("[subscribe] create error:", createErr);
       return NextResponse.json({ error: "Failed to subscribe" }, { status: 500 });

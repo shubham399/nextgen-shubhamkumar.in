@@ -1,21 +1,43 @@
 import mixpanel from "mixpanel-browser";
 
 const token = process.env.NEXT_PUBLIC_MIXPANEL_TOKEN;
-let ready = false;
+const DIRECT = "https://api-eu.mixpanel.com";
+let ready: Promise<void> | undefined;
+
+// Ad blockers block mixpanel.com. Probe it once; if that fails, send through
+// our own /relay route (src/app/relay), which forwards to the same host.
+async function pickHost() {
+  try {
+    await fetch(DIRECT, {
+      method: "HEAD",
+      mode: "no-cors",
+      signal: AbortSignal.timeout(3000),
+    });
+    return { api_host: DIRECT };
+  } catch {
+    return {
+      api_host: `${window.location.origin}/relay`,
+      // No trailing slash: Next.js would answer "track/" with a redirect first.
+      api_routes: { track: "track", engage: "engage", groups: "groups" },
+    };
+  }
+}
 
 // Autocapture sends page views (on every route change, UTMs included), clicks,
 // form submits and scroll depth. The named events below mark funnel steps.
 export function initMixpanel() {
   if (ready || !token || typeof window === "undefined") return;
-  mixpanel.init(token, {
-    api_host: "https://api-eu.mixpanel.com",
-    autocapture: { pageview: "url-with-path", capture_text_content: true },
-    persistence: "localStorage",
-    debug: process.env.NODE_ENV !== "production",
+  ready = pickHost().then((host) => {
+    mixpanel.init(token, {
+      ...host,
+      autocapture: { pageview: "url-with-path", capture_text_content: true },
+      persistence: "localStorage",
+      debug: process.env.NODE_ENV !== "production",
+    });
   });
-  ready = true;
 }
 
+// Events fired before the probe finishes wait for it instead of being dropped.
 export function track(event: string, props?: Record<string, unknown>) {
-  if (ready) mixpanel.track(event, props);
+  void ready?.then(() => mixpanel.track(event, props));
 }
