@@ -8,7 +8,8 @@ let ready: Promise<void> | undefined;
 // our own /relay route (src/app/relay), which forwards to the same host.
 async function pickHost() {
   try {
-    await fetch(DIRECT, {
+    // The root answers HEAD with 405; /track/ answers 200.
+    await fetch(`${DIRECT}/track/`, {
       method: "HEAD",
       mode: "no-cors",
       signal: AbortSignal.timeout(3000),
